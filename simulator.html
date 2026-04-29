@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY Packet Tracer - ITCC 32.1</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="simulator.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>ITCC 32.1 Practical Simulator</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>ITCC 32.1: Inter-VLAN & DHCP Lab</h1>
+        <p>Type commands into the terminal below. When you think you have configured the Router and Switches correctly, click the ping buttons to test your setup. If it fails, the diagnostic engine will tell you exactly what command you forgot!</p>
+
+        <!-- TOPOLOGY REPRESENTATION -->
+        <div class="topology-container">
+            <h3>Select a Device to Configure:</h3>
+            <p style="font-size:0.9rem; color:#64748b;">(R0 connects to SW0 via G0/0 and SW1 via G0/1. PCs connect to switches via F0/1 and F0/2)</p>
+            <div class="device-buttons">
+                <button class="dev-btn active" data-device="Router0">Router0 (2911)</button>
+                <button class="dev-btn" data-device="Switch0">Switch0 (CCS)</button>
+                <button class="dev-btn" data-device="Switch1">Switch1 (ENGG)</button>
+            </div>
+        </div>
+
+        <!-- TERMINAL -->
+        <div class="terminal-window" id="terminal">
+            <div class="terminal-output" id="output">System Bootstrap, Version 15.2(4)M1...
+Press RETURN to get started.</div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt" id="prompt">Router0></span>
+                <input type="text" id="cli-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+        </div>
+
+        <!-- TROUBLESHOOTING ENGINE -->
+<div class="testing-panel">
+    <h3>Test Network Connections (Success Indicators)</h3>
+    
+    <!-- Added the list from your assignment image -->
+    <ol style="margin-bottom: 15px; color: #334155; font-size: 0.95rem;">
+        <li>VLAN 100 PC can ping VLAN 101 PC, and vice versa.</li>
+        <li>VLAN 200 PC can ping VLAN 201 PC, and vice versa.</li>
+        <li>Can remotely access the college switches via SSH using Putty.</li>
+        <li>Both PCs should be able to get DHCP.</li>
+    </ol>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+        <button class="test-btn" id="btn-test-1">1. Ping CCS (VLAN 100 to 101)</button>
+        <button class="test-btn" id="btn-test-2">2. Ping ENGG (VLAN 200 to 201)</button>
+        <button class="test-btn" id="btn-test-3">3. Test SSH Access</button>
+        <button class="test-btn" id="btn-test-4">4. Verify DHCP</button>
+    </div>
+    
+    <div id="diagnostic-output">Run a test to see diagnostics here...</div>
+</div>
+</body>
+</html>
