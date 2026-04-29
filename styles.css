@@ -141,3 +141,159 @@ table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: whit
 th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
 th { background-color: var(--primary-color); color: white; }
 tr:nth-child(even) { background-color: #f8fafc; }
+
+/* --- EXAM STYLES --- */
+.question-text {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.choices-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.choices-list li {
+    margin: 0.5rem 0;
+    padding: 0.8rem 1rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: background-color 0.2s;
+}
+
+.choices-list li:hover {
+    background-color: #f1f5f9;
+}
+
+.reveal-btn {
+    background: var(--secondary-color);
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.reveal-btn:hover {
+    background: var(--primary-color);
+}
+
+.explanation-box {
+    display: none; /* Hidden by default */
+    background: #e0f2fe;
+    padding: 1.2rem;
+    border-left: 4px solid var(--accent-color);
+    margin-top: 1rem;
+    border-radius: 0 6px 6px 0;
+}
+
+.explanation-box.show {
+    display: block; /* Shown when button is clicked */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.correct-answer {
+    color: #047857;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- EXAM & QUIZ STYLES --- */
+.question-card {
+    position: relative;
+}
+
+.choices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.choice-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.choice-item:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.choice-item input[type="radio"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Graded States */
+.choice-item.correct {
+    background-color: #ecfdf5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.choice-item.incorrect {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+    color: #991b1b;
+}
+
+#submit-exam {
+    display: block;
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    transition: background-color 0.2s;
+}
+
+#submit-exam:hover {
+    background-color: var(--primary-color);
+}
+
+#exam-results {
+    display: none;
+    text-align: center;
+    background-color: white;
+    border-top: 6px solid var(--accent-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    margin-bottom: 3rem;
+}
+
+#exam-results h2 {
+    margin-top: 0;
+    font-size: 2.5rem;
+    border: none;
+}
+
+#exam-results .feedback-msg {
+    font-size: 1.2rem;
+    font-weight: 600;
+}

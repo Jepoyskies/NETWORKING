@@ -1,78 +1,61 @@
 // A beginner-friendly dictionary. No complex jargon without explaining it!
-// A beginner-friendly dictionary. No complex jargon without explaining it!
 const dictionary = {
     // --- The Absolute Basics ---
-    "router": "<strong>Router:</strong> Think of it as a traffic cop at an intersection. It connects different networks together (like connecting your home to the Internet) and decides the best path for data to travel.",
-    "switch": "<strong>Switch:</strong> A device that connects computers together *inside* a single building or room (a LAN). It learns exactly which port your computer is plugged into using your MAC address.",
-    "mac_address": "<strong>MAC Address:</strong> The permanent physical 'fingerprint' burned into your computer's network card by the factory. It never changes. (e.g., 00:1A:2B:3C:4D:5E).",
-    "ipv4": "<strong>IPv4 Address:</strong> Like your computer's mailing address (e.g., 192.168.1.5). Unlike a MAC address, this changes depending on whose Wi-Fi you are connected to.",
-    "vlan": "<strong>VLAN (Virtual LAN):</strong> A trick to take one physical switch and chop it up into multiple invisible, separate switches. E.g., separating the 'Student' network from the 'Teacher' network so they can't see each other's traffic.",
-    "trunk": "<strong>Trunk Link:</strong> A special 'super highway' cable connecting two switches. Instead of carrying traffic for just one VLAN, a trunk carries traffic for ALL VLANs.",
-    "default_gateway": "<strong>Default Gateway:</strong> The 'doorway' out of your local network. When your PC wants to talk to Google, it doesn't know where Google is, so it hands the data to the Default Gateway (your router) to figure it out.",
-    "host": "<strong>Host / End Device:</strong> The actual devices people use: laptops, phones, servers, or printers.",
+    "router": "<strong>Router:</strong> Think of it as a traffic cop. It connects different networks together and reads the Destination IP Address to decide where to forward packets.",
+    "switch": "<strong>Switch:</strong> A device that connects computers together *inside* a single building (LAN). It forwards frames using MAC addresses.",
+    "mac_address": "<strong>MAC Address / Physical Address:</strong> The permanent physical 'fingerprint' burned into a network card by the factory. (e.g., 00:1A:2B:3C:4D:5E).",
+    "ipv4": "<strong>IPv4 Address:</strong> Like your computer's mailing address (e.g., 192.168.1.5). This changes depending on whose network you connect to.",
+    "default_gateway": "<strong>Default Gateway:</strong> The 'doorway' out of your local network. Usually your router's IP address. If a PC wants to talk to a remote network, it sends the packet here first.",
+    "host": "<strong>Host / End Device:</strong> The actual devices people use: laptops, phones, servers.",
     "interface": "<strong>Interface / Port:</strong> The physical hole on a router or switch where you plug the network cable in. (e.g., GigabitEthernet0/1).",
+    "lan": "<strong>LAN (Local Area Network):</strong> A network restricted to a small physical area, like your house or an office building.",
+    "packet": "<strong>Packet:</strong> A piece of data traveling over the network at Layer 3 (IP). It's like a digital envelope that has a source and destination IP address on it.",
+    "frame": "<strong>Frame:</strong> A piece of data traveling at Layer 2 (Data Link). It's the box that carries the IP Packet from one MAC address to another over a single cable.",
 
-    // --- Module 8: IPv6 & DHCPv6 ---
-    "ipv6": "<strong>IPv6:</strong> The new, extremely long IP address format (e.g., 2001:db8:acad::1). We invented this because the world completely ran out of the old IPv4 addresses.",
-    "gua": "<strong>GUA (Global Unicast Address):</strong> A public IPv6 address. This is the address that can actually reach the public Internet.",
-    "link_local": "<strong>Link-Local Address (LLA):</strong> A special IPv6 address (always starts with <em>fe80::</em>). Your computer uses this ONLY to talk to devices plugged into the exact same local cable/switch. It cannot cross a router.",
-    "slaac": "<strong>SLAAC (Stateless Address Autoconfiguration):</strong> A cool IPv6 feature where the router says 'Here is the network prefix!' and the PC replies 'Thanks, I'll generate the rest of my IP address myself!' No DHCP server needed.",
-    "ra": "<strong>RA (Router Advertisement):</strong> A message a router sends out every 200 seconds saying 'I am the router, here is the default gateway info!'",
-    "rs": "<strong>RS (Router Solicitation):</strong> A message a PC sends the moment it turns on, shouting 'Are there any routers out there? I need an IP address!'",
-    "stateless": "<strong>Stateless:</strong> Means nobody is keeping a list. In Stateless DHCPv6, the server gives you an IP, but doesn't write down your name or remember you.",
-    "stateful": "<strong>Stateful:</strong> Means keeping a strict logbook. A Stateful DHCP server records exactly which MAC address was given which IP address and when the lease expires.",
-    "dhcpv6": "<strong>DHCPv6:</strong> The IPv6 version of the server that hands out IP addresses and DNS info to computers automatically.",
-    "a_flag": "<strong>A Flag (Autoconfiguration):</strong> If this is set to 1 in an RA message, it tells the PC to use SLAAC to make its own IP address.",
-    "o_flag": "<strong>O Flag (Other Configuration):</strong> If set to 1, it tells the PC 'Get your IP from SLAAC, but ask the Stateless DHCP server for <em>other</em> info like the DNS server address.'",
-    "m_flag": "<strong>M Flag (Managed):</strong> If set to 1, it tells the PC 'Do NOT use SLAAC. Go ask the Stateful DHCPv6 server for your IP address.'",
-    "eui_64": "<strong>EUI-64:</strong> A specific math formula a PC uses in SLAAC to turn its 48-bit MAC address into a 64-bit IPv6 Interface ID by stuffing 'fffe' in the middle.",
-    "dad": "<strong>DAD (Duplicate Address Detection):</strong> A PC shouting 'Is anyone else using this IP address?' just to make sure its newly created SLAAC address is 100% unique.",
-    "relay_agent": "<strong>DHCPv6 Relay Agent:</strong> If your PC and your DHCP server are on completely different networks (separated by a router), the router acts as a middle-man 'Relay Agent' to forward the DHCP requests across the boundary.",
-    
-    // --- Module 9: FHRP Concepts ---
-    "fhrp": "<strong>FHRP (First Hop Redundancy Protocol):</strong> A safety net. You use 2 or more physical routers to act like 1 virtual router. If one dies, the other takes over instantly. The PCs don't even notice.",
-    "virtual_router": "<strong>Virtual Router:</strong> A fake, imaginary router. Two physical routers share a 'Virtual IP' and 'Virtual MAC'. You set your PC's Default Gateway to this fake IP.",
-    "active_role": "<strong>Active Router:</strong> The physical router that won the election and is currently doing all the heavy lifting (forwarding internet traffic).",
-    "standby_role": "<strong>Standby Router:</strong> The backup router. It just sits there, listening to 'Hello' messages, waiting for the Active router to die so it can take over.",
-    "hello_messages": "<strong>Hello Messages:</strong> Periodic 'I am alive!' signals sent between devices. If a standby router stops hearing 'Hello', it assumes the active router died.",
-    "hsrp": "<strong>HSRP (Hot Standby Router Protocol):</strong> Cisco's specific brand of FHRP. It elects one Active and one Standby.",
-    "priority": "<strong>Priority:</strong> A score from 0 to 255. In an HSRP election, the router with the highest score becomes the boss (Active router). Default is 100.",
-    "preemption": "<strong>Preemption:</strong> If the King (Active Router) dies, the Prince (Standby) takes over. When the King comes back to life, <em>Preemption</em> is the setting that allows the King to violently take his throne back. If disabled, the Prince stays King.",
-    "arp_fhrp": "<strong>ARP in FHRP:</strong> PCs use ARP to find the MAC address of their gateway. In FHRP, the router replies with the *Virtual* MAC address, not its real physical one.",
-
-    // --- Module 10: LAN Security ---
-    "ddos": "<strong>DDoS (Distributed Denial of Service):</strong> Hackers use thousands of infected zombie computers to flood a website with fake traffic until the website crashes.",
-    "malware": "<strong>Malware:</strong> Any bad software (viruses, trojans, worms).",
-    "ransomware": "<strong>Ransomware:</strong> A virus that encrypts/locks all your files. The hacker demands money (ransom) to give you the password to unlock them.",
-    "vpn": "<strong>VPN (Virtual Private Network):</strong> Creates an encrypted 'tunnel' over the internet so remote workers can safely access corporate networks.",
-    "ngfw": "<strong>NGFW (Next-Generation Firewall):</strong> Advanced firewalls that deeply inspect the actual application traffic for modern threats, not just IP addresses.",
-    "nac": "<strong>NAC (Network Access Control):</strong> A security guard for the network. It checks your PC before letting you in ('Does this laptop have a firewall on? No? Access Denied.').",
-    "esa": "<strong>ESA (Email Security Appliance):</strong> Cisco device that monitors emails to block spam, phishing links, and malicious attachments.",
-    "wsa": "<strong>WSA (Web Security Appliance):</strong> Cisco device that monitors web browsing, blocking employees from visiting dangerous or infected websites.",
-    "phishing": "<strong>Phishing:</strong> A scam email pretending to be your bank or boss, tricking you into clicking a fake link to steal your password.",
-    "ssh": "<strong>SSH (Secure Shell):</strong> A highly secure, encrypted way for network admins to remotely log into a switch or router to configure it (replaces the unencrypted Telnet).",
-    "aaa": "<strong>AAA (Authentication, Authorization, Accounting):</strong> The ultimate log-in system. Authentication (Who are you?), Authorization (What commands are you allowed to type?), Accounting (Keeping a log of every click you made).",
-    "radius": "<strong>RADIUS:</strong> The protocol routers use to securely talk to the central AAA server to check if your password is correct.",
-    "8021x": "<strong>802.1X:</strong> Port-based security. If you plug a laptop into a wall jack in an office, the switch port stays completely dead/blocked until you type in a valid username and password.",
-    "layer2": "<strong>Layer 2:</strong> The Data Link layer of the OSI model. This is where Switches operate using MAC addresses. If Layer 2 isn't secure, the whole network is compromised.",
-    "mac_flooding": "<strong>MAC Address Flooding:</strong> An attack where a hacker sends thousands of fake MAC addresses per second. The switch panics, its memory gets full, and it starts broadcasting all private traffic to everyone.",
-    "port_security": "<strong>Port Security:</strong> The fix for MAC Flooding. You tell the switch, 'Only allow a maximum of 2 MAC addresses on this port. If you see a 3rd, shut the port down!'",
-    "vlan_hopping": "<strong>VLAN Hopping:</strong> A hacker tricks the switch into thinking the hacker's PC is actually another switch. They form a 'Trunk' link, allowing the hacker to see traffic from ALL VLANs.",
-    "dtp": "<strong>DTP (Dynamic Trunking Protocol):</strong> A Cisco feature that automatically turns a port into a Trunk if it detects another switch. Hackers exploit this, so we disable it on user ports.",
-    "native_vlan": "<strong>Native VLAN:</strong> The one VLAN that travels across a trunk without an 802.1Q tag. Hackers use 'Double-Tagging' to exploit this, which is why we change the Native VLAN to an unused number.",
-    "dhcp_spoofing": "<strong>DHCP Spoofing:</strong> A hacker plugs in their own fake DHCP server. When your PC asks for an IP, the hacker replies first, setting the hacker's PC as your Default Gateway so they can spy on your internet traffic.",
-    "dhcp_snooping": "<strong>DHCP Snooping:</strong> The fix for DHCP spoofing. The switch blocks all DHCP server replies unless they come from a specific 'trusted' port where the real server is.",
-    "arp_spoofing": "<strong>ARP Spoofing:</strong> A hacker lies to your PC, saying 'Hey, my MAC address is the router!' Your PC updates its ARP table and sends all its traffic to the hacker.",
-    "dai": "<strong>DAI (Dynamic ARP Inspection):</strong> The fix for ARP spoofing. The switch checks ARP messages against a trusted database and drops the hacker's lies.",
-    "ipsg": "<strong>IPSG (IP Source Guard):</strong> A security feature that stops IP spoofing by checking if the IP address you are trying to use matches the one the DHCP server actually assigned to you.",
-    "stp": "<strong>STP (Spanning Tree Protocol):</strong> A protocol switches use to prevent endless loops. Hackers try to attack this to become the 'Root Bridge' (the center of the network).",
-    "bpdu_guard": "<strong>BPDU Guard:</strong> The fix for STP attacks. PCs should never send STP messages (BPDUs). If a user port receives one, BPDU Guard immediately shuts the port down.",
-    "cdp": "<strong>CDP (Cisco Discovery Protocol):</strong> Cisco switches shouting 'Hi, I'm a Cisco switch running iOS version 15.2!' Hackers listen to this to find vulnerabilities. Turn it off on user ports!"
+    // --- Module 8-10 Exam Terms ---
+    "source_ip": "<strong>Source IP Address:</strong> The IP address of the computer that is SENDING the data.",
+    "destination_ip": "<strong>Destination IP Address:</strong> The IP address of the computer RECEIVING the data. Routers strictly use this address to figure out where to forward the packet.",
+    "data_link": "<strong>Data-Link Address:</strong> Another name for a MAC address (Layer 2). Routers do NOT use these to route traffic across the internet; they only use them to hop to the very next device.",
+    "arp": "<strong>ARP (Address Resolution Protocol):</strong> A protocol used by a PC to discover the MAC address of a destination when it only knows the IP address.",
+    "arp_cache": "<strong>ARP Cache / Table:</strong> A temporary memory list on your computer that remembers 'Which IP address belongs to which MAC address?'",
+    "routing_table": "<strong>Routing Table:</strong> The router's personal map. It looks at this map to match the destination IP of a packet to the correct exit interface.",
+    "loopback": "<strong>Loopback Interface (127.0.0.1):</strong> A fake, internal IP address. If you ping 127.0.0.1, your computer is literally pinging itself to test if its own network card and TCP/IP stack are working.",
+    "nic": "<strong>NIC (Network Interface Card):</strong> The actual hardware component inside your PC that lets it connect to a network.",
+    "subnet_mask": "<strong>Subnet Mask:</strong> A number (like 255.255.255.0) that tells the computer which part of its IP address is the 'Network' and which part is the 'Host'.",
+    "encapsulation": "<strong>Encapsulation:</strong> The process of putting data inside an envelope (like putting a Layer 3 Packet inside a Layer 2 Frame) before sending it.",
+    "layer2_protocol": "<strong>Layer 2 Protocols:</strong> Rules that govern how data moves across a single physical link (like Ethernet or Wi-Fi).",
+    "upper_layer": "<strong>Upper Layer Services (TCP):</strong> Protocols like TCP that operate above IP. Because IP is 'unreliable' (it doesn't check if data arrived), it relies on TCP to catch errors and resend missing packets.",
+    "nat": "<strong>NAT (Network Address Translation):</strong> A trick used in IPv4 to share one public IP address among multiple private computers. IPv6 has so many addresses, NAT isn't needed anymore!",
+    "metric": "<strong>Metric:</strong> The 'cost' of taking a certain path. If a router has two paths to a destination, it will always choose the path with the LOWER metric (cost).",
+    "osi_network": "<strong>OSI Network Layer (Layer 3):</strong> This layer is entirely responsible for Logical Addressing (IP addresses) and Routing packets to their final destination.",
+    "error_detection": "<strong>Error Detection:</strong> Checking if data got corrupted during travel. This is a job for the Data Link Layer (Layer 2), not the Network Layer.",
+    "pdu": "<strong>PDU (Protocol Data Unit):</strong> The generic term for a piece of data at any layer. (e.g., A packet is a Layer 3 PDU, a frame is a Layer 2 PDU).",
+    "transport_layer": "<strong>Transport Layer (Layer 4):</strong> Responsible for segmentation (breaking large data into smaller pieces) and reliability (TCP).",
+    "telnet": "<strong>Telnet:</strong> An old, highly unsecure way to remotely control a switch or router. Hackers can easily steal passwords sent via Telnet.",
+    "ssh": "<strong>SSH (Secure Shell):</strong> A highly secure, encrypted way for network admins to remotely log into a switch or router. Replaces Telnet.",
+    "connectionless": "<strong>Connectionless:</strong> IP protocol is connectionless. It means it just throws the packet into the network hoping it reaches the destination, without setting up a dedicated connection first (unlike a phone call).",
+    "ttl": "<strong>TTL (Time-to-Live):</strong> A timer on an IPv4 packet. Every time a router processes the packet, it lowers the TTL by 1. If it hits 0, the router deletes the packet to stop it from looping endlessly forever.",
+    "checksum": "<strong>Header Checksum:</strong> A mathematical value in IPv4 used to detect if the packet header got corrupted. IPv6 completely removed this to make processing faster!",
+    "flow_label": "<strong>Flow Label:</strong> A new field in IPv6. It tags packets that belong to a real-time stream (like a Zoom video call) so routers keep them on the exact same path to prevent lag.",
+    "protocol_field": "<strong>Protocol Field:</strong> A field in the IPv4 header that tells the computer what type of upper-layer data is packed inside (e.g., is the data inside TCP, UDP, or ICMP?).",
+    "dscp": "<strong>Differentiated Services (DS):</strong> An 8-bit field in the IPv4 header used to determine the priority of the packet (e.g., VoIP audio gets higher priority than web browsing).",
+    "broadcast": "<strong>Broadcast (FF:FF:FF:FF:FF:FF):</strong> A message sent to EVERYONE on the local network.",
+    "multicast": "<strong>Multicast:</strong> A message sent to a SPECIFIC GROUP of devices on the network.",
+    "unicast": "<strong>Unicast:</strong> A message sent directly to ONE specific device.",
+    "console_port": "<strong>Console Port:</strong> A physical port on a switch/router used for out-of-band, direct local management using a rollover cable.",
+    "aux_port": "<strong>AUX Port:</strong> An older port on routers used to connect a modem for remote dial-up management.",
+    "vty": "<strong>VTY Lines:</strong> Virtual Terminal lines. These are the invisible, logical ports used to remotely SSH or Telnet into a device across the network.",
+    "running_config": "<strong>Running Configuration:</strong> The active, currently applied settings in the router's RAM. It gets erased if the power goes out!",
+    "startup_config": "<strong>Startup Configuration:</strong> The saved settings in NVRAM that get loaded into RAM when the router boots up.",
+    "nvram": "<strong>NVRAM (Non-Volatile RAM):</strong> Permanent memory inside the router. It does not erase when the power goes off. Used to store the startup-config.",
+    "flash": "<strong>Flash Memory:</strong> The storage drive inside a router where the Cisco IOS operating system files are kept.",
+    "post": "<strong>POST (Power-On Self Test):</strong> A hardware check the router performs immediately when turned on to ensure CPU, RAM, and interfaces are working.",
+    "arp_spoofing": "<strong>ARP Spoofing / Poisoning:</strong> A hacker lies to your PC, saying 'Hey, my MAC address is the router!' Your PC updates its ARP table and sends all its traffic to the hacker.",
+    "dhcp": "<strong>DHCP:</strong> Automatically hands out IP addresses and default gateways to PCs."
 };
 
-// Wait for the page to load, then inject the dictionary HTML
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Inject the Dictionary HTML into the page dynamically
+    // 1. Inject Dictionary Panel HTML
     const dictionaryHTML = `
         <div id="dict-overlay"></div>
         <div id="dict-panel">
@@ -81,21 +64,19 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="term-display">
                 <h3 id="term-title">Click a term!</h3>
                 <div id="term-definition">
-                    I am your interactive reviewer. As you read, tap any dashed blue word. I'll explain it simply so you don't have to Google it!
+                    I am your interactive reviewer. As you read, tap any dashed blue word. I'll explain it simply!
                 </div>
             </div>
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', dictionaryHTML);
 
-    // 2. Setup the Logic
     const overlay = document.getElementById('dict-overlay');
     const panel = document.getElementById('dict-panel');
     const closeBtn = document.getElementById('close-btn');
     const titleEl = document.getElementById('term-title');
     const defEl = document.getElementById('term-definition');
 
-    // Function to close panel
     const closePanel = () => {
         panel.classList.remove('active');
         overlay.classList.remove('active');
@@ -104,22 +85,84 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtn.addEventListener('click', closePanel);
     overlay.addEventListener('click', closePanel);
 
-    // 3. Attach click events to all <span class="term"> elements
-    document.querySelectorAll('.term').forEach(term => {
-        term.addEventListener('click', function() {
-            const termKey = this.getAttribute('data-term');
-            const termText = this.innerText;
+    // 2. Click event for Dictionary Terms (using event delegation to avoid interfering with radio labels)
+    document.body.addEventListener('click', function(e) {
+        if(e.target && e.target.classList.contains('term')) {
+            e.preventDefault(); // Stop it from clicking a radio button if it's inside one
+            const termKey = e.target.getAttribute('data-term');
+            const termText = e.target.innerText;
             
-            // Get the simple explanation or a fallback
-            const definitionHTML = dictionary[termKey] || `<strong>${termText}:</strong> Oops! We don't have an explanation for this one yet, but we will add it soon!`;
+            const definitionHTML = dictionary[termKey] || `<strong>${termText}:</strong> Oops! We don't have an explanation for this one yet!`;
             
-            // Update the panel text
             titleEl.innerText = termText.charAt(0).toUpperCase() + termText.slice(1);
             defEl.innerHTML = `<p>${definitionHTML}</p>`;
 
-            // Slide the panel in!
             panel.classList.add('active');
             overlay.classList.add('active');
-        });
+        }
     });
+
+    // 3. EXAM GRADING LOGIC
+    const submitBtn = document.getElementById('submit-exam');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            let score = 0;
+            let total = 0;
+            
+            // Loop through all questions
+            document.querySelectorAll('.question-card').forEach(card => {
+                total++;
+                const correctVal = card.getAttribute('data-correct'); // The correct answer (A, B, C, or D)
+                const selectedInput = card.querySelector('input[type="radio"]:checked');
+                const explanation = card.querySelector('.explanation-box');
+
+                // Disable all inputs so user can't change answers after grading
+                card.querySelectorAll('input').forEach(input => input.disabled = true);
+
+                if (selectedInput) {
+                    // Check if they got it right
+                    if (selectedInput.value === correctVal) {
+                        score++;
+                        selectedInput.parentElement.classList.add('correct');
+                    } else {
+                        // They got it wrong
+                        selectedInput.parentElement.classList.add('incorrect');
+                        // Highlight the one they SHOULD have clicked
+                        const correctLabel = card.querySelector(`input[value="${correctVal}"]`).parentElement;
+                        correctLabel.classList.add('correct');
+                    }
+                } else {
+                    // They didn't answer at all - just highlight the correct one
+                    const correctLabel = card.querySelector(`input[value="${correctVal}"]`).parentElement;
+                    correctLabel.classList.add('correct');
+                }
+                
+                // Show the explanation box
+                if (explanation) explanation.classList.add('show');
+            });
+
+            // Calculate percentage and show results
+            const resultsDiv = document.getElementById('exam-results');
+            const percentage = (score / total) * 100;
+            
+            let message = "";
+            let color = "";
+            if (percentage >= 90) { message = "🏆 Outstanding! You are absolutely ready for the Prelim!"; color = "#047857"; }
+            else if (percentage >= 75) { message = "🎉 Great job! Just review a few concepts and you'll be perfect."; color = "#0284c7"; }
+            else if (percentage >= 50) { message = "👍 Good effort. Keep practicing using the explanations!"; color = "#ca8a04"; }
+            else { message = "📚 Don't worry! Review the explanations highlighted in green and try again."; color = "#dc2626"; }
+
+            resultsDiv.innerHTML = `
+                <h2 style="color: ${color}">Your Score: ${score} / ${total}</h2>
+                <div style="font-size: 1.5rem; margin-bottom: 1rem;">(${percentage.toFixed(0)}%)</div>
+                <div class="feedback-msg">${message}</div>
+            `;
+            
+            resultsDiv.style.display = "block";
+            submitBtn.style.display = "none";
+            
+            // Scroll down to the results smoothly
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    }
 });
