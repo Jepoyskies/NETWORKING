@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9: FHRP Concepts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 9: FHRP Concepts</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 9: FHRP Concepts</h1>
+        <p><em>Goal: Learn how to keep the network running even if a router dies.</em></p>
+
+        <h2>9.1 First Hop Redundancy Protocols</h2>
+        
+        <div class="card">
+            <h3>Default Gateway Limitations</h3>
+            <p><span class="term" data-term="host">End devices</span> are configured with a single <span class="term" data-term="default_gateway">default gateway</span>. If that physical <span class="term" data-term="router">router</span> fails, the PCs lose outside connectivity.</p>
+            <p><span class="term" data-term="fhrp">First hop redundancy protocols (FHRPs)</span> provide alternate gateways by allowing multiple routers to share a single <span class="term" data-term="virtual_router">virtual router</span> IP and <span class="term" data-term="mac_address">MAC address</span>.</p>
+        </div>
+
+        <div class="card">
+            <h3>Steps for Router Failover</h3>
+            <p>In FHRP, when computers use <span class="term" data-term="arp_fhrp">ARP</span> to find the gateway, the routers reply with the Virtual MAC address.</p>
+            <ol>
+                <li>The <span class="term" data-term="standby_role">standby router</span> stops seeing <span class="term" data-term="hello_messages">Hello messages</span> from the forwarding router.</li>
+                <li>The standby router assumes the <span class="term" data-term="active_role">active role</span>.</li>
+                <li>Host devices see absolutely no disruption in service!</li>
+            </ol>
+        </div>
+
+        <h2>9.2 HSRP (Hot Standby Router Protocol)</h2>
+
+        <div class="card">
+            <h3>HSRP Priority and Preemption</h3>
+            <p>In <span class="term" data-term="hsrp">HSRP</span>, the router with the highest <span class="term" data-term="priority">priority</span> becomes the active router. (Default priority is 100).</p>
+            <p>If the Active router fails, the Standby takes over. If the original Active router gets fixed and boots back up, it will NOT take its job back by default. To force it to take its job back, <span class="term" data-term="preemption">preemption</span> must be enabled using the <code>standby preempt</code> command.</p>
+        </div>
+
+        <div class="card">
+            <h3>HSRP States</h3>
+            <p>A router booting up with HSRP goes through these states:</p>
+            <ul>
+                <li><strong>Initial:</strong> Just turned on.</li>
+                <li><strong>Learn:</strong> Waiting to hear from the active router.</li>
+                <li><strong>Listen:</strong> Knows the virtual IP, but is neither active nor standby.</li>
+                <li><strong>Speak:</strong> Sending Hello messages, participating in the election.</li>
+                <li><strong>Standby:</strong> The candidate ready to take over next.</li>
+                <li><strong>Active:</strong> Currently forwarding the traffic.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

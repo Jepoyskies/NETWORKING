@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8: SLAAC and DHCPv6</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 8: SLAAC & DHCPv6</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 8: SLAAC and DHCPv6</h1>
+        <p><em>Goal: Learn how IPv6 addresses are handed out automatically.</em></p>
+
+        <h2>8.1 IPv6 GUA Assignment</h2>
+        
+        <div class="card">
+            <h3>IPv6 Host Configuration</h3>
+            <p>On a <span class="term" data-term="router">router</span>, an <span class="term" data-term="ipv6">IPv6</span> <span class="term" data-term="gua">global unicast address (GUA)</span> is manually configured. But for Windows PCs, typing long IPv6 addresses manually is prone to errors. Therefore, most <span class="term" data-term="host">hosts</span> acquire them dynamically.</p>
+        </div>
+
+        <div class="card">
+            <h3>IPv6 Host Link-Local Address</h3>
+            <p>If automatic addressing is selected, the host relies on an <span class="term" data-term="ra">ICMPv6 Router Advertisement (RA)</span> message from the router.</p>
+            <p>The <span class="term" data-term="link_local">IPv6 link-local address</span> is automatically created by the host when it boots up. (You will see it starts with <code>fe80::</code>).</p>
+        </div>
+
+        <div class="card">
+            <h3>Three RA Message Flags</h3>
+            <p>How a client obtains its IPv6 address depends on 3 flags set inside the router's RA message:</p>
+            <ul>
+                <li><span class="term" data-term="a_flag">A flag</span> (Autoconfiguration) - Tells the PC: "Use SLAAC to create your own IPv6 address."</li>
+                <li><span class="term" data-term="o_flag">O flag</span> (Other Configuration) - Tells the PC: "Get your IP from SLAAC, but seek extra info (like DNS) from a stateless DHCPv6 server."</li>
+                <li><span class="term" data-term="m_flag">M flag</span> (Managed Address) - Tells the PC: "Do NOT use SLAAC. Use a stateful DHCPv6 server to get your IP."</li>
+            </ul>
+        </div>
+
+        <h2>8.2 SLAAC (Stateless Address Autoconfiguration)</h2>
+
+        <div class="card">
+            <h3>SLAAC Overview</h3>
+            <p>Not every network has a <span class="term" data-term="dhcpv6">DHCPv6</span> server. <span class="term" data-term="slaac">SLAAC</span> enables hosts to create their own unique IPv6 GUA without one.</p>
+            <p>It is <span class="term" data-term="stateless">stateless</span>, meaning there is no server tracking who has what IP. SLAAC relies on the router sending periodic <span class="term" data-term="ra">RA messages</span> every 200 seconds. A host can also send an <span class="term" data-term="rs">RS message</span> requesting an RA immediately.</p>
+        </div>
+
+        <div class="card">
+            <h3>Generating the Interface ID & DAD</h3>
+            <p>With SLAAC, the router gives the 64-bit network prefix. The PC must generate the remaining 64-bit Interface ID using either:</p>
+            <ul>
+                <li><strong>Randomly Generated:</strong> Used by Windows 10 for privacy.</li>
+                <li><strong><span class="term" data-term="eui_64">EUI-64</span>:</strong> Uses the PC's <span class="term" data-term="mac_address">MAC address</span> and inserts <code>fffe</code> in the middle.</li>
+            </ul>
+            <p>To ensure the newly created IP address is completely unique, the host performs <span class="term" data-term="dad">Duplicate Address Detection (DAD)</span> before using it.</p>
+        </div>
+
+        <h2>8.3 & 8.4 DHCPv6 Operation</h2>
+
+        <div class="card">
+            <h3>DHCPv6 Operation Steps</h3>
+            <ol>
+                <li>Host sends an <span class="term" data-term="rs">RS message</span>.</li>
+                <li>Router responds with an <span class="term" data-term="ra">RA message</span> indicating DHCPv6 should be used.</li>
+                <li>Host sends a DHCPv6 SOLICIT message.</li>
+                <li><span class="term" data-term="dhcpv6">DHCPv6</span> server responds with ADVERTISE.</li>
+                <li>Host responds with REQUEST to the server.</li>
+                <li>Server sends REPLY message.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3>Router Roles</h3>
+            <p>A Cisco router can act as:</p>
+            <ul>
+                <li><strong>DHCPv6 Server:</strong> Provides <span class="term" data-term="stateless">stateless</span> or <span class="term" data-term="stateful">stateful</span> services.</li>
+                <li><strong>DHCPv6 Client:</strong> Obtains an IP from another server.</li>
+                <li><strong><span class="term" data-term="relay_agent">DHCPv6 Relay Agent</span>:</strong> Forwards DHCP messages if the server is on a different network. Command: <code>ipv6 dhcp relay destination [IP]</code>.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

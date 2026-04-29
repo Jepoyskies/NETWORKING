@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10: LAN Security</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 10: LAN Security</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 10: LAN Security Concepts</h1>
+        <p><em>Goal: Learn how to protect Layer 2 (Switches) from hackers.</em></p>
+
+        <h2>10.1 Endpoint Security</h2>
+        
+        <div class="card">
+            <h3>Network Attacks</h3>
+            <p>Attackers use <span class="term" data-term="ddos">DDoS</span>, Data Breaches, and <span class="term" data-term="malware">Malware</span> (like <span class="term" data-term="ransomware">Ransomware</span>) to compromise endpoints.</p>
+            <p>Defenses include <span class="term" data-term="vpn">VPNs</span>, <span class="term" data-term="nac">NAC</span>, Cisco ESA for emails (to stop <span class="term" data-term="phishing">Phishing</span>), and Cisco WSA for web browsing.</p>
+        </div>
+
+        <h2>10.2 Access Control</h2>
+
+        <div class="card">
+            <h3>AAA & 802.1X</h3>
+            <p>Instead of weak local passwords on the <span class="term" data-term="ssh">SSH</span> line, professionals use <span class="term" data-term="aaa">AAA</span> with <span class="term" data-term="radius">RADIUS</span> for central authentication. For physical wall-jack security, <span class="term" data-term="8021x">802.1X</span> is used to keep the <span class="term" data-term="switch">switch</span> port closed until log-in.</p>
+        </div>
+
+        <h2>10.3 to 10.5 Switch Attacks & Mitigations</h2>
+
+        <div class="card">
+            <h3><span class="term" data-term="layer2">Layer 2</span> Attacks (Memorize These Pairs!)</h3>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>The Attack</th>
+                        <th>The Defense / Mitigation</th>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="mac_flooding">MAC Address Flooding</span> (using <em>macof</em>)</td>
+                        <td><strong><span class="term" data-term="port_security">Port Security</span></strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="vlan_hopping">VLAN Hopping</span> & Double-Tagging</td>
+                        <td>Disable <span class="term" data-term="dtp">DTP</span> (auto trunking), manage the Native VLAN</td>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="dhcp_spoofing">DHCP Spoofing</span> & Starvation</td>
+                        <td><strong><span class="term" data-term="dhcp_snooping">DHCP Snooping</span></strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="arp_spoofing">ARP Spoofing</span> / Poisoning</td>
+                        <td><strong><span class="term" data-term="dai">Dynamic ARP Inspection (DAI)</span></strong></td>
+                    </tr>
+                    <tr>
+                        <td>IP Spoofing</td>
+                        <td><strong><span class="term" data-term="ipsg">IP Source Guard (IPSG)</span></strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="stp">STP Attacks</span></td>
+                        <td><strong><span class="term" data-term="bpdu_guard">BPDU Guard</span></strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="term" data-term="cdp">CDP Reconnaissance</span></td>
+                        <td>Turn off CDP on edge ports (<code>no cdp enable</code>)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

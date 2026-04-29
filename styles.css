@@ -1,0 +1,143 @@
+:root {
+    --bg-color: #f8fafc;
+    --text-color: #334155;
+    --primary-color: #0f172a;
+    --secondary-color: #0284c7;
+    --accent-color: #38bdf8;
+    --term-color: #0284c7;
+    --box-bg: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: var(--primary-color);
+    padding: 1rem 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.15);
+    transition: background-color 0.2s;
+}
+
+nav a:hover {
+    background-color: rgba(255,255,255,0.25);
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 0.5rem; }
+h2 { color: var(--primary-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 0.5rem; margin-top: 3rem; }
+h3 { color: var(--secondary-color); margin-top: 2rem; font-size: 1.4rem; }
+
+.card {
+    background-color: var(--box-bg);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    border-left: 5px solid var(--accent-color);
+}
+
+/* Homepage Grid */
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.module-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-top: 6px solid var(--secondary-color);
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.module-card h3 { margin-top: 0; color: var(--primary-color); }
+
+/* Clickable Terms */
+.term {
+    color: var(--term-color);
+    font-weight: 700;
+    border-bottom: 2px dashed var(--accent-color);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0 2px;
+    background-color: rgba(56, 189, 248, 0.1);
+}
+.term:hover { background-color: rgba(56, 189, 248, 0.3); border-radius: 4px; }
+
+/* Hidden Dictionary Panel (Slide-out) */
+#dict-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.6); z-index: 999;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+#dict-panel {
+    position: fixed; top: 0; right: -450px; /* Hidden off-screen */
+    width: 400px; max-width: 85%; height: 100%;
+    background-color: var(--primary-color); color: white;
+    padding: 2.5rem; box-shadow: -5px 0 25px rgba(0,0,0,0.3);
+    z-index: 1000; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto; box-sizing: border-box;
+}
+
+#dict-overlay.active { opacity: 1; visibility: visible; }
+#dict-panel.active { right: 0; }
+
+#dict-panel h2 { color: white; border-color: var(--accent-color); margin-top: 0; }
+#term-title { color: var(--accent-color); font-size: 2rem; margin: 1.5rem 0 0.5rem 0; line-height: 1.2; }
+#term-definition {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent-color);
+    font-size: 1.1rem; line-height: 1.6;
+}
+
+#close-btn {
+    position: absolute; top: 15px; right: 20px;
+    background: none; border: none; color: white;
+    font-size: 2.5rem; cursor: pointer; transition: color 0.2s;
+}
+#close-btn:hover { color: var(--accent-color); }
+
+/* Tables */
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; }
+th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+th { background-color: var(--primary-color); color: white; }
+tr:nth-child(even) { background-color: #f8fafc; }
