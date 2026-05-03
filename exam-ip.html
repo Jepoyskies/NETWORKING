@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Exam: IP Addressing</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <style>
+        .card { padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
+        .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--primary-color); }
+        .choices-list { list-style: none; padding: 0; }
+        .choice-item { display: flex; align-items: center; padding: 0.7rem; background: #f8fafc; margin-bottom: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0; cursor: pointer; }
+        .choice-item input { margin-right: 10px; transform: scale(1.2); }
+        .explanation-box { display: none; margin-top: 1rem; padding: 1rem; background: #e0f2fe; border-left: 4px solid var(--secondary-color); border-radius: 4px; }
+        .explanation-box.show { display: block; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div><strong>Checkpoint Exam 2 (Modules 11-13)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Practice Exam: IP Addressing (All Questions)</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "Check Results" at the very bottom when you are finished.</em></p>
+
+        <!-- Q1 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">1. What is the <span class="term" data-term="prefix_length">prefix length</span> notation for the <span class="term" data-term="subnet_mask">subnet mask</span> 255.255.255.224?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. /25</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. /26</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. /27</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. /28</label>
+            </div>
+            <div class="explanation-box"><p>224 in binary is 11100000. 8 + 8 + 8 + 3 = 27 bits turned on.</p></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">2. How many valid host addresses are available on an IPv4 subnet that is configured with a /26 mask?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. 254</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. 190</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. 64</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. 62</label>
+            </div>
+            <div class="explanation-box"><p>A /26 leaves 6 <span class="term" data-term="host_bits">host bits</span> (32 - 26 = 6). Formula is 2^6 - 2 = 62 usable hosts.</p></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">3. Which subnet mask would be used if 5 host bits are available?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. 255.255.255.128</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. 255.255.255.240</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. 255.255.255.224</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. 255.255.255.248</label>
+            </div>
+            <div class="explanation-box"><p>If there are 5 host bits, there are 27 network bits (/27). A /27 mask is .224.</p></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">4. A network administrator subnets the 192.168.10.0/24 network into subnets with /26 masks. How many equal-sized subnets are created?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. 2</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. 4</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. 8</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. 16</label>
+            </div>
+            <div class="explanation-box"><p>You borrowed 2 bits (from /24 to /26). 2^2 = 4 subnets.</p></div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">5. Which host address falls into the 192.168.1.64/27 subnetwork?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. 192.168.1.63</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. 192.168.1.68</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. 192.168.1.128</label>
+            </div>
+            <div class="explanation-box"><p>The .64/27 subnet ranges from .64 to .95. Only .68 falls in this range.</p></div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">6. An administrator wants to create four subnetworks from the network address 192.168.1.0/24. What is the <span class="term" data-term="network_address">network address</span> and mask of the SECOND useable subnet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. 192.168.1.32 /28</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. 192.168.1.64 /26</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. 192.168.1.128 /26</label>
+            </div>
+            <div class="explanation-box"><p>To get 4 subnets, borrow 2 bits (/26). The subnets jump by 64. Networks are .0, .64, .128, .192. The second is .64.</p></div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">7. How many bits must be borrowed from the host portion of an address to accommodate a router with five connected networks?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. two</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. three</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. four</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. five</label>
+            </div>
+            <div class="explanation-box"><p>2^2 = 4 (not enough). 2^3 = 8 (enough for 5 networks). You must borrow 3 bits.</p></div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">8. How many host addresses are available on the 192.168.10.128/26 network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. 30</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. 32</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. 64</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. 62</label>
+            </div>
+            <div class="explanation-box"><p>A /26 prefix gives 6 host bits. 2^6 = 64. Subtract 2 (network and broadcast) = 62 usable addresses.</p></div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">9. How many host addresses are available on the network 172.16.128.0 with a subnet mask of 255.255.252.0?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. 510</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. 512</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. 1022</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. 2046</label>
+            </div>
+            <div class="explanation-box"><p>A mask of .252 is a /22. This leaves 10 host bits. 2^10 - 2 = 1022 usable IPs.</p></div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">10. Which three blocks of addresses are defined by RFC 1918 for <span class="term" data-term="private_ip">private network</span> use?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. 10.0.0.0/8, 100.64.0.0/14, 169.254.0.0/16</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. 10.0.0.0/8, 172.16.0.0/16, 192.168.0.0/24</label>
+            </div>
+            <div class="explanation-box"><p>The standard private IP blocks are 10.x.x.x, 172.16 to 172.31, and 192.168.x.x.</p></div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">11. What is the <span class="term" data-term="broadcast_address">broadcast address</span> for network 172.16.16.0/22?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. 172.16.16.255</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. 172.16.19.255</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. 172.16.23.255</label>
+            </div>
+            <div class="explanation-box"><p>A /22 increments in blocks of 4 in the third octet. The network is 16.0 to 19.255. The broadcast is .19.255.</p></div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">12. A site administrator has been told that a particular network must accommodate 126 hosts. Which subnet mask would be used?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. 255.255.255.128</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. 255.255.255.192</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. 255.255.255.224</label>
+            </div>
+            <div class="explanation-box"><p>126 hosts requires 7 host bits (2^7 - 2 = 126). 32 - 7 = /25. A /25 mask is .128.</p></div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">13. Considering the addresses already used and having to remain within the 10.16.10.0/24 network range, which subnet address could be assigned to a network containing 25 hosts?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. 10.16.10.160/26</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. 10.16.10.128/28</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. 10.16.10.64/27</label>
+            </div>
+            <div class="explanation-box"><p>25 hosts requires 5 host bits (/27). A /27 provides exactly 30 usable hosts, which perfectly fits 25.</p></div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">14. Which address prefix range is reserved for IPv4 <span class="term" data-term="multicast">multicast</span>?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. 240.0.0.0 – 254.255.255.255</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. 224.0.0.0 – 239.255.255.255</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. 169.254.0.0 – 169.254.255.255</label>
+            </div>
+            <div class="explanation-box"><p>Class D addresses (224 to 239) are reserved for multicasting.</p></div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">15. Match the network with the correct IP and prefix to satisfy host requirements: Network A (100 Hosts), Network B (50 Hosts), Network C (25 Hosts), Network D (2 Hosts).</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q15" value="A"> A. A=/25, B=/26, C=/27, D=/30</label>
+                <label class="choice-item"><input type="radio" name="q15" value="B"> B. A=/24, B=/25, C=/26, D=/28</label>
+                <label class="choice-item"><input type="radio" name="q15" value="C"> C. A=/26, B=/27, C=/28, D=/30</label>
+            </div>
+            <div class="explanation-box"><p>100 hosts needs 7 bits (/25). 50 hosts needs 6 bits (/26). 25 hosts needs 5 bits (/27). 2 hosts (Point-to-Point) needs 2 bits (/30).</p></div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">16. School A (209.165.201.10) configures an end device to communicate with School B (192.168.25.10) over the internet without a VPN. The administrator knows this will not work. Why?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q16" value="A"> A. This is a loopback address.</label>
+                <label class="choice-item"><input type="radio" name="q16" value="B"> B. This is a link-local address.</label>
+                <label class="choice-item"><input type="radio" name="q16" value="C"> C. This is a <span class="term" data-term="private_ip">private IP address</span>.</label>
+            </div>
+            <div class="explanation-box"><p>192.168.x.x is a private IP. Internet routers will drop it instantly because private IPs cannot be routed over the public internet.</p></div>
+        </div>
+
+        <!-- Q17 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">17. Which three addresses are valid public addresses?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q17" value="A"> A. 198.133.219.17, 128.107.12.117, 64.104.78.227</label>
+                <label class="choice-item"><input type="radio" name="q17" value="B"> B. 192.168.1.245, 10.15.250.5, 172.31.1.25</label>
+                <label class="choice-item"><input type="radio" name="q17" value="C"> C. 10.0.0.1, 192.168.0.0, 224.0.0.5</label>
+            </div>
+            <div class="explanation-box"><p>Option B contains Private IPs (RFC 1918) which are not public. Option A contains valid, routable public IPs.</p></div>
+        </div>
+
+        <!-- Q18 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">18. A message is sent to all hosts on a remote network. Which type of message is it?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q18" value="A"> A. limited broadcast</label>
+                <label class="choice-item"><input type="radio" name="q18" value="B"> B. multicast</label>
+                <label class="choice-item"><input type="radio" name="q18" value="C"> C. directed broadcast</label>
+            </div>
+            <div class="explanation-box"><p>A directed broadcast targets the broadcast IP of a specific remote network, instead of just flooding your own local switch (limited broadcast).</p></div>
+        </div>
+
+        <!-- Q19 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">19. A company has network 192.168.1.64 with mask 255.255.255.192. They want to create two subnetworks for 10 hosts and 18 hosts respectively. Which two networks achieve this?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q19" value="A"> A. 192.168.1.16/28 and 192.168.1.128/27</label>
+                <label class="choice-item"><input type="radio" name="q19" value="B"> B. 192.168.1.64/27 and 192.168.1.96/28</label>
+                <label class="choice-item"><input type="radio" name="q19" value="C"> C. 192.168.1.64/26 and 192.168.1.192/28</label>
+            </div>
+            <div class="explanation-box"><p>18 hosts requires a /27 (30 hosts). 10 hosts requires a /28 (14 hosts). So 192.168.1.64/27 and 192.168.1.96/28 perfectly split the /26 block.</p></div>
+        </div>
+
+        <!-- Q20 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">20. Which address is a valid IPv6 <span class="term" data-term="link_local">link-local</span> unicast address?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q20" value="A"> A. FEC8:1::FFFF</label>
+                <label class="choice-item"><input type="radio" name="q20" value="B"> B. FE80::1:4545:6578:ABC1</label>
+                <label class="choice-item"><input type="radio" name="q20" value="C"> C. FD80::1:1234</label>
+            </div>
+            <div class="explanation-box"><p>IPv6 Link-Local addresses ALWAYS begin with FE80::/10 (ranging from FE80 to FEBF).</p></div>
+        </div>
+
+        <!-- Q21 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">21. Which is the shortest abbreviation for: 3FFE:1044:0000:0000:00AB:0000:0000:0057?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q21" value="A"> A. 3FFE:1044::AB::57</label>
+                <label class="choice-item"><input type="radio" name="q21" value="B"> B. 3FFE:1044::00AB::0057</label>
+                <label class="choice-item"><input type="radio" name="q21" value="C"> C. 3FFE:1044:0:0:AB::57</label>
+            </div>
+            <div class="explanation-box"><p>You can drop leading zeros, and you can only use the double colon (::) ONCE. The largest block of zeros is at the end, so 3FFE:1044:0:0:AB::57 is best.</p></div>
+        </div>
+
+        <!-- Q22 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">22. A network admin receives IPv6 prefix 2001:DB8::/48 for subnetting. Assuming the interface ID starts at bit 64, how many subnets can be created?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q22" value="A"> A. 256</label>
+                <label class="choice-item"><input type="radio" name="q22" value="B"> B. 4096</label>
+                <label class="choice-item"><input type="radio" name="q22" value="C"> C. 65536</label>
+            </div>
+            <div class="explanation-box"><p>From /48 to /64 gives you 16 bits for subnetting. 2^16 = 65,536 subnets.</p></div>
+        </div>
+
+        <!-- Q23 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">23. Given IPv6 prefix 2001:db8::/48, what will be the LAST subnet created if the subnet prefix is changed to /52?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q23" value="A"> A. 2001:db8:0:f000::/52</label>
+                <label class="choice-item"><input type="radio" name="q23" value="B"> B. 2001:db8:0:f00::/52</label>
+                <label class="choice-item"><input type="radio" name="q23" value="C"> C. 2001:db8:0:8000::/52</label>
+            </div>
+            <div class="explanation-box"><p>Moving from /48 to /52 borrows 4 bits (one hex character). The 16 subnets go from 0 to F. The last subnet uses 'F', so it's f000::/52.</p></div>
+        </div>
+
+        <!-- Q24 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">24. Consider the following range of addresses: 2001:0DB8:BC15:00A0:: to 00AF::. What is the prefix-length?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q24" value="A"> A. /64</label>
+                <label class="choice-item"><input type="radio" name="q24" value="B"> B. /60</label>
+                <label class="choice-item"><input type="radio" name="q24" value="C"> C. /56</label>
+            </div>
+            <div class="explanation-box"><p>The addresses share 2001:0DB8:BC15:00A in common. This is 15 hex characters. 15 * 4 bits = 60 bits.</p></div>
+        </div>
+
+        <!-- Q25 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">25. What type of IPv6 address is FE80::1?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q25" value="A"> A. loopback</label>
+                <label class="choice-item"><input type="radio" name="q25" value="B"> B. <span class="term" data-term="link_local">link-local</span></label>
+                <label class="choice-item"><input type="radio" name="q25" value="C"> C. global unicast</label>
+            </div>
+            <div class="explanation-box"><p>Link-local IPv6 addresses start with FE80::/10.</p></div>
+        </div>
+
+        <!-- Q26 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">26. A company deploys an IPv6 hierarchy: 2001:DB8:1234:0000::/64. The "site" is 3 hex characters, and the "sub-site" is 1 hex character. What is the maximum number of subnets per sub-site?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q26" value="A"> A. 4</label>
+                <label class="choice-item"><input type="radio" name="q26" value="B"> B. 16</label>
+                <label class="choice-item"><input type="radio" name="q26" value="C"> C. 256</label>
+            </div>
+            <div class="explanation-box"><p>One hexadecimal character represents 4 bits. 2^4 = 16 different values (0 through F).</p></div>
+        </div>
+
+        <!-- Q27 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">27. What is used in the <span class="term" data-term="eui_64">EUI-64</span> process to create an IPv6 interface ID?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q27" value="A"> A. a randomly generated 64-bit address</label>
+                <label class="choice-item"><input type="radio" name="q27" value="B"> B. an IPv4 address configured on the interface</label>
+                <label class="choice-item"><input type="radio" name="q27" value="C"> C. the <span class="term" data-term="mac_address">MAC address</span> of the IPv6 enabled interface</label>
+            </div>
+            <div class="explanation-box"><p>EUI-64 splits your 48-bit MAC address in half and stuffs "FFFE" in the middle to make it 64-bits.</p></div>
+        </div>
+
+        <!-- Q28 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">28. What is the prefix for the host address 2001:DB8:BC15:A:12AB::1/64?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q28" value="A"> A. 2001:DB8:BC15:A</label>
+                <label class="choice-item"><input type="radio" name="q28" value="B"> B. 2001:DB8:BC15:A:1</label>
+                <label class="choice-item"><input type="radio" name="q28" value="C"> C. 2001:DB8:BC15</label>
+            </div>
+            <div class="explanation-box"><p>A /64 indicates the first 64 bits (first four hextets) are the network prefix.</p></div>
+        </div>
+
+        <!-- Q29 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">29. An IPv6 enabled device sends a data packet with the destination address FF02::1. What is the target of this packet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q29" value="A"> A. only IPv6 DHCP servers</label>
+                <label class="choice-item"><input type="radio" name="q29" value="B"> B. only IPv6 configured routers</label>
+                <label class="choice-item"><input type="radio" name="q29" value="C"> C. all IPv6 enabled devices on the local link</label>
+            </div>
+            <div class="explanation-box"><p>FF02::1 is the IPv6 "All Nodes" <span class="term" data-term="multicast">multicast</span> address. FF02::2 is for "All Routers".</p></div>
+        </div>
+
+        <!-- Q30 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">30. Match the IPv6 address with the IPv6 address type.</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q30" value="A"> A. ::1 (Loopback) | FF02::1 (All Node Multicast) | 2001:DB8:: (Global Unicast)</label>
+                <label class="choice-item"><input type="radio" name="q30" value="B"> B. ::1 (Link Local) | FF02::1 (Global Unicast) | 2001:DB8:: (Multicast)</label>
+            </div>
+            <div class="explanation-box"><p>::1 is loopback. FF02::1 is All-Nodes Multicast. 2001:: is Global Unicast.</p></div>
+        </div>
+
+        <!-- Q31 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">31. Which IPv6 prefix is reserved for communication between devices on the same link?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q31" value="A"> A. FC00::/7</label>
+                <label class="choice-item"><input type="radio" name="q31" value="B"> B. <span class="term" data-term="link_local">FE80::/10</span></label>
+                <label class="choice-item"><input type="radio" name="q31" value="C"> C. FDFF::/7</label>
+            </div>
+            <div class="explanation-box"><p>Link-local addresses start with FE80:: and are only routable on the local physical link.</p></div>
+        </div>
+
+        <!-- Q32 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">32. Which type of IPv6 address refers to any unicast address that is assigned to multiple hosts?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q32" value="A"> A. global unicast</label>
+                <label class="choice-item"><input type="radio" name="q32" value="B"> B. link-local</label>
+                <label class="choice-item"><input type="radio" name="q32" value="C"> C. <span class="term" data-term="anycast">anycast</span></label>
+            </div>
+            <div class="explanation-box"><p>Anycast assigns one IP to multiple servers. The router delivers the packet to whichever server is closest.</p></div>
+        </div>
+
+        <!-- Q33 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">33. What are two types of IPv6 unicast addresses? (Choose two)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q33" value="A"> A. <span class="term" data-term="loopback">loopback</span> & <span class="term" data-term="link_local">link-local</span></label>
+                <label class="choice-item"><input type="radio" name="q33" value="B"> B. multicast & anycast</label>
+                <label class="choice-item"><input type="radio" name="q33" value="C"> C. broadcast & link-local</label>
+            </div>
+            <div class="explanation-box"><p>Loopback and Link-local are both types of Unicast. IPv6 does not have broadcast addresses.</p></div>
+        </div>
+
+        <!-- Q34 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">34. Which service provides dynamic global IPv6 addressing to end devices without using a server that keeps a record?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q34" value="A"> A. stateful DHCPv6</label>
+                <label class="choice-item"><input type="radio" name="q34" value="B"> B. static IPv6 addressing</label>
+                <label class="choice-item"><input type="radio" name="q34" value="C"> C. <span class="term" data-term="slaac">SLAAC</span></label>
+            </div>
+            <div class="explanation-box"><p>SLAAC is "Stateless". It allows PCs to invent their own IPs using the router's prefix without relying on a central tracking server.</p></div>
+        </div>
+
+        <!-- Q35 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">35. Which protocol supports SLAAC for dynamic assignment of IPv6 addresses?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q35" value="A"> A. DHCPv6</label>
+                <label class="choice-item"><input type="radio" name="q35" value="B"> B. <span class="term" data-term="icmpv6">ICMPv6</span></label>
+                <label class="choice-item"><input type="radio" name="q35" value="C"> C. ARPv6</label>
+            </div>
+            <div class="explanation-box"><p>SLAAC relies on Router Advertisement (RA) messages, which are a function of ICMPv6 Neighbor Discovery.</p></div>
+        </div>
+
+        <!-- Q36 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">36. Three methods allow IPv4 and IPv6 to co-exist. Match the definition: "The IPv6 packet is transported inside an IPv4 packet."</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q36" value="A"> A. <span class="term" data-term="tunneling">tunneling</span></label>
+                <label class="choice-item"><input type="radio" name="q36" value="B"> B. <span class="term" data-term="dual_stack">dual-stack</span></label>
+                <label class="choice-item"><input type="radio" name="q36" value="C"> C. <span class="term" data-term="translation">translation</span></label>
+            </div>
+            <div class="explanation-box"><p>Wrapping one packet inside another to cross an incompatible network is called Tunneling.</p></div>
+        </div>
+
+        <!-- Q37 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">37. A technician uses the <code>ping 127.0.0.1</code> command. What is the technician testing?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q37" value="A"> A. connectivity between two adjacent devices</label>
+                <label class="choice-item"><input type="radio" name="q37" value="B"> B. the TCP/IP stack on the network <span class="term" data-term="host">host</span></label>
+                <label class="choice-item"><input type="radio" name="q37" value="C"> C. physical connectivity of the PC to the network</label>
+            </div>
+            <div class="explanation-box"><p>Pinging the <span class="term" data-term="loopback">loopback</span> tests if your computer's internal networking software is functioning. It doesn't test the physical cable.</p></div>
+        </div>
+
+        <!-- Q38 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">38. An administrator uses the <span class="term" data-term="traceroute">tracert</span> command from PC1 to troubleshoot connectivity to PC2. Where should the administrator begin troubleshooting?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q38" value="A"> A. The first device along the path on the same LAN (the Default Gateway)</label>
+                <label class="choice-item"><input type="radio" name="q38" value="B"> B. The destination PC2</label>
+                <label class="choice-item"><input type="radio" name="q38" value="C"> C. The PC1 Network card</label>
+            </div>
+            <div class="explanation-box"><p>If tracert fails immediately after the first hop, the issue is likely between your PC and the Default Gateway.</p></div>
+        </div>
+
+        <!-- Q39 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">39. Which protocol is used by the traceroute command to send and receive echo-requests and echo-replies?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q39" value="A"> A. TCP</label>
+                <label class="choice-item"><input type="radio" name="q39" value="B"> B. ICMP</label>
+                <label class="choice-item"><input type="radio" name="q39" value="C"> C. SNMP</label>
+            </div>
+            <div class="explanation-box"><p>Ping and Traceroute both rely entirely on the ICMP protocol.</p></div>
+        </div>
+
+        <!-- Q40 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">40. Which ICMPv6 message is sent when the IPv6 hop limit field of a packet is decremented to zero?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q40" value="A"> A. network unreachable</label>
+                <label class="choice-item"><input type="radio" name="q40" value="B"> B. time exceeded</label>
+                <label class="choice-item"><input type="radio" name="q40" value="C"> C. protocol unreachable</label>
+            </div>
+            <div class="explanation-box"><p>If a packet loops too many times and its <span class="term" data-term="ttl">TTL / Hop Limit</span> hits 0, the router drops it and sends a "Time Exceeded" message.</p></div>
+        </div>
+
+        <!-- Q41 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">41. A user executes a traceroute over IPv6. At what point would a router drop the packet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q41" value="A"> A. when the value of the Hop Limit field reaches 255</label>
+                <label class="choice-item"><input type="radio" name="q41" value="B"> B. when the router receives an ICMP time exceeded message</label>
+                <label class="choice-item"><input type="radio" name="q41" value="C"> C. when the value of the Hop Limit field reaches zero</label>
+            </div>
+            <div class="explanation-box"><p>Traceroute purposefully sends packets with low Hop Limits to force routers to drop them and reply, revealing their IP addresses.</p></div>
+        </div>
+
+        <!-- Q42 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">42. What is the purpose of ICMP messages?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q42" value="A"> A. to provide feedback of IP packet transmissions</label>
+                <label class="choice-item"><input type="radio" name="q42" value="B"> B. to ensure the delivery of an IP packet</label>
+                <label class="choice-item"><input type="radio" name="q42" value="C"> C. to monitor domain name to IP resolution</label>
+            </div>
+            <div class="explanation-box"><p>ICMP is the diagnostic protocol of the internet. It provides feedback on errors (like Host Unreachable or Time Exceeded).</p></div>
+        </div>
+
+        <!-- Q43 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">43. What source IP address does a router use by default when the traceroute command is issued?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q43" value="A"> A. a loopback IP address</label>
+                <label class="choice-item"><input type="radio" name="q43" value="B"> B. the highest configured IP address</label>
+                <label class="choice-item"><input type="radio" name="q43" value="C"> C. the IP address of the outbound interface</label>
+            </div>
+            <div class="explanation-box"><p>By default, routers source their pings and traceroutes using the IP address of the physical port the packet exits out of.</p></div>
+        </div>
+
+        <!-- Q44 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">44. Match the description with the appropriate IP address.</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q44" value="A"> A. 169.254.1.5 = link-local | 192.0.2.123 = TEST-NET | 127.0.0.1 = loopback</label>
+                <label class="choice-item"><input type="radio" name="q44" value="B"> B. 169.254.1.5 = loopback | 192.0.2.123 = private | 127.0.0.1 = link-local</label>
+            </div>
+            <div class="explanation-box"><p>169.254.x.x is APIPA (IPv4 Link Local). 127.0.0.1 is Loopback.</p></div>
+        </div>
+
+        <!-- Q45 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">45. A user pings 192.135.250.103 and receives a response code of 1. What does this represent?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q45" value="A"> A. network unreachable</label>
+                <label class="choice-item"><input type="radio" name="q45" value="B"> B. protocol unreachable</label>
+                <label class="choice-item"><input type="radio" name="q45" value="C"> C. host unreachable</label>
+            </div>
+            <div class="explanation-box"><p>In IPv4 ICMP Destination Unreachable messages: Code 0 = Net Unreachable, Code 1 = Host Unreachable.</p></div>
+        </div>
+
+        <!-- Q46 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">46. Which subnet would include the address 192.168.1.96 as a usable host address?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q46" value="A"> A. 192.168.1.64/29</label>
+                <label class="choice-item"><input type="radio" name="q46" value="B"> B. 192.168.1.64/26</label>
+                <label class="choice-item"><input type="radio" name="q46" value="C"> C. 192.168.1.32/27</label>
+            </div>
+            <div class="explanation-box"><p>The .64/26 subnet ranges from .64 to .127. The address .96 falls perfectly into this range.</p></div>
+        </div>
+
+        <!-- Q47 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">47. A host is transmitting a <span class="term" data-term="broadcast">broadcast</span>. Which host or hosts will receive it?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q47" value="A"> A. a specially defined group of hosts</label>
+                <label class="choice-item"><input type="radio" name="q47" value="B"> B. the closest neighbor on the same network</label>
+                <label class="choice-item"><input type="radio" name="q47" value="C"> C. all hosts in the same subnet</label>
+            </div>
+            <div class="explanation-box"><p>A broadcast (FF:FF:FF:FF:FF:FF) is delivered to every single host on the local subnet.</p></div>
+        </div>
+
+        <!-- Q48 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">48. A host is transmitting a <span class="term" data-term="unicast">unicast</span>. Which host or hosts will receive it?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q48" value="A"> A. all hosts on the Internet</label>
+                <label class="choice-item"><input type="radio" name="q48" value="B"> B. one specific host</label>
+                <label class="choice-item"><input type="radio" name="q48" value="C"> C. a specially defined group of hosts</label>
+            </div>
+            <div class="explanation-box"><p>Unicast means communication directly from ONE device to exactly ONE other device.</p></div>
+        </div>
+
+        <!-- Q49 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">49. A user issues a ping 2001:db8:FACE:39::10 and receives a response that includes a code of 3. What does this code represent?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q49" value="A"> A. network unreachable</label>
+                <label class="choice-item"><input type="radio" name="q49" value="B"> B. beyond scope of source address</label>
+                <label class="choice-item"><input type="radio" name="q49" value="C"> C. address unreachable</label>
+            </div>
+            <div class="explanation-box"><p>In ICMPv6 Destination Unreachable messages: 0 = No route, 1 = Admin Prohibited, 2 = Beyond Scope, 3 = Address Unreachable, 4 = Port Unreachable.</p></div>
+        </div>
+
+        <!-- Q50 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">50. A host is transmitting a <span class="term" data-term="multicast">multicast</span>. Which host or hosts will receive it?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q50" value="A"> A. all hosts on the Internet</label>
+                <label class="choice-item"><input type="radio" name="q50" value="B"> B. the closest neighbor on the same network</label>
+                <label class="choice-item"><input type="radio" name="q50" value="C"> C. a specially defined group of hosts</label>
+            </div>
+            <div class="explanation-box"><p>Multicast is used to send data to a specific, subscribed GROUP of devices.</p></div>
+        </div>
+
+        <!-- Q51 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">51. Which is the compressed format of the IPv6 address 2001:0db8:0000:0000:0000:a0b0:0008:0001?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q51" value="A"> A. 2001:db8::a0b0:8:1</label>
+                <label class="choice-item"><input type="radio" name="q51" value="B"> B. 2001:db8::a0b0:8:1</label>
+                <label class="choice-item"><input type="radio" name="q51" value="C"> C. 2001:db80:0:1::80:1</label>
+            </div>
+            <div class="explanation-box"><p>Remove leading zeros, and replace the largest block of zeros with `::`.</p></div>
+        </div>
+
+        <!-- Q52 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">52. Which is the compressed format of the IPv6 address fe80:09ea:0000:2200:0000:0000:0fe0:0290?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q52" value="A"> A. fe80:9:20::b000:290</label>
+                <label class="choice-item"><input type="radio" name="q52" value="B"> B. fe80:9ea:0:2200::fe0:290</label>
+                <label class="choice-item"><input type="radio" name="q52" value="C"> C. fe80:9ea0::2020:0:bf:e0:9290</label>
+            </div>
+            <div class="explanation-box"><p>Replace the longest block of zeros (the two 0000s in the middle) with `::`, and drop leading zeros on the rest.</p></div>
+        </div>
+
+        <!-- Q53 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">53. Which is the compressed format of the IPv6 address 2002:0042:0010:c400:0000:0000:0000:0909?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q53" value="A"> A. 2002:42:10:c400::909</label>
+                <label class="choice-item"><input type="radio" name="q53" value="B"> B. 2002:4200::25:1090:0:99</label>
+                <label class="choice-item"><input type="radio" name="q53" value="C"> C. 200:420:110:c4b::910:0:90</label>
+            </div>
+            <div class="explanation-box"><p>Drop leading zeros (0042 -> 42), and use `::` for the block of all zeros.</p></div>
+        </div>
+
+        <!-- Q54 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">54. A user pings 2001:db8... and receives an ICMPv6 response code of 2. What does this represent?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q54" value="A"> A. beyond scope of the source address</label>
+                <label class="choice-item"><input type="radio" name="q54" value="B"> B. port unreachable</label>
+                <label class="choice-item"><input type="radio" name="q54" value="C"> C. communication administratively prohibited</label>
+            </div>
+            <div class="explanation-box"><p>In ICMPv6: 0 = No route, 1 = Admin Prohibited, 2 = Beyond Scope, 3 = Address Unreachable, 4 = Port Unreachable.</p></div>
+        </div>
+
+        <!-- Q55 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">55. A user pings 10.10.14.67 (IPv4) and receives a response code of 0. What does this represent?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q55" value="A"> A. protocol unreachable</label>
+                <label class="choice-item"><input type="radio" name="q55" value="B"> B. network unreachable</label>
+                <label class="choice-item"><input type="radio" name="q55" value="C"> C. host unreachable</label>
+            </div>
+            <div class="explanation-box"><p>In IPv4 ICMP Destination Unreachable messages: Code 0 = Network Unreachable.</p></div>
+        </div>
+
+        <!-- Q56 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">56. A user pings an IPv6 address and receives an ICMPv6 response code of 4. What does this represent?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q56" value="A"> A. port unreachable</label>
+                <label class="choice-item"><input type="radio" name="q56" value="B"> B. network unreachable</label>
+                <label class="choice-item"><input type="radio" name="q56" value="C"> C. address unreachable</label>
+            </div>
+            <div class="explanation-box"><p>In ICMPv6 Destination Unreachable messages: Code 4 = Port Unreachable.</p></div>
+        </div>
+
+        <!-- SUBMIT BUTTON & RESULTS -->
+        <button id="submit-exam">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

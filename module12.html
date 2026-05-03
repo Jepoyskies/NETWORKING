@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 12: WLAN Concepts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 12: WLAN Concepts</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 12: WLAN Concepts</h1>
+        <p><em>Goal: Understand how wireless technology connects devices over radio frequencies.</em></p>
+
+        <h2>12.1 Introduction to Wireless</h2>
+        
+        <div class="card">
+            <h3>Types of Wireless Networks</h3>
+            <ul>
+                <li><strong><span class="term" data-term="wpan">WPAN</span>:</strong> Short range (Bluetooth, Zigbee).</li>
+                <li><strong><span class="term" data-term="wlan">WLAN</span>:</strong> Medium range up to 300ft (Standard Wi-Fi, 802.11).</li>
+                <li><strong><span class="term" data-term="wman">WMAN</span>:</strong> City-wide area (WiMAX).</li>
+                <li><strong><span class="term" data-term="wwan">WWAN</span>:</strong> Global or national (Cellular Broadband, Satellite).</li>
+            </ul>
+            <p>Wi-Fi operates using radio frequencies in the <strong>2.4 GHz</strong> and <strong>5.0 GHz</strong> bands. It is standardized by the <strong>IEEE</strong> (which makes the rules) and the <strong><span class="term" data-term="wi_fi_alliance">Wi-Fi Alliance</span></strong> (which ensures all devices work together).</p>
+        </div>
+
+        <h2>12.2 WLAN Components</h2>
+
+        <div class="card">
+            <h3>Access Points (APs)</h3>
+            <p>Wireless Access Points provide wireless access to a wired network. There are two main categories:</p>
+            <ul>
+                <li><strong><span class="term" data-term="autonomous_ap">Autonomous APs</span>:</strong> Standalone routers (like the one in your home). You configure them manually, one by one.</li>
+                <li><strong>Controller-based APs (LAPs):</strong> "Lightweight" APs. They require no initial configuration because they download all their settings from a central <strong><span class="term" data-term="wlc">WLC (Wireless LAN Controller)</span></strong>.</li>
+            </ul>
+        </div>
+
+        <h2>12.3 & 12.4 WLAN Operation & CAPWAP</h2>
+
+        <div class="card">
+            <h3>Topology Modes & Access</h3>
+            <p><strong><span class="term" data-term="infrastructure_mode">Infrastructure Mode</span></strong> relies on an AP. One AP serving clients creates a <strong><span class="term" data-term="bss">BSS (Basic Service Set)</span></strong>. Sticking multiple APs together via a wired connection creates an <strong><span class="term" data-term="ess">ESS (Extended Service Set)</span></strong>.</p>
+            <p>Wireless is half-duplex (you can't send and receive at the same time). To avoid collisions, Wi-Fi uses <strong><span class="term" data-term="csma_ca">CSMA/CA</span></strong>, meaning devices listen to the channel and wait for a clear opening before transmitting data.</p>
+        </div>
+
+        <div class="card">
+            <h3>How the WLC Controls APs (CAPWAP)</h3>
+            <p><strong><span class="term" data-term="capwap">CAPWAP</span></strong> is the tunneling protocol the WLC uses to manage APs over IPv4 or IPv6. It uses <strong><span class="term" data-term="dtls">DTLS</span></strong> encryption to secure the management traffic.</p>
+            <p>CAPWAP uses a <strong><span class="term" data-term="split_mac">Split MAC Architecture</span></strong>: The physical AP handles the fast radio jobs (like Beacons and probing), while the WLC handles the complex processing jobs (like Authentication and Roaming).</p>
+        </div>
+
+        <h2>12.5 to 12.7 Wireless Security & Threats</h2>
+
+        <div class="card">
+            <h3>Threats and Man-In-The-Middle</h3>
+            <p>Hackers can use DoS attacks to jam frequencies, or plug in a <strong><span class="term" data-term="rogue_ap">Rogue AP</span></strong>. A common MITM attack is the <strong><span class="term" data-term="evil_twin">Evil Twin Attack</span></strong>, where a hacker copies your network's <span class="term" data-term="ssid">SSID</span> to steal traffic.</p>
+        </div>
+
+        <div class="card">
+            <h3>WLAN Security Methods</h3>
+            <p>NEVER use <strong><span class="term" data-term="wep">WEP</span></strong>; it is broken. <strong><span class="term" data-term="wpa2">WPA2</span></strong> using <strong><span class="term" data-term="aes">AES</span></strong> encryption is the standard today. WPA3 is the newest standard.</p>
+            <ul>
+                <li><strong>WPA2-Personal:</strong> Uses a Pre-Shared Key (PSK). Everyone uses the same Wi-Fi password.</li>
+                <li><strong>WPA2-Enterprise:</strong> Uses an 802.1X/<strong><span class="term" data-term="radius">RADIUS Server</span></strong>. Every employee logs in with their own unique username and password.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

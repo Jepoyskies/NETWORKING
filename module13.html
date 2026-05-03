@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 13: WLAN Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 13: WLAN Configuration</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 13: WLAN Configuration</h1>
+        <p><em>Goal: Learn how to configure a Home Router and an Enterprise WLC.</em></p>
+
+        <h2>13.1 Remote Site WLAN Configuration</h2>
+        
+        <div class="card">
+            <h3>Home Routers</h3>
+            <p>A wireless home router is actually 3 things in one: an <span class="term" data-term="autonomous_ap">Access Point</span>, a Switch, and a Router! When setting it up, your first step must always be to <strong>change the default administrative password</strong>.</p>
+            <p>It uses <strong><span class="term" data-term="nat">NAT</span></strong> to translate your private IPs to one public IP. You can also configure <strong><span class="term" data-term="qos">QoS</span></strong> to prioritize VoIP traffic, and <strong><span class="term" data-term="port_forwarding">Port Forwarding</span></strong> to let outside internet traffic reach a specific device inside your LAN.</p>
+        </div>
+
+        <h2>13.2 Configure a Basic WLAN on the WLC</h2>
+
+        <div class="card">
+            <h3>WLC GUI & Network Summary</h3>
+            <p>To configure a <strong><span class="term" data-term="wlc">WLC</span></strong>, you log into its graphical web interface (GUI). The first page you see is the <strong>Network Summary</strong>, a dashboard showing active APs, clients, and rogue devices. Clicking the "Advanced" button gives you full control.</p>
+            
+            <h3>5 Steps to Configure a Basic WLAN:</h3>
+            <ol>
+                <li><strong>Create the WLAN:</strong> Click WLANs > Go. Give it a Profile Name and an <span class="term" data-term="ssid">SSID</span>.</li>
+                <li><strong>Enable it:</strong> Check the "Enabled" box.</li>
+                <li><strong>Select Interface:</strong> Map the WLAN to a specific VLAN interface (e.g., VLAN 5).</li>
+                <li><strong>Secure it:</strong> Go to the Security Tab -> Layer 2 -> select WPA2 and enter your Pre-Shared Key (PSK).</li>
+                <li><strong>Verify:</strong> Check the WLANs menu to ensure it is active.</li>
+            </ol>
+        </div>
+
+        <h2>13.3 Configure a WPA2 Enterprise WLAN</h2>
+
+        <div class="card">
+            <h3>Enterprise Setup (RADIUS & SNMP)</h3>
+            <p>Enterprise networks don't use shared passwords. They use a <strong><span class="term" data-term="radius">RADIUS Server</span></strong>. To configure this:</p>
+            <ol>
+                <li>Click the <strong>SECURITY</strong> tab > RADIUS > Authentication > New.</li>
+                <li>Enter the IP address of the RADIUS server and the "Shared Secret" key.</li>
+            </ol>
+            <p>To monitor the network for errors, you can configure the WLC to send log messages (Traps) to an <strong><span class="term" data-term="snmp">SNMP</span></strong> server via the MANAGEMENT tab.</p>
+            <p><em>*Note: Each new WLAN on the WLC needs its own Virtual Interface mapped to a VLAN, and its own DHCP scope!</em></p>
+        </div>
+
+        <h2>13.4 Troubleshoot WLAN Issues</h2>
+
+        <div class="card">
+            <h3>Troubleshooting Methodology</h3>
+            <p>If a wireless client can't connect, you should check the PC's <code>ipconfig</code>, try to ping the gateway, check if the security settings match, and verify physical placement (are they too far away?).</p>
+            <p><strong>If the network is just slow:</strong></p>
+            <ul>
+                <li><strong>Split the Traffic:</strong> The 2.4 GHz band is crowded. The easiest way to fix a slow network is to name the 2.4 GHz and 5 GHz networks differently, and force users streaming multimedia to connect to the 5 GHz band.</li>
+                <li><strong>Update Firmware:</strong> Manufacturers release updates to fix bugs. You can push a firmware upgrade to all APs at once from the WLC's Wireless > Access Points menu.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

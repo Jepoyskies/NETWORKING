@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 11: Switch Security</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 11: Switch Security</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 11: Switch Security Configuration</h1>
+        <p><em>Goal: Learn the exact commands and configurations to lock down Layer 2 switches against LAN attacks.</em></p>
+
+        <h2>11.1 Implement Port Security</h2>
+        
+        <div class="card">
+            <h3>Secure Unused Ports</h3>
+            <p><span class="term" data-term="layer2">Layer 2</span> attacks are the easiest for hackers to deploy. The simplest first step is to completely disable all unused ports on a switch using the <code>shutdown</code> command (Tip: Use <code>interface range</code> to shut down multiple ports at once!).</p>
+        </div>
+
+        <div class="card">
+            <h3>Mitigate MAC Address Table Attacks</h3>
+            <p>To prevent <span class="term" data-term="mac_flooding">MAC address table overflow attacks</span>, we use <strong><span class="term" data-term="port_security">Port Security</span></strong>. Port security limits the number of valid MAC addresses allowed on a port.</p>
+            <ul>
+                <li>Enable it using: <code>switchport port-security</code> (Note: The port MUST be set to access mode first).</li>
+                <li>Set max addresses: <code>switchport port-security maximum [value]</code>.</li>
+            </ul>
+            <p>The switch can learn MAC addresses in 3 ways: Manually configured, Dynamically learned, or <strong><span class="term" data-term="sticky_mac">Dynamically Learned - Sticky</span></strong> (which saves the learned MAC address to the running-config automatically).</p>
+        </div>
+
+        <div class="card">
+            <h3>Port Security Violation Modes & Err-Disabled</h3>
+            <p>If an unauthorized device plugs into the port, a violation occurs. You can choose 1 of 3 <span class="term" data-term="violation_modes">violation modes</span>:</p>
+            <ul>
+                <li><strong>Shutdown (Default):</strong> The port immediately shuts down and goes into an <strong><span class="term" data-term="err_disabled">err-disabled</span></strong> state. It sends a log message.</li>
+                <li><strong>Restrict:</strong> Drops unauthorized packets, keeps the port up, but sends a log message and increments the violation counter.</li>
+                <li><strong>Protect:</strong> The least secure. Drops packets, keeps the port up, but sends NO log message.</li>
+            </ul>
+            <p><em>To fix an err-disabled port, the admin must manually type <code>shutdown</code> and then <code>no shutdown</code> on the interface.</em></p>
+        </div>
+
+        <h2>11.2 Mitigate VLAN Attacks</h2>
+
+        <div class="card">
+            <h3>Preventing VLAN Hopping</h3>
+            <p>A <span class="term" data-term="vlan_hopping">VLAN hopping</span> attack allows a hacker to see traffic on VLANs they shouldn't have access to. Here is the 5-step mitigation checklist:</p>
+            <ol>
+                <li>Disable <span class="term" data-term="dtp">DTP</span> auto-trunking on user ports: <code>switchport mode access</code></li>
+                <li>Disable unused ports and assign them to a "black hole" unused VLAN.</li>
+                <li>Manually enable trunking on router/switch links: <code>switchport mode trunk</code></li>
+                <li>Disable DTP negotiations on trunks: <code>switchport nonegotiate</code></li>
+                <li>Change the <strong><span class="term" data-term="native_vlan">Native VLAN</span></strong> from VLAN 1 to an unused number to stop double-tagging attacks.</li>
+            </ol>
+        </div>
+
+        <h2>11.3 Mitigate DHCP Attacks</h2>
+
+        <div class="card">
+            <h3>DHCP Snooping</h3>
+            <p>Hackers use tools like Gobbler for <span class="term" data-term="dhcp_starvation">DHCP Starvation</span> (stealing all IPs) and <span class="term" data-term="dhcp_spoofing">DHCP Spoofing</span> (setting up a rogue server). We stop this using <strong><span class="term" data-term="dhcp_snooping">DHCP Snooping</span></strong>.</p>
+            <p>DHCP Snooping creates a table that binds MAC addresses to IP addresses. It forces you to declare which ports are "Trusted" (where the real DHCP server is) and limits how many DHCP requests untrusted user ports can send per second.</p>
+        </div>
+
+        <h2>11.4 Mitigate ARP Attacks</h2>
+
+        <div class="card">
+            <h3>Dynamic ARP Inspection (DAI)</h3>
+            <p>To prevent <span class="term" data-term="arp_spoofing">ARP Spoofing</span>, a switch must ensure only valid ARP requests/replies are sent. <strong><span class="term" data-term="dai">DAI</span></strong> intercepts all ARP traffic on untrusted ports and compares it to the DHCP Snooping binding table.</p>
+            <p>If a hacker sends an ARP reply claiming to be the router, DAI looks at the table, sees the hacker is lying about their IP-to-MAC binding, and drops the packet!</p>
+        </div>
+
+        <h2>11.5 Mitigate STP Attacks</h2>
+
+        <div class="card">
+            <h3>PortFast and BPDU Guard</h3>
+            <p>Hackers can manipulate <span class="term" data-term="stp">STP</span> by spoofing the Root Bridge to intercept all traffic. We protect the network using two tools on all end-user access ports:</p>
+            <ul>
+                <li><strong><span class="term" data-term="portfast">PortFast</span>:</strong> Bypasses STP's slow listening/learning states so the PC gets a connection immediately.</li>
+                <li><strong><span class="term" data-term="bpdu_guard">BPDU Guard</span>:</strong> Normal PCs should never send BPDU messages. If BPDU Guard sees a BPDU on a user port, it immediately puts the port into an <span class="term" data-term="err_disabled">err-disabled</span> state!</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>
