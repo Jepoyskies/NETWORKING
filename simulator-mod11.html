@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITCC 32.1 - Practical Exam Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="simulator-mod11.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>ITCC 32.1 Practical Simulator</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>ITCC 32.1: Advanced Switch Security & Routing</h1>
+        <p>This terminal now supports <strong>interface range</strong>, Port Security, DHCP Snooping, PortFast, and BPDU Guard! Configure your devices and hit the tests below.</p>
+
+        <!-- TOPOLOGY REPRESENTATION -->
+        <div class="topology-container">
+            <h3>Select a Device to Configure:</h3>
+            <p style="font-size:0.85rem; color:#64748b;">(R0 connects to SW0 via G0/0 and SW1 via G0/1. PCs connect via F0/1 and F0/2)</p>
+            <div class="device-buttons">
+                <button class="dev-btn active" data-device="Router0">Router0 (2911)</button>
+                <button class="dev-btn" data-device="Switch0">Switch0 (CCS)</button>
+                <button class="dev-btn" data-device="Switch1">Switch1 (ENGG)</button>
+            </div>
+        </div>
+
+        <!-- TERMINAL -->
+        <div class="terminal-window" id="terminal" onclick="document.getElementById('cli-input').focus()">
+            <div class="terminal-output" id="output">System Bootstrap, Version 15.2(4)M1...
+
+Press RETURN to get started.</div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt" id="prompt"></span>
+                <input type="text" id="cli-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+        </div>
+
+        <!-- TROUBLESHOOTING ENGINE -->
+        <div class="testing-panel">
+            <h3>Test Success Indicators</h3>
+            <div class="test-grid">
+                <button class="test-btn" id="test-ccs">1. Ping VLAN 100 PC to VLAN 101 PC</button>
+                <button class="test-btn" id="test-engg">2. Ping VLAN 200 PC to VLAN 201 PC</button>
+                <button class="test-btn" id="test-ssh">3. SSH into Switch0 (CCS)</button>
+                <button class="test-btn" id="test-security">4. Basic Device Security</button>
+                <button class="test-btn" id="test-mod11" style="grid-column: span 2; background-color: #8b5cf6;">5. Verify Module 11: Switch Security (Port Sec, DHCP Snooping, STP)</button>
+            </div>
+            <div id="diagnostic-output">Run a test to see diagnostics here...</div>
+        </div>
+    </div>
+</body>
+</html>
