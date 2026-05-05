@@ -2,6 +2,7 @@
 const dictionary = {
     // --- The Absolute Basics ---
     "router": "<strong>Router:</strong> Think of it as a traffic cop. It connects different networks together and reads the Destination IP Address to decide where to forward packets.",
+    "nat": "<strong>NAT (Network Address Translation):</strong> A trick used in IPv4 to share one public IP address among multiple private computers. IPv6 has so many addresses, NAT isn't needed anymore!",
     "switch": "<strong>Switch:</strong> A device that connects computers together *inside* a single building (LAN). It forwards frames using MAC addresses.",
     "mac_address": "<strong>MAC Address / Physical Address:</strong> The permanent physical 'fingerprint' burned into a network card by the factory. (e.g., 00:1A:2B:3C:4D:5E).",
     "ipv4": "<strong>IPv4 Address:</strong> Like your computer's mailing address (e.g., 192.168.1.5). This changes depending on whose network you connect to.",
