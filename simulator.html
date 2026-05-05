@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DIY Packet Tracer - ITCC 32.1</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script> 
     <script src="simulator.js" defer></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
         </div>
 
         <!-- TERMINAL -->
-        <div class="terminal-window" id="terminal">
+        <div class="terminal-window" id="terminal" onclick="document.getElementById('cli-input').focus()">
             <div class="terminal-output" id="output">System Bootstrap, Version 15.2(4)M1...
 Press RETURN to get started.</div>
             <div class="terminal-input-line">
@@ -39,25 +40,25 @@ Press RETURN to get started.</div>
         </div>
 
         <!-- TROUBLESHOOTING ENGINE -->
-<div class="testing-panel">
-    <h3>Test Network Connections (Success Indicators)</h3>
-    
-    <!-- Added the list from your assignment image -->
-    <ol style="margin-bottom: 15px; color: #334155; font-size: 0.95rem;">
-        <li>VLAN 100 PC can ping VLAN 101 PC, and vice versa.</li>
-        <li>VLAN 200 PC can ping VLAN 201 PC, and vice versa.</li>
-        <li>Can remotely access the college switches via SSH using Putty.</li>
-        <li>Both PCs should be able to get DHCP.</li>
-    </ol>
+        <div class="testing-panel">
+            <h3>Test Network Connections (Success Indicators)</h3>
+            
+            <ol style="margin-bottom: 15px; color: #334155; font-size: 0.95rem;">
+                <li>VLAN 100 PC can ping VLAN 101 PC, and vice versa.</li>
+                <li>VLAN 200 PC can ping VLAN 201 PC, and vice versa.</li>
+                <li>Can remotely access the college switches via SSH using Putty.</li>
+                <li>Both PCs should be able to get DHCP.</li>
+            </ol>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-        <button class="test-btn" id="btn-test-1">1. Ping CCS (VLAN 100 to 101)</button>
-        <button class="test-btn" id="btn-test-2">2. Ping ENGG (VLAN 200 to 201)</button>
-        <button class="test-btn" id="btn-test-3">3. Test SSH Access</button>
-        <button class="test-btn" id="btn-test-4">4. Verify DHCP</button>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                <button class="test-btn" id="btn-test-1">1. Ping CCS (VLAN 100 to 101)</button>
+                <button class="test-btn" id="btn-test-2">2. Ping ENGG (VLAN 200 to 201)</button>
+                <button class="test-btn" id="btn-test-3">3. Test SSH Access</button>
+                <button class="test-btn" id="btn-test-4">4. Verify DHCP</button>
+            </div>
+            
+            <div id="diagnostic-output">Run a test to see diagnostics here...</div>
+        </div>
     </div>
-    
-    <div id="diagnostic-output">Run a test to see diagnostics here...</div>
-</div>
 </body>
 </html>
