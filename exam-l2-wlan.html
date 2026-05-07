@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Exam: L2 Security and WLANs</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+<style>
+        .card { padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; background-color: #1e293b; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s ease; }
+        .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #38bdf8; } /* Light blue question text */
+        .choices-list { list-style: none; padding: 0; }
+        .choice-item { display: flex; align-items: center; padding: 0.7rem; background: #334155; margin-bottom: 0.5rem; border-radius: 6px; border: 1px solid #475569; cursor: pointer; color: #f8fafc; transition: 0.2s; }
+        .choice-item:hover { background: #475569; }
+        .choice-item input { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
+        .explanation-box { display: none; margin-top: 1rem; padding: 1.5rem; background: #0f172a; border-left: 4px solid #38bdf8; border-radius: 4px; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;}
+        .explanation-box.show { display: block; }
+        .explanation-box ul { margin-top: 10px; padding-left: 20px;}
+        .explanation-box li { margin-bottom: 8px; }
+        .correct-answer { font-weight: bold; color: #4ade80; margin-bottom: 10px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div><strong>Checkpoint Exam 3 (L2 Security & WLANs)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Practice Exam: L2 Security & WLANs</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "Check Results" at the very bottom when you are finished.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">1. Which authentication method stores usernames and passwords in the router and is ideal for small networks?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. local AAA</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. local AAA over RADIUS</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. server-based AAA</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. server-based AAA over TACACS+</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: local AAA</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="aaa">AAA</span> (Authentication, Authorization, Accounting) controls who gets into your network. "Local" means you literally type the usernames/passwords into the running config of the router itself. It's fast, but terrible for large networks because you'd have to update passwords on every single router manually.</p>
+                <ul>
+                    <li><strong>A. local AAA:</strong> (Correct) Stores credentials directly in the local device's NVRAM database. Ideal for small networks.</li>
+                    <li><strong>B. local AAA over RADIUS:</strong> (Incorrect) A trick answer. "Local" means no server. <span class="term" data-term="radius">RADIUS</span> is a server protocol. You can't mix them.</li>
+                    <li><strong>C/D. server-based AAA:</strong> (Incorrect) This relies on an external server (like Cisco ISE). Meant for medium-to-large networks, not small ones.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">2. What are two protocols that are used by AAA to authenticate users against a central database of usernames and passwords? (Choose two.)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. NTP and HTTPS</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. TACACS+ and RADIUS</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. SSH and CHAP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. TACACS+ and SSH</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: TACACS+ and RADIUS</div>
+                <p><strong>Deep Dive:</strong> When you configure Server-Based AAA, your switch needs a "language" to ask the security server "Is this password correct?". Cisco networks use two main protocols for this: RADIUS (open-standard) and TACACS+ (Cisco proprietary and fully encrypted).</p>
+                <ul>
+                    <li><strong>A. NTP & HTTPS:</strong> (Incorrect) NTP synchronizes network time. HTTPS secures web traffic. Neither are AAA server protocols.</li>
+                    <li><strong>B. TACACS+ and RADIUS:</strong> (Correct) The two industry standards for communicating with a centralized AAA server.</li>
+                    <li><strong>C & D. SSH, CHAP, & TACACS+ combined:</strong> (Incorrect) <span class="term" data-term="ssh">SSH</span> secures terminal access. CHAP securely sends a password over a WAN link. TACACS+ combined with SSH is mixing a server protocol with a terminal protocol.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">3. What is the result of a DHCP starvation attack?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. Legitimate clients are unable to lease IP addresses.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Clients receive IP address assignments from a rogue DHCP server.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. The attacker provides incorrect DNS and default gateway information to clients.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. The IP addresses assigned to legitimate clients are hijacked.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Legitimate clients are unable to lease IP addresses.</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="dhcp_starvation">DHCP Starvation</span> attack is like one greedy person grabbing all the free samples so nobody else gets any. The attacker uses a tool (like Gobbler) to rapidly spoof thousands of fake MAC addresses, requesting an IP for each one until the DHCP server's pool is 100% empty (starved).</p>
+                <ul>
+                    <li><strong>A. Legitimate clients are unable...</strong> (Correct) Because the pool is empty, real users get nothing, causing a Denial of Service (DoS).</li>
+                    <li><strong>B & C. Rogue DHCP / Incorrect DNS:</strong> (Incorrect) These describe <span class="term" data-term="dhcp_spoofing">DHCP Spoofing</span>, a completely different attack where the hacker sets up their own fake server to intercept traffic.</li>
+                    <li><strong>D. IPs are hijacked:</strong> (Incorrect) Starvation prevents *new* leases; it rarely steals an IP already actively assigned.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">4. What represents a best practice concerning discovery protocols such as CDP and LLDP on network devices?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. Use the open standard LLDP rather than CDP.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. Disable both protocols on all interfaces where they are not required.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. Use the default router settings for CDP and LLDP.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. Enable CDP on edge devices, and enable LLDP on interior devices.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Disable both protocols on all interfaces where they are not required.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="cdp">CDP</span> (Cisco) and LLDP (Open) are tools that allow devices to "shout" their identity ("Hi, I'm a Cisco Switch running iOS 15.2!"). These broadcasts are unencrypted. If left enabled on ports facing user PCs (Edge ports), a hacker running Wireshark instantly knows your exact equipment model and vulnerabilities.</p>
+                <ul>
+                    <li><strong>A. Use LLDP rather than CDP:</strong> (Incorrect) LLDP leaks the exact same dangerous information as CDP.</li>
+                    <li><strong>B. Disable on interfaces where not required:</strong> (Correct) Principle of Least Privilege. User PCs do not need to know switch details. Disable it on all edge ports.</li>
+                    <li><strong>C. Use default settings:</strong> (Incorrect) Cisco defaults enable CDP globally. This is a massive security risk.</li>
+                    <li><strong>D. Enable on edge devices:</strong> (Incorrect) Edge devices are exactly where you want it disabled to stop hackers from gathering recon data.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">5. Which protocol should be used to mitigate the vulnerability of using Telnet to remotely manage network devices?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. SCP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. SSH</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. TFTP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. SNMP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SSH</div>
+                <p><strong>Deep Dive:</strong> Admins log into switches remotely via the <span class="term" data-term="vty">VTY Lines</span>. <span class="term" data-term="telnet">Telnet</span> sends everything in pure plaintext. If a hacker intercepts the traffic, they can read your admin password like a book. To fix this, we use Secure Shell (SSH), which establishes a highly encrypted tunnel before you even type your username.</p>
+                <ul>
+                    <li><strong>A. SCP:</strong> (Incorrect) Secure Copy Protocol is for securely transferring *files*, not for remote command-line terminal management.</li>
+                    <li><strong>B. SSH:</strong> (Correct) <span class="term" data-term="ssh">SSH</span> is the industry standard encrypted replacement for Telnet.</li>
+                    <li><strong>C. TFTP:</strong> (Incorrect) Used for sending files. It is unencrypted and has zero authentication.</li>
+                    <li><strong>D. SNMP:</strong> (Incorrect) Used for monitoring network device health, not for terminal access.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">6. Which statement describes the behavior of a switch when the MAC address table is full?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. It treats frames as unknown unicast and floods all incoming frames to all ports on the switch.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. It treats frames as unknown unicast and floods all incoming frames to all ports within the local VLAN.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. It treats frames as unknown unicast and floods all incoming frames to all ports across multiple switches.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It treats frames as unknown unicast and floods all incoming frames to all ports within the local VLAN.</div>
+                <p><strong>Deep Dive:</strong> This is the exact mechanism exploited by a <span class="term" data-term="mac_flooding">MAC Flooding</span> attack. When the switch's memory is full, it can't remember where specific PCs are. It panics and acts like a dumb Hub, broadcasting the frame everywhere so it doesn't drop the data. Crucially, a switch respects VLAN boundaries, so it only floods *within* the specific VLAN the frame belongs to.</p>
+                <ul>
+                    <li><strong>A. floods to all ports on the switch:</strong> (Incorrect) It does not flood to ports belonging to *other* VLANs. VLANs isolate broadcast traffic.</li>
+                    <li><strong>B. floods to all ports within the local VLAN:</strong> (Correct) This is the precise behavior of a full MAC table.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">7. Which feature on a switch makes it vulnerable to VLAN hopping attacks?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. the mixed duplex mode enabled for all ports by default</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. the limited size of content-addressable memory space</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. the automatic trunking port feature enabled for all ports by default</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. mixed port bandwidth support enabled for all ports by default</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: the automatic trunking port feature enabled for all ports by default</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="vlan_hopping">VLAN Hopping</span> allows a hacker in VLAN 10 to send traffic directly to a server in VLAN 20, bypassing the router firewall. The hacker does this by sending fake DTP messages, tricking the switch into turning the hacker's port into a <span class="term" data-term="trunk">Trunk Link</span>.</p>
+                <ul>
+                    <li><strong>B. limited memory space:</strong> (Incorrect) This causes MAC Flooding, not VLAN Hopping.</li>
+                    <li><strong>C. automatic trunking feature:</strong> (Correct) <span class="term" data-term="dtp">DTP</span> is enabled by default on Cisco switches. A hacker acts like a switch, forms a trunk, and gains access to all VLANs. Always use `switchport mode access` to disable it!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">8. Which feature or configuration on a switch makes it vulnerable to VLAN double-tagging attacks?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. mixed duplex mode enabled for all ports by default</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. the limited size of content-addressable memory space</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. the automatic trunking port feature enabled for all ports by default</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. the native VLAN of the trunking port being the same as a user VLAN</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: the native VLAN of the trunking port being the same as a user VLAN</div>
+                <p><strong>Deep Dive:</strong> Double-tagging is a sneaky, unidirectional attack. The hacker hides a second, fake VLAN tag inside their frame. When the first switch receives it, it strips off the first tag (because it's the <span class="term" data-term="native_vlan">Native VLAN</span>, which is untagged). The frame is forwarded over the trunk, and the second switch reads the *hidden* tag, forwarding it to the victim VLAN.</p>
+                <ul>
+                    <li><strong>C. automatic trunking:</strong> (Incorrect) This causes basic VLAN Hopping, not Double-Tagging. Double-tagging works *even if trunking is disabled on the user port*.</li>
+                    <li><strong>D. native VLAN same as user VLAN:</strong> (Correct) The attack only works if the hacker is physically connected to a port that shares the exact same VLAN ID as the trunk's Native VLAN. This is why you must change the Native VLAN to an unused "black hole" number (like 999).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">9. Which component of AAA is used to determine which resources a user can access and which operations the user is allowed to perform?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. auditing</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. accounting</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authorization</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="aaa">AAA</span> stands for Authentication, Authorization, and Accounting. Think of it like entering a highly secure building.</p>
+                <ul>
+                    <li><strong>Authentication:</strong> Proving *who* you are (Scanning your ID badge).</li>
+                    <li><strong>Authorization:</strong> (Correct) Determining *what* you can do. The system checks if your ID badge allows you to open the Server Room door, or if you are only allowed in the Lobby.</li>
+                    <li><strong>Accounting / Auditing:</strong> Keeping a strict logbook of what time you entered the Server Room and what you touched.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">10. Which component of AAA allows an administrator to track individuals who access network resources and any changes that are made to those resources?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. accessibility</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. authorization</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: accounting</div>
+                <p><strong>Deep Dive:</strong> As explained above, the third "A" in <span class="term" data-term="aaa">AAA</span> stands for Accounting. After a user logs in (Authentication) and is granted permissions (Authorization), Accounting keeps a detailed, timestamped log of exactly what commands they typed. This is crucial for tracing back security breaches to a specific employee's account.</p>
+            </div>
+        </div>
+
+        <!-- End of Batch 1 -->
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">11. What device is considered a supplicant during the 802.1X authentication process?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. the client that is requesting authentication</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. the switch that is controlling network access</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. the authentication server that is performing client authentication</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. the router that is serving as the default gateway</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: the client that is requesting authentication</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="8021x">802.1X</span> protocol is used for port-based access control (locking down a physical wall jack). It has three specific roles. Think of it like trying to get into an exclusive nightclub: you are the <strong>Supplicant</strong> (the person asking to get in), the Bouncer at the door is the <strong>Authenticator</strong> (the Switch), and the guy in the back room checking the VIP list is the <strong>Authentication Server</strong> (the <span class="term" data-term="radius">RADIUS</span> server).</p>
+                <ul>
+                    <li><strong>A. the client that is requesting authentication:</strong> (Correct) The end-user's PC or laptop running the 802.1X client software is known as the Supplicant.</li>
+                    <li><strong>B. the switch that is controlling access:</strong> (Incorrect) The switch is the <em>Authenticator</em>. It doesn't know your password; it just holds the door shut until the server says you are good.</li>
+                    <li><strong>C. the authentication server:</strong> (Incorrect) This is the RADIUS/AAA server, not the supplicant.</li>
+                    <li><strong>D. the router:</strong> (Incorrect) Routers serving as default gateways are not directly involved in the Layer 2 802.1X port-authentication triad.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">12. The Fa0/2 interface on switch S1 has been configured with the <code>switchport port-security mac-address 0023.189d.6456</code> command and a workstation has been connected. What could be the reason that the Fa0/2 interface is shutdown?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. The connection between S1 and PC1 is via a crossover cable.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. The Fa0/24 interface of S1 is configured with the same MAC address as the Fa0/2 interface.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. S1 has been configured with a switchport port-security aging command.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. The MAC address of PC1 that connects to the Fa0/2 interface is not the configured MAC address.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The MAC address of PC1 that connects to the Fa0/2 interface is not the configured MAC address.</div>
+                <p><strong>Deep Dive:</strong> You manually hardcoded a static MAC address (0023.189d.6456) onto this port using <span class="term" data-term="port_security">Port Security</span>. Because you didn't specify a "maximum" number of MACs, it defaults to 1. If the port shuts down, it means a security violation occurred. The only way that happens here is if a PC with a <em>different</em> MAC address was plugged in.</p>
+                <ul>
+                    <li><strong>A. crossover cable:</strong> (Incorrect) Modern switches have Auto-MDIX and will automatically fix the cable type. It wouldn't trigger a security shutdown.</li>
+                    <li><strong>B. Fa0/24 configured with same MAC:</strong> (Incorrect) While bad practice, this wouldn't instantly shut down Fa0/2 unless that MAC moved.</li>
+                    <li><strong>C. aging command:</strong> (Incorrect) Aging just deletes old MAC addresses after a certain time; it doesn't cause violations.</li>
+                    <li><strong>D. MAC address of PC1 is not the configured MAC:</strong> (Correct) Plugging in an unauthorized device triggers the default violation mode: <span class="term" data-term="err_disabled">Shutdown</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">13. An IP phone and a PC are connected to port Fa0/2. The admin has the following goals: 1) Allow ONLY these 2 devices. 2) Automatically learn their MAC addresses and save them to the config. 3) Shut down the port if a 3rd device connects. Which commands are required?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. switchport port-security<br>switchport port-security mac-address sticky</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. switchport port-security mac-address sticky<br>switchport port-security maximum 2</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. switchport port-security<br>switchport port-security maximum 2<br>switchport port-security mac-address sticky</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. switchport port-security<br>switchport port-security maximum 2<br>switchport port-security mac-address sticky<br>switchport port-security violation restrict</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Option C (Enable, Max 2, Sticky)</div>
+                <p><strong>Deep Dive:</strong> To use <span class="term" data-term="port_security">Port Security</span>, you MUST turn it on first using the base command. Then, since you have two devices (a PC daisy-chained through a VoIP phone), you must change the maximum from the default of 1 to 2. Finally, to have the switch save them to the running config automatically, you use "sticky". Because you want it to shut down on a violation, you don't need a violation command—shutdown is already the default!</p>
+                <ul>
+                    <li><strong>A. Missing maximum:</strong> (Incorrect) Defaults to 1 MAC. Since there are 2 devices, it would shut down immediately.</li>
+                    <li><strong>B. Missing base command:</strong> (Incorrect) You cannot configure "sticky" or "max 2" if you haven't turned the feature on with the `switchport port-security` base command!</li>
+                    <li><strong>C. Base, Max 2, Sticky:</strong> (Correct) Turns it on, allows 2 devices, and remembers them. If a 3rd connects, it defaults to shutting down.</li>
+                    <li><strong>D. Includes violation restrict:</strong> (Incorrect) Restrict drops traffic but keeps the port UP. The prompt specifically asked to "shut down" the port if a 3rd device connects.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 14 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">14. Port security has been configured on interface Fa0/12. It has a manually configured static MAC. What action will occur when an unauthorized PC1 attaches to the switch port?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. Frames from PC1 will be dropped, and there will be no log of the violation.</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. Frames from PC1 will be dropped, but a log message will be created and the port stays up.</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. Frames from PC1 will cause the interface to shut down immediately, and a log entry will be made.</label>
+                <label class="choice-item"><input type="radio" name="q14" value="D"> D. Frames from PC1 will be forwarded since the violation command is missing.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Frames from PC1 will cause the interface to shut down immediately, and a log entry will be made.</div>
+                <p><strong>Deep Dive:</strong> When you enable Port Security, you don't actually *have* to type a violation command. If you skip it, the switch automatically uses the default <span class="term" data-term="violation_modes">Violation Mode</span>, which is <strong>Shutdown</strong>.</p>
+                <ul>
+                    <li><strong>A. Dropped, no log:</strong> (Incorrect) This describes the "Protect" violation mode.</li>
+                    <li><strong>B. Dropped, log created, stays up:</strong> (Incorrect) This describes the "Restrict" violation mode.</li>
+                    <li><strong>C. Interface shuts down immediately with log:</strong> (Correct) This is the default "Shutdown" violation mode behavior. The port goes into <span class="term" data-term="err_disabled">err-disabled</span> state.</li>
+                    <li><strong>D. Forwarded because command is missing:</strong> (Incorrect) The switch applies default settings automatically.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 15 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">15. A company security policy specifies that when a port security violation occurs, packets with unknown source addresses should be dropped and NO notification (syslog) should be sent. Which violation mode should be configured?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q15" value="A"> A. off</label>
+                <label class="choice-item"><input type="radio" name="q15" value="B"> B. protect</label>
+                <label class="choice-item"><input type="radio" name="q15" value="C"> C. restrict</label>
+                <label class="choice-item"><input type="radio" name="q15" value="D"> D. shutdown</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: protect</div>
+                <p><strong>Deep Dive:</strong> There are three <span class="term" data-term="violation_modes">Violation Modes</span> you must memorize for the CCNA: Shutdown, Restrict, and Protect. The key difference between Restrict and Protect is that Protect is totally silent (no logs!).</p>
+                <ul>
+                    <li><strong>A. off:</strong> (Incorrect) Not a valid violation mode.</li>
+                    <li><strong>B. protect:</strong> (Correct) Drops unauthorized frames but does NOT increment the violation counter and does NOT send syslog messages. It is completely silent.</li>
+                    <li><strong>C. restrict:</strong> (Incorrect) Drops unauthorized frames, but DOES send a notification/log to the admin.</li>
+                    <li><strong>D. shutdown:</strong> (Incorrect) Kills the entire port completely.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 16 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">16. What security benefit is gained from enabling BPDU guard on PortFast enabled interfaces?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q16" value="A"> A. preventing rogue switches from being added to the network</label>
+                <label class="choice-item"><input type="radio" name="q16" value="B"> B. protecting against Layer 2 loops</label>
+                <label class="choice-item"><input type="radio" name="q16" value="C"> C. enforcing the placement of root bridges</label>
+                <label class="choice-item"><input type="radio" name="q16" value="D"> D. preventing buffer overflow attacks</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: preventing rogue switches from being added to the network</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="portfast">PortFast</span> speeds up ports facing end-users (like PCs) by skipping STP listening/learning phases. However, this is dangerous if a user plugs in a switch and creates a loop! A <span class="term" data-term="bpdu">BPDU</span> is a message that ONLY switches send. By enabling <span class="term" data-term="bpdu_guard">BPDU Guard</span>, if that port ever receives a switch message, it instantly err-disables, stopping the rogue switch dead in its tracks.</p>
+                <ul>
+                    <li><strong>A. preventing rogue switches:</strong> (Correct) If someone plugs a rogue switch into a wall jack, it sends BPDUs. BPDU guard sees this and kills the port.</li>
+                    <li><strong>B. protecting against Layer 2 loops:</strong> (Incorrect) Regular STP does this. BPDU guard is a specific defense mechanism for edge ports.</li>
+                    <li><strong>C. enforcing root bridges:</strong> (Incorrect) This is the job of 'Root Guard', not BPDU Guard.</li>
+                    <li><strong>D. buffer overflow:</strong> (Incorrect) Completely unrelated to STP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 17 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">17. Which type of VLAN-hopping attack may be prevented by designating an unused VLAN as the native VLAN?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q17" value="A"> A. DTP spoofing</label>
+                <label class="choice-item"><input type="radio" name="q17" value="B"> B. DHCP spoofing</label>
+                <label class="choice-item"><input type="radio" name="q17" value="C"> C. VLAN double-tagging</label>
+                <label class="choice-item"><input type="radio" name="q17" value="D"> D. DHCP starvation</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: VLAN double-tagging</div>
+                <p><strong>Deep Dive:</strong> A hacker can exploit the <span class="term" data-term="native_vlan">Native VLAN</span> because traffic on it crosses <span class="term" data-term="trunk">Trunk links</span> without a VLAN tag. If a hacker is assigned to the Native VLAN, they can wrap their packet in TWO tags (Double-Tagging). The first switch strips the outer tag (thinking it's native), and forwards the hidden inner tag to a second switch, allowing the hacker to hop VLANs. Moving the Native VLAN to an unused "black hole" number (like 999) completely stops this.</p>
+                <ul>
+                    <li><strong>A. DTP spoofing:</strong> (Incorrect) This is prevented by turning off DTP (switchport nonegotiate), not by changing the Native VLAN.</li>
+                    <li><strong>C. VLAN double-tagging:</strong> (Correct) Changing the Native VLAN to an unused VLAN ID isolates the trunk's untagged traffic away from user PCs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 18 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">18. PC1 and PC2 should be able to obtain IP address assignments from the DHCP server. How many ports among the switches should be assigned as TRUSTED ports as part of the DHCP snooping configuration?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q18" value="A"> A. 1</label>
+                <label class="choice-item"><input type="radio" name="q18" value="B"> B. 3</label>
+                <label class="choice-item"><input type="radio" name="q18" value="C"> C. 5</label>
+                <label class="choice-item"><input type="radio" name="q18" value="D"> D. 7</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 7</div>
+                <p><strong>Deep Dive:</strong> When setting up <span class="term" data-term="dhcp_snooping">DHCP Snooping</span>, you must configure "Trust" on EVERY single port that connects backward toward the legitimate DHCP Server. <em>(Note: Based on the original exhibit in the PDF, there is a core switch holding the DHCP server, and multiple access switches. You must trust the actual port connecting to the server [1], plus BOTH sides of every trunk link between the switches [2 trunks * 2 switches = 4], plus the uplinks [2], totaling 7 trusted ports facing upstream)</em>. User ports facing PCs are always left Untrusted.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 19 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">19. An IT security specialist enables port security on a switch port. What is the default violation mode in use until the switch port is configured to use a different violation mode?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q19" value="A"> A. restrict</label>
+                <label class="choice-item"><input type="radio" name="q19" value="B"> B. disabled</label>
+                <label class="choice-item"><input type="radio" name="q19" value="C"> C. protect</label>
+                <label class="choice-item"><input type="radio" name="q19" value="D"> D. shutdown</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: shutdown</div>
+                <p><strong>Deep Dive:</strong> When you type <code>switchport port-security</code>, three default things happen invisibly in the background: 1) Maximum allowed MACs is set to 1. 2) MAC addresses are NOT sticky. 3) The <span class="term" data-term="violation_modes">Violation Mode</span> defaults to <strong>Shutdown</strong>. You only need to manually type a violation command if you want to change it to Restrict or Protect.</p>
+                <ul>
+                    <li><strong>A. restrict:</strong> (Incorrect) Must be manually configured.</li>
+                    <li><strong>C. protect:</strong> (Incorrect) Must be manually configured.</li>
+                    <li><strong>D. shutdown:</strong> (Correct) The default action. It kills the port into an <span class="term" data-term="err_disabled">err-disabled</span> state.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 20 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">20. A network administrator enters: <code>interface range fa0/5–10</code> followed by <code>ip dhcp snooping limit rate 6</code>. What is the effect?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q20" value="A"> A. FastEthernet ports 5 through 10 can receive up to 6 DHCP discovery messages per second without dropping.</label>
+                <label class="choice-item"><input type="radio" name="q20" value="B"> B. Ports 5 through 10 can receive up to 6 DHCP messages of ANY type per second.</label>
+                <label class="choice-item"><input type="radio" name="q20" value="C"> C. If any port receives more than 6 DHCP messages per second, it will continue to operate and send an error log.</label>
+                <label class="choice-item"><input type="radio" name="q20" value="D"> D. If any port receives more than 6 DHCP messages per second, the port will be shut down.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: If any port receives more than 6 DHCP messages per second, the port will be shut down.</div>
+                <p><strong>Deep Dive:</strong> To stop a <span class="term" data-term="dhcp_starvation">DHCP Starvation</span> attack (like Gobbler spamming discovery packets), <span class="term" data-term="dhcp_snooping">DHCP Snooping</span> allows you to rate-limit user ports. Standard Cisco IOS behavior dictates that if an untrusted port violates this rate limit (sends more than 6 packets per second), the switch assumes it's an attack and throws the port into an <span class="term" data-term="err_disabled">err-disabled</span> (shutdown) state to protect the server.</p>
+                <ul>
+                    <li><strong>B. Receive 6 of any type:</strong> (Incorrect phrasing) While it applies to all DHCP packets, the critical *effect* is what happens when the limit is breached.</li>
+                    <li><strong>C. Continue to operate:</strong> (Incorrect) The switch does not just log it; it violently shuts the port down for protection.</li>
+                    <li><strong>D. Port will be shut down:</strong> (Correct) The port enters err-disabled state upon breaching the limit.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 21 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">21. A network administrator is configuring DAI on a switch with the command <code>ip arp inspection validate src-mac</code>. What is the purpose of this configuration command?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q21" value="A"> A. It checks the source MAC address in the Ethernet header against the MAC address table.</label>
+                <label class="choice-item"><input type="radio" name="q21" value="B"> B. It checks the source MAC address in the Ethernet header against the user-configured ARP ACLs.</label>
+                <label class="choice-item"><input type="radio" name="q21" value="C"> C. It checks the source MAC address in the Ethernet header against the target MAC address in the ARP body.</label>
+                <label class="choice-item"><input type="radio" name="q21" value="D"> D. It checks the source MAC address in the Ethernet header against the sender MAC address in the ARP body.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It checks the source MAC address in the Ethernet header against the sender MAC address in the ARP body.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="dai">Dynamic ARP Inspection (DAI)</span> is an incredibly smart security feature. Hackers spoof ARP messages by putting a fake MAC address *inside* the payload of the ARP packet. The `validate src-mac` command forces the switch to open the packet and compare the Source MAC on the outside envelope (Ethernet header) to the Sender MAC written on the letter inside (ARP body). If they don't match, the hacker is lying, and the switch drops the packet!</p>
+                <ul>
+                    <li><strong>A & B. MAC address table / ACLs:</strong> (Incorrect) This specific `validate` command does not check the MAC table or ACLs; it performs a cross-check within the packet itself.</li>
+                    <li><strong>C. target MAC address:</strong> (Incorrect) The target is who the packet is going TO. We are validating the sender (who the packet is coming FROM).</li>
+                    <li><strong>D. sender MAC address in the ARP body:</strong> (Correct) The switch verifies the outside Source MAC perfectly matches the inside Sender MAC.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 22 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">22. Which two commands can be used to enable BPDU guard on a switch? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q22" value="A"> A. <code>spanning-tree portfast bpduguard default</code> (Global) AND <code>spanning-tree bpduguard enable</code> (Interface)</label>
+                <label class="choice-item"><input type="radio" name="q22" value="B"> B. <code>spanning-tree bpduguard default</code> (Global) AND <code>enable spanning-tree bpduguard</code> (Interface)</label>
+                <label class="choice-item"><input type="radio" name="q22" value="C"> C. <code>spanning-tree portfast bpduguard</code> (Interface) AND <code>spanning-tree bpduguard default</code> (Global)</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: spanning-tree portfast bpduguard default (Global) AND spanning-tree bpduguard enable (Interface)</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="bpdu_guard">BPDU Guard</span> instantly err-disables a port if it hears a switch message (BPDU), which protects against users plugging in unauthorized switches. You can turn this on in two ways. 1) Globally, for EVERY port that has <span class="term" data-term="portfast">PortFast</span> enabled. 2) Manually, on a specific interface.</p>
+                <ul>
+                    <li><strong>A. Correct syntax:</strong> In global config mode, you type `spanning-tree portfast bpduguard default`. In interface config mode, you type `spanning-tree bpduguard enable`.</li>
+                    <li><strong>B & C. Incorrect syntax:</strong> The commands are spelled backward or missing the "portfast" keyword in the global command.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 23 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">23. As part of a new security policy, all switches automatically learn MAC addresses for each port. All running configurations are saved daily. A thunderstorm causes a power outage. When the switches reboot, the dynamically learned MAC addresses are retained. Which port security configuration enabled this?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q23" value="A"> A. auto secure MAC addresses</label>
+                <label class="choice-item"><input type="radio" name="q23" value="B"> B. dynamic secure MAC addresses</label>
+                <label class="choice-item"><input type="radio" name="q23" value="C"> C. static secure MAC addresses</label>
+                <label class="choice-item"><input type="radio" name="q23" value="D"> D. sticky secure MAC addresses</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: sticky secure MAC addresses</div>
+                <p><strong>Deep Dive:</strong> Normal dynamic <span class="term" data-term="port_security">Port Security</span> learns MAC addresses and puts them in RAM. If the power dies, RAM is wiped clean! But if you use <strong><span class="term" data-term="sticky_mac">Sticky MAC</span></strong>, the switch learns the MAC address dynamically and instantly "pastes" it into the <span class="term" data-term="running_config">running configuration</span>. When the admin saved the config at the end of the day, those Sticky MACs were saved to NVRAM permanently.</p>
+                <ul>
+                    <li><strong>A. auto secure:</strong> (Incorrect) Not a real Cisco command.</li>
+                    <li><strong>B. dynamic secure:</strong> (Incorrect) Purely dynamic MACs vanish when the switch loses power.</li>
+                    <li><strong>C. static secure:</strong> (Incorrect) This means the admin manually typed the MAC address, but the question says they were "automatically learned".</li>
+                    <li><strong>D. sticky secure:</strong> (Correct) "Sticky" bridges the gap by automatically learning the MAC and saving it statically to the config file.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 24 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">24. Which type of management frame may regularly be broadcast by an AP?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q24" value="A"> A. beacon</label>
+                <label class="choice-item"><input type="radio" name="q24" value="B"> B. probe request</label>
+                <label class="choice-item"><input type="radio" name="q24" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q24" value="D"> D. probe response</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: beacon</div>
+                <p><strong>Deep Dive:</strong> To help your smartphone find a Wi-Fi network, the Access Point operates in <span class="term" data-term="passive_mode">Passive Discover Mode</span>. It continuously shouts out a <strong>Beacon</strong> frame multiple times a second, saying "Hi, I am Starbucks Wi-Fi, and here are my security settings!"</p>
+                <ul>
+                    <li><strong>A. beacon:</strong> (Correct) The only management frame regularly broadcasted continuously by an AP.</li>
+                    <li><strong>B. probe request:</strong> (Incorrect) This is sent by your *client device* (phone/laptop) to ask if a specific network is nearby.</li>
+                    <li><strong>C. authentication:</strong> (Incorrect) Sent as a direct unicast during the login phase, not broadcasted regularly.</li>
+                    <li><strong>D. probe response:</strong> (Incorrect) This is sent by the AP, but only as a direct, one-time reply to a client's probe request.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 25 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">25. What type of wireless antenna is best suited for providing coverage in large open spaces, such as hallways or large conference rooms?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q25" value="A"> A. omnidirectional</label>
+                <label class="choice-item"><input type="radio" name="q25" value="B"> B. directional</label>
+                <label class="choice-item"><input type="radio" name="q25" value="C"> C. Yagi</label>
+                <label class="choice-item"><input type="radio" name="q25" value="D"> D. dish</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: omnidirectional</div>
+                <p><strong>Deep Dive:</strong> Antennas come in different shapes to push radio waves in different patterns. An <strong>Omnidirectional</strong> antenna pushes signal out in a 360-degree circle (like a donut), making it perfect for the ceiling of an office where laptops are scattered everywhere.</p>
+                <ul>
+                    <li><strong>A. omnidirectional:</strong> (Correct) Best for 360-degree indoor coverage.</li>
+                    <li><strong>B, C, D. directional / Yagi / dish:</strong> (Incorrect) These antennas focus the radio wave into a tight, narrow laser beam to travel extremely long distances (like connecting two buildings across a street). They are terrible for an open conference room.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 26 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">26. What is an advantage of SSID cloaking?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q26" value="A"> A. It provides free Internet access in public locations where knowing the SSID is of no concern.</label>
+                <label class="choice-item"><input type="radio" name="q26" value="B"> B. Clients will have to manually identify the SSID to connect to the network.</label>
+                <label class="choice-item"><input type="radio" name="q26" value="C"> C. SSIDs are very difficult to discover because APs do not broadcast them.</label>
+                <label class="choice-item"><input type="radio" name="q26" value="D"> D. It is the best way to secure a wireless network.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Clients will have to manually identify the SSID to connect to the network.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="ssid">SSID</span> Cloaking turns off the AP's Beacon broadcasts (Active Discover Mode). Because the name is hidden, casual users won't see it on their phones. They must manually type the exact network name to join.</p>
+                <ul>
+                    <li><strong>B. Clients manually identify:</strong> (Correct) It adds a minor layer of privacy by hiding the name from average users.</li>
+                    <li><strong>C. Very difficult to discover:</strong> (Incorrect) Hackers can still discover hidden SSIDs in seconds using a packet sniffer to capture someone else's login request.</li>
+                    <li><strong>D. Best way to secure:</strong> (Incorrect) It is a very weak security feature. WPA2/WPA3 encryption is the *best* way to secure a network.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 27 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">27. What are the two methods that are used by a wireless NIC to discover an AP? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q27" value="A"> A. sending an ARP request AND initiating a three-way handshake</label>
+                <label class="choice-item"><input type="radio" name="q27" value="B"> B. delivering a broadcast frame AND sending an ARP request</label>
+                <label class="choice-item"><input type="radio" name="q27" value="C"> C. transmitting a probe request AND initiating a three-way handshake</label>
+                <label class="choice-item"><input type="radio" name="q27" value="D"> D. transmitting a probe request AND receiving a broadcast beacon frame</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: transmitting a probe request AND receiving a broadcast beacon frame</div>
+                <p><strong>Deep Dive:</strong> Your laptop's network card can find Wi-Fi in two ways: <strong>Passive Mode</strong> (sitting quietly and waiting to hear a Beacon frame from an AP) or <strong><span class="term" data-term="active_mode">Active Mode</span></strong> (shouting a Probe Request out to the world saying "Is the 'Guest_WiFi' network around here?").</p>
+                <ul>
+                    <li><strong>D. Probe request & Beacon frame:</strong> (Correct) These represent the Active and Passive discovery mechanisms for 802.11 Wi-Fi.</li>
+                    <li><strong>A, B, C. ARP & 3-Way Handshake:</strong> (Incorrect) ARP is for finding MAC addresses on Ethernet. The 3-way handshake is for TCP connections. Neither are used for discovering radio waves.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 28 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">28. Which wireless network topology would be used by network engineers to provide a wireless network for an entire college building?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q28" value="A"> A. ad hoc</label>
+                <label class="choice-item"><input type="radio" name="q28" value="B"> B. hotspot</label>
+                <label class="choice-item"><input type="radio" name="q28" value="C"> C. infrastructure</label>
+                <label class="choice-item"><input type="radio" name="q28" value="D"> D. mixed mode</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: infrastructure</div>
+                <p><strong>Deep Dive:</strong> When you connect multiple Access Points together via a wired backbone (so you can walk across a whole college campus without losing Wi-Fi), you are creating an <span class="term" data-term="ess">Extended Service Set (ESS)</span>. This setup is formally known as <strong><span class="term" data-term="infrastructure_mode">Infrastructure Mode</span></strong>.</p>
+                <ul>
+                    <li><strong>A. ad hoc:</strong> (Incorrect) This is peer-to-peer (like two laptops sending files to each other over Bluetooth/Wi-Fi Direct without a router).</li>
+                    <li><strong>B. hotspot:</strong> (Incorrect) A tiny, personal network running off cellular data (like your phone).</li>
+                    <li><strong>C. infrastructure:</strong> (Correct) The standard enterprise setup utilizing APs wired back to central switches.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 29 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">29. What is a wireless security mode that requires a RADIUS server to authenticate wireless users?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q29" value="A"> A. enterprise</label>
+                <label class="choice-item"><input type="radio" name="q29" value="B"> B. personal</label>
+                <label class="choice-item"><input type="radio" name="q29" value="C"> C. shared key</label>
+                <label class="choice-item"><input type="radio" name="q29" value="D"> D. WEP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: enterprise</div>
+                <p><strong>Deep Dive:</strong> Large companies cannot use a single shared Wi-Fi password; if an employee gets fired, they'd have to change the password on every device in the building! Instead, they use <strong>WPA2-Enterprise</strong> (or WPA3-Enterprise), which links the Wi-Fi directly to a <span class="term" data-term="radius">RADIUS Server</span>. Every employee must log in with their own unique username and password.</p>
+                <ul>
+                    <li><strong>A. enterprise:</strong> (Correct) Enterprise mode relies on an 802.1X/RADIUS server for centralized authentication.</li>
+                    <li><strong>B & C. personal / shared key:</strong> (Incorrect) This is WPA2-Personal, where everyone uses the exact same Pre-Shared Key (PSK).</li>
+                    <li><strong>D. WEP:</strong> (Incorrect) <span class="term" data-term="wep">WEP</span> is an incredibly old, broken encryption protocol.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 30 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">30. What two IEEE 802.11 wireless standards operate ONLY in the 5 GHz range? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q30" value="A"> A. 802.11a and 802.11ac</label>
+                <label class="choice-item"><input type="radio" name="q30" value="B"> B. 802.11b and 802.11g</label>
+                <label class="choice-item"><input type="radio" name="q30" value="C"> C. 802.11n and 802.11ax</label>
+                <label class="choice-item"><input type="radio" name="q30" value="D"> D. 802.11g and 802.11ac</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 802.11a and 802.11ac</div>
+                <p><strong>Deep Dive:</strong> The IEEE 802.11 standards govern Wi-Fi frequencies. You must memorize these bands:</p>
+                <ul>
+                    <li><strong>802.11b & 802.11g:</strong> Operate ONLY on the 2.4 GHz band.</li>
+                    <li><strong>802.11a & 802.11ac:</strong> Operate ONLY on the 5.0 GHz band. (Correct!)</li>
+                    <li><strong>802.11n & 802.11ax:</strong> Dual-band. They operate on BOTH 2.4 GHz and 5.0 GHz simultaneously.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 31 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">31. A technician is configuring the channel on a wireless router to either 1, 6, or 11. What is the purpose of adjusting the channel?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q31" value="A"> A. to disable broadcasting of the SSID</label>
+                <label class="choice-item"><input type="radio" name="q31" value="B"> B. to enable different 802.11 standards</label>
+                <label class="choice-item"><input type="radio" name="q31" value="C"> C. to provide stronger security modes</label>
+                <label class="choice-item"><input type="radio" name="q31" value="D"> D. to avoid interference from nearby wireless devices</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: to avoid interference from nearby wireless devices</div>
+                <p><strong>Deep Dive:</strong> In the 2.4 GHz Wi-Fi band, there are 11 channels available (in North America). However, radio waves spread out and bleed into adjacent channels. Channel 2 bleeds into 1 and 3, causing massive static and lag. The only three channels that are spaced far enough apart to NEVER overlap each other are <strong>1, 6, and 11</strong>.</p>
+                <ul>
+                    <li><strong>A. disable broadcasting of the SSID:</strong> (Incorrect) This is called <span class="term" data-term="active_mode">SSID Cloaking</span>, not channel selection.</li>
+                    <li><strong>B. enable different 802.11 standards:</strong> (Incorrect) Standards (like 802.11n or 802.11ac) dictate the speed and frequency band used, not the specific channel within the band.</li>
+                    <li><strong>C. provide stronger security:</strong> (Incorrect) Security is handled by <span class="term" data-term="wpa2">WPA2/WPA3</span>, which operates independently of the radio frequency.</li>
+                    <li><strong>D. avoid interference:</strong> (Correct) Setting multiple APs exclusively to channels 1, 6, and 11 ensures their radio waves never crash into each other.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 32 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">32. While attending a conference, participants are using laptops for network connectivity. When a guest speaker attempts to connect to the network, the laptop fails to display any available wireless networks. The access point must be operating in which mode?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q32" value="A"> A. active</label>
+                <label class="choice-item"><input type="radio" name="q32" value="B"> B. mixed</label>
+                <label class="choice-item"><input type="radio" name="q32" value="C"> C. open</label>
+                <label class="choice-item"><input type="radio" name="q32" value="D"> D. passive</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: active</div>
+                <p><strong>Deep Dive:</strong> In normal Wi-Fi networks (<span class="term" data-term="passive_mode">Passive mode</span>), the AP shouts out "Beacon" frames so phones and laptops can see its name on the Wi-Fi list. If an AP stops sending Beacons to hide its name, it forces the client laptops into <strong><span class="term" data-term="active_mode">Active Mode</span></strong>. The client must actively send out a "Probe Request" asking for the network by its exact hidden name.</p>
+                <ul>
+                    <li><strong>A. active:</strong> (Correct) The AP is hiding its SSID, forcing clients into Active mode (sending probe requests manually) to discover it.</li>
+                    <li><strong>B. mixed:</strong> (Incorrect) Mixed mode just means the AP supports older standards (like 802.11b) and newer standards (802.11n) at the same time.</li>
+                    <li><strong>C. open:</strong> (Incorrect) Open means there is no password required (like a coffee shop).</li>
+                    <li><strong>D. passive:</strong> (Incorrect) In passive mode, the AP openly broadcasts its name, which means the laptop <em>would</em> have seen it on the list.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 33 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">33. A network administrator is required to upgrade wireless access to end users in a building. To provide data rates up to 1.3 Gb/s and still be backward compatible with older devices, which wireless standard should be implemented?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q33" value="A"> A. 802.11n</label>
+                <label class="choice-item"><input type="radio" name="q33" value="B"> B. 802.11ac</label>
+                <label class="choice-item"><input type="radio" name="q33" value="C"> C. 802.11g</label>
+                <label class="choice-item"><input type="radio" name="q33" value="D"> D. 802.11b</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 802.11ac</div>
+                <p><strong>Deep Dive:</strong> You need to know the basic speed jumps of IEEE Wi-Fi standards. 802.11b and 802.11g are extremely old and slow (max 54 Mbps). 802.11n brought us up to 600 Mbps using <span class="term" data-term="mimo">MIMO</span> antennas. 802.11ac is the first standard to breach the "Gigabit" speed barrier, providing 1.3 Gbps while remaining backward compatible.</p>
+                <ul>
+                    <li><strong>A. 802.11n:</strong> (Incorrect) Caps out around 600 Mbps. It cannot reach 1.3 Gbps.</li>
+                    <li><strong>B. 802.11ac:</strong> (Correct) Operates in the 5GHz band, hits 1.3 Gbps, and allows backward compatibility with older devices.</li>
+                    <li><strong>C & D. 802.11g / 802.11b:</strong> (Incorrect) These are legacy 2.4 GHz standards that are incredibly slow.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 34 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">34. A company has recently implemented an 802.11n wireless network. Some users are complaining that the wireless network is too slow. Which solution is the best method to enhance the performance of the wireless network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q34" value="A"> A. Replace the wireless NICs on the computers that are experiencing slow connections.</label>
+                <label class="choice-item"><input type="radio" name="q34" value="B"> B. Split the traffic between the 2.4 GHz and 5 GHz frequency bands.</label>
+                <label class="choice-item"><input type="radio" name="q34" value="C"> C. Disable DHCP on the access point and assign static addresses to the wireless clients.</label>
+                <label class="choice-item"><input type="radio" name="q34" value="D"> D. Upgrade the firmware on the wireless access point.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Split the traffic between the 2.4 GHz and 5 GHz frequency bands.</div>
+                <p><strong>Deep Dive:</strong> The 802.11n standard is "Dual-Band," meaning it broadcasts both a 2.4 GHz and 5 GHz signal simultaneously. If the network is slow, it is usually because all the devices are piling onto the congested 2.4 GHz band. Renaming the network into two separate <span class="term" data-term="ssid">SSIDs</span> (e.g., "WiFi" and "WiFi_5G") allows you to force laptops streaming video onto the faster 5 GHz band, clearing up traffic for everyone else.</p>
+                <ul>
+                    <li><strong>A. Replace NICs:</strong> (Incorrect) Very expensive and doesn't fix a crowded radio frequency problem.</li>
+                    <li><strong>B. Split the traffic:</strong> (Correct) Pushing heavy users to the 5 GHz band heavily reduces congestion.</li>
+                    <li><strong>C. Disable DHCP:</strong> (Incorrect) <span class="term" data-term="dhcp">DHCP</span> has absolutely no impact on the speed of the wireless connection.</li>
+                    <li><strong>D. Upgrade firmware:</strong> (Incorrect) While firmware updates fix bugs, they generally do not magically boost network throughput on a congested band.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 35 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">35. A technician is about to install and configure a wireless network at a small branch office. What is the first security measure the technician should apply immediately upon powering up the wireless router?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q35" value="A"> A. Configure encryption on the wireless router and the connected wireless devices.</label>
+                <label class="choice-item"><input type="radio" name="q35" value="B"> B. Disable the wireless network SSID broadcast.</label>
+                <label class="choice-item"><input type="radio" name="q35" value="C"> C. Change the default user-name and password of the wireless router.</label>
+                <label class="choice-item"><input type="radio" name="q35" value="D"> D. Enable MAC address filtering on the wireless router.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Change the default user-name and password of the wireless router.</div>
+                <p><strong>Deep Dive:</strong> Every home/small office router ships from the factory with a public, widely-known administrative login (like username: <code>admin</code>, password: <code>admin</code>). If you plug it in and configure Wi-Fi passwords first, a hacker could simply log into the router using the default admin password and lock you out! Your absolute first step is always securing the administrative login.</p>
+                <ul>
+                    <li><strong>C. Change the default user-name and password:</strong> (Correct) This protects the device's configuration portal from being hijacked immediately.</li>
+                    <li><strong>A, B, D. Encryption / SSID Cloaking / MAC filtering:</strong> (Incorrect) These are all great Wi-Fi security steps to take, but they must be done <em>after</em> you have secured the router's main administrative login portal.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 36 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">36. On a Cisco 3504 WLC dashboard, which option provides access to the full menu of features?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q36" value="A"> A. Rogues</label>
+                <label class="choice-item"><input type="radio" name="q36" value="B"> B. Advanced</label>
+                <label class="choice-item"><input type="radio" name="q36" value="C"> C. Access Points</label>
+                <label class="choice-item"><input type="radio" name="q36" value="D"> D. Network Summary</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Advanced</div>
+                <p><strong>Deep Dive:</strong> When you log into a Cisco <span class="term" data-term="wlc">WLC (Wireless LAN Controller)</span>, you are greeted with a simplified dashboard (The Network Summary page) showing pie charts of clients and APs. To actually configure complex settings like RADIUS servers, VLAN interfaces, and DHCP scopes, you must click the "Advanced" button in the top right corner.</p>
+                <ul>
+                    <li><strong>B. Advanced:</strong> (Correct) Clicking this leaves the basic dashboard and opens the full, professional GUI menu.</li>
+                    <li><strong>A, C, D. Rogues / APs / Network Summary:</strong> (Incorrect) These are just informational sections on the basic landing page dashboard.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 37 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">37. On a Cisco 3504 WLC Summary page (Advanced > Summary), which tab allows a network administrator to access and configure a WLAN for a specific security option such as WPA2?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q37" value="A"> A. WLANs</label>
+                <label class="choice-item"><input type="radio" name="q37" value="B"> B. SECURITY</label>
+                <label class="choice-item"><input type="radio" name="q37" value="C"> C. WIRELESS</label>
+                <label class="choice-item"><input type="radio" name="q37" value="D"> D. MANAGEMENT</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: WLANs</div>
+                <p><strong>Deep Dive:</strong> This is a slightly tricky GUI question. While there is a "SECURITY" tab, that tab is used globally to add <span class="term" data-term="radius">RADIUS</span> servers to the WLC. If you want to apply <span class="term" data-term="wpa2">WPA2</span> security to a <em>specific</em> Wi-Fi network (WLAN), you must click the <strong>WLANs</strong> tab, edit the specific network profile, and apply the security settings to it there.</p>
+                <ul>
+                    <li><strong>A. WLANs:</strong> (Correct) You click here to create network profiles, assign them to interfaces, and configure their specific WPA2/WPA3 passwords.</li>
+                    <li><strong>B. SECURITY:</strong> (Incorrect) Used to add global AAA/RADIUS servers, not to assign WPA2 to a specific Wi-Fi network.</li>
+                    <li><strong>C. WIRELESS:</strong> (Incorrect) Used to view and manage physical Access Points.</li>
+                    <li><strong>D. MANAGEMENT:</strong> (Incorrect) Used to set up SNMP traps and device administration.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 38 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">38. Which protocol can be used to monitor the network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q38" value="A"> A. AAA</label>
+                <label class="choice-item"><input type="radio" name="q38" value="B"> B. SNMP</label>
+                <label class="choice-item"><input type="radio" name="q38" value="C"> C. DHCP</label>
+                <label class="choice-item"><input type="radio" name="q38" value="D"> D. RADIUS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SNMP</div>
+                <p><strong>Deep Dive:</strong> Network administrators can't manually check 500 switches every day to see if they are overheating or if ports are failing. They use <strong><span class="term" data-term="snmp">SNMP</span></strong> (Simple Network Management Protocol). The WLC and switches automatically send "Traps" (log messages/alerts) to a central SNMP server whenever something goes wrong.</p>
+                <ul>
+                    <li><strong>B. SNMP:</strong> (Correct) The industry standard for monitoring network device health and performance.</li>
+                    <li><strong>A & D. AAA / RADIUS:</strong> (Incorrect) These are used for security, access control, and user logins, not health monitoring.</li>
+                    <li><strong>C. DHCP:</strong> (Incorrect) Used to hand out IP addresses.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 39 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">39. A network administrator deploys a wireless router in a small law firm. Employee laptops join the WLAN and receive IP addresses in the 10.0.10.0/24 network. Which service is used on the wireless router to allow the employee laptops to access the internet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q39" value="A"> A. DNS</label>
+                <label class="choice-item"><input type="radio" name="q39" value="B"> B. NAT</label>
+                <label class="choice-item"><input type="radio" name="q39" value="C"> C. DHCP</label>
+                <label class="choice-item"><input type="radio" name="q39" value="D"> D. RADIUS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: NAT</div>
+                <p><strong>Deep Dive:</strong> The 10.0.10.0/24 network is a <span class="term" data-term="private_ip">Private IP</span> block (RFC 1918). Private IPs are strictly banned from the public internet. If a laptop tries to go to Google with a 10.x.x.x address, the ISP drops it instantly. The wireless router uses <strong><span class="term" data-term="nat">NAT</span> (Network Address Translation)</strong> to erase the private IP on the packet and replace it with the router's single, public IP address before sending it to the internet.</p>
+                <ul>
+                    <li><strong>A. DNS:</strong> (Incorrect) Turns names (google.com) into IPs. Does not route traffic.</li>
+                    <li><strong>B. NAT:</strong> (Correct) Translates private unroutable IPs into public routable IPs.</li>
+                    <li><strong>C. DHCP:</strong> (Incorrect) Hands out the 10.0.10.0 addresses, but does not allow them to cross the internet boundary.</li>
+                    <li><strong>D. RADIUS:</strong> (Incorrect) Used for user authentication.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 40 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">40. Which service can be used on a wireless router to prioritize network traffic among different types of applications so that voice and video data are prioritized over email and web data?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q40" value="A"> A. NAT</label>
+                <label class="choice-item"><input type="radio" name="q40" value="B"> B. QoS</label>
+                <label class="choice-item"><input type="radio" name="q40" value="C"> C. DNS</label>
+                <label class="choice-item"><input type="radio" name="q40" value="D"> D. DHCP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: QoS</div>
+                <p><strong>Deep Dive:</strong> If you are downloading a massive 50GB file, it might clog the router, causing your zoom video calls to freeze. We fix this by enabling <strong><span class="term" data-term="qos">QoS</span> (Quality of Service)</strong>. QoS allows you to tell the router: "Voice and Video packets are VIPs; send them out instantly. File downloads can wait in line."</p>
+                <ul>
+                    <li><strong>A. NAT:</strong> (Incorrect) Translates private IPs to public IPs.</li>
+                    <li><strong>B. QoS:</strong> (Correct) Inspects packets (often using the <span class="term" data-term="dscp">DSCP</span> field) and prioritizes time-sensitive traffic over bulk data.</li>
+                    <li><strong>C & D. DNS / DHCP:</strong> (Incorrect) Completely unrelated to traffic speed and prioritization.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 41 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">41. Which step is required before creating a new WLAN on a Cisco 3500 series WLC?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q41" value="A"> A. Create a new SSID.</label>
+                <label class="choice-item"><input type="radio" name="q41" value="B"> B. Create a new VLAN interface.</label>
+                <label class="choice-item"><input type="radio" name="q41" value="C"> C. Build or have an SNMP server available.</label>
+                <label class="choice-item"><input type="radio" name="q41" value="D"> D. Build or have a RADIUS server available.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Create a new VLAN interface.</div>
+                <p><strong>Deep Dive:</strong> On a <span class="term" data-term="wlc">WLC</span>, every single Wi-Fi network (WLAN) you broadcast needs to be mapped to a specific wired VLAN so the traffic knows where to go once it hits the physical switch. Therefore, before you can create a WLAN profile, you MUST go to the "Interfaces" tab and create a virtual interface bound to a specific VLAN ID.</p>
+                <ul>
+                    <li><strong>A. Create a new SSID:</strong> (Incorrect) You create the <span class="term" data-term="ssid">SSID</span> <em>during</em> the creation of the WLAN, not before.</li>
+                    <li><strong>B. Create a new VLAN interface:</strong> (Correct) The WLC needs a Virtual Interface to tie the wireless traffic to the wired network.</li>
+                    <li><strong>C & D. SNMP / RADIUS:</strong> (Incorrect) These are optional management and security features. You can create an open or WPA2-Personal WLAN without either of these servers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 42 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">42. A network engineer is troubleshooting a newly deployed wireless network. When users access streaming video, the performance is poor. To improve performance, the engineer configures a 5 GHz SSID and trains users to use it for streaming. Why might this solution improve performance?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q42" value="A"> A. The 5 GHz band has a greater range and is therefore likely to be interference-free.</label>
+                <label class="choice-item"><input type="radio" name="q42" value="B"> B. Requiring the users to switch to 5 GHz is inconvenient and will result in fewer users accessing these services.</label>
+                <label class="choice-item"><input type="radio" name="q42" value="C"> C. The 5 GHz band has more channels and is less crowded than the 2.4 GHz band, which makes it more suited to streaming multimedia.</label>
+                <label class="choice-item"><input type="radio" name="q42" value="D"> D. The only users that can switch to 5 GHz will be those with the latest wireless NICs, which will reduce usage.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The 5 GHz band has more channels and is less crowded than the 2.4 GHz band...</div>
+                <p><strong>Deep Dive:</strong> The 2.4 GHz band is extremely congested. It only has 3 non-overlapping channels (1, 6, and 11) and it shares airspace with microwaves, baby monitors, and Bluetooth. The 5 GHz band has 24 non-overlapping channels and operates much faster, making it perfect for heavy video streaming.</p>
+                <ul>
+                    <li><strong>A. 5 GHz has greater range:</strong> (Incorrect) 5 GHz actually has a <em>shorter</em> range than 2.4 GHz because higher frequencies cannot penetrate walls as easily.</li>
+                    <li><strong>B & D. Inconvenient / limits users:</strong> (Incorrect) The goal of a network engineer is to improve the network, not actively make it inconvenient so people stop using it!</li>
+                    <li><strong>C. More channels and less crowded:</strong> (Correct) Moving heavy bandwidth users to the wider, less congested 5 GHz band frees up the network for everyone.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 43 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">43. A network administrator is working to improve WLAN performance on a dual-band wireless router. What is a simple way to achieve a split-the-traffic result?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q43" value="A"> A. Require all wireless devices to use the 802.11n standard.</label>
+                <label class="choice-item"><input type="radio" name="q43" value="B"> B. Check and keep the firmware of the wireless router updated.</label>
+                <label class="choice-item"><input type="radio" name="q43" value="C"> C. Make sure that different SSIDs are used for the 2.4 GHz and 5 GHz bands.</label>
+                <label class="choice-item"><input type="radio" name="q43" value="D"> D. Add a Wi-Fi range extender to the WLAN and set it to serve different bands.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Make sure that different SSIDs are used for the 2.4 GHz and 5 GHz bands.</div>
+                <p><strong>Deep Dive:</strong> By default, many dual-band routers broadcast the exact same <span class="term" data-term="ssid">SSID</span> for both 2.4 GHz and 5 GHz bands. Because 2.4 GHz travels further, laptops often connect to it by mistake, causing network congestion. The easiest fix is to name them differently (e.g., "OfficeNet" and "OfficeNet_5G") so users can deliberately choose the faster band.</p>
+                <ul>
+                    <li><strong>A. Require 802.11n:</strong> (Incorrect) This might actually block older devices from connecting completely.</li>
+                    <li><strong>B. Keep firmware updated:</strong> (Incorrect) Good practice, but it does not "split" traffic.</li>
+                    <li><strong>C. Different SSIDs:</strong> (Correct) This forces physical separation of traffic based on user choice.</li>
+                    <li><strong>D. Add a range extender:</strong> (Incorrect) Extenders generally cut bandwidth in half because they have to repeat the signal. It would make performance worse.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 44 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">44. A network administrator is configuring a RADIUS server connection on a Cisco WLC. The configuration requires a shared secret password. What is the purpose of the shared secret password?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q44" value="A"> A. It allows users to authenticate and access the WLAN.</label>
+                <label class="choice-item"><input type="radio" name="q44" value="B"> B. It is used by the RADIUS server to authenticate WLAN users.</label>
+                <label class="choice-item"><input type="radio" name="q44" value="C"> C. It is used to authenticate and encrypt user data on the WLAN.</label>
+                <label class="choice-item"><input type="radio" name="q44" value="D"> D. It is used to encrypt the messages between the WLC and the RADIUS server.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It is used to encrypt the messages between the WLC and the RADIUS server.</div>
+                <p><strong>Deep Dive:</strong> In an Enterprise environment, the <span class="term" data-term="wlc">WLC</span> has to send usernames and passwords over the network to the <span class="term" data-term="radius">RADIUS</span> server to verify them. If a hacker is listening, they could steal the passwords! To stop this, the WLC and RADIUS server share a "Secret Key" that they use to encrypt their conversation. It has nothing to do with the end user's Wi-Fi password.</p>
+                <ul>
+                    <li><strong>A, B, C. User authentication/encryption:</strong> (Incorrect) The end user never sees or types this shared secret. The user types their own personal username/password to get on the Wi-Fi.</li>
+                    <li><strong>D. Encrypt messages between WLC and RADIUS:</strong> (Correct) The shared secret secures the backend communication channel between the network infrastructure devices.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 45 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">45. A laptop cannot connect to a wireless access point. Which two troubleshooting steps should be taken first? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q45" value="A"> A. Ensure that the wireless NIC is enabled AND Ensure that the wireless SSID is chosen.</label>
+                <label class="choice-item"><input type="radio" name="q45" value="B"> B. Ensure that the laptop antenna is attached AND Ensure that the correct network media is selected.</label>
+                <label class="choice-item"><input type="radio" name="q45" value="C"> C. Ensure that the NIC is configured for the proper frequency AND Ensure the antenna is attached.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Ensure that the wireless NIC is enabled AND Ensure that the wireless SSID is chosen.</div>
+                <p><strong>Deep Dive:</strong> Troubleshooting always follows the OSI model from the bottom up. Start with the absolute basics (Layer 1 / Layer 2). Is the laptop's Wi-Fi card actually turned on? (Many laptops have physical switches or Airplane mode). Once it's on, did the user actually select the correct <span class="term" data-term="ssid">SSID</span> from the list?</p>
+                <ul>
+                    <li><strong>A. NIC enabled & SSID chosen:</strong> (Correct) These are the most common, fundamental Layer 1 and Layer 2 issues for end-users.</li>
+                    <li><strong>B & C. Antenna attached / frequency configured:</strong> (Incorrect) Laptops have built-in internal antennas, and frequency selection is handled automatically by the NIC and AP negotiating.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 46 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">46. Which three parameters would need to be changed if best practices are being implemented for a brand new home wireless AP? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q46" value="A"> A. antenna frequency, wireless beacon time, wireless client operating system password</label>
+                <label class="choice-item"><input type="radio" name="q46" value="B"> B. SSID, AP password (admin login), wireless network password (WPA2 key)</label>
+                <label class="choice-item"><input type="radio" name="q46" value="C"> C. wireless network password, wireless beacon time, antenna frequency</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SSID, AP password, wireless network password</div>
+                <p><strong>Deep Dive:</strong> When you buy a brand new router from a store, it has a default <span class="term" data-term="ssid">SSID</span> (like "Netgear5G"), a default Wi-Fi password, and a widely-known default Admin password. If you leave these, anyone can Google your router's default login and hijack it. You must change all three immediately.</p>
+                <ul>
+                    <li><strong>A & C. Frequency / Beacon time / Client OS password:</strong> (Incorrect) Beacon intervals don't need to be changed for security. Antenna frequency is auto-negotiated. The router has no control over the user's Windows/Mac OS password.</li>
+                    <li><strong>B. SSID, AP password, wireless network password:</strong> (Correct) The golden triad of basic home router security.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 47 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">47. Which access control component, implementation, or protocol controls what users can DO on the network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q47" value="A"> A. authentication</label>
+                <label class="choice-item"><input type="radio" name="q47" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q47" value="C"> C. authorization</label>
+                <label class="choice-item"><input type="radio" name="q47" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authorization</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="aaa">AAA</span> stands for Authentication, Authorization, and Accounting.</p>
+                <ul>
+                    <li><strong>Authentication:</strong> Proves WHO you are.</li>
+                    <li><strong>Authorization:</strong> (Correct) Dictates WHAT you can DO (e.g., Are you allowed to access the HR server, or just the guest internet?).</li>
+                    <li><strong>Accounting:</strong> Tracks WHAT you DID.</li>
+                    <li><strong>802.1X:</strong> Is a port-based authentication protocol, not the component that determines authorization levels.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 48 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">48. Which access control component, implementation, or protocol is implemented either locally or as a server-based solution?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q48" value="A"> A. authentication</label>
+                <label class="choice-item"><input type="radio" name="q48" value="B"> B. authorization</label>
+                <label class="choice-item"><input type="radio" name="q48" value="C"> C. accounting</label>
+                <label class="choice-item"><input type="radio" name="q48" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authentication</div>
+                <p><strong>Deep Dive:</strong> You can verify a user's identity (<strong>Authentication</strong>) in two ways. You can use <em>Local</em> authentication, where you type the username/password directly into the router's local database. Or, you can use a <em>Server-based</em> solution, where the router forwards the credentials to a centralized <span class="term" data-term="radius">RADIUS</span> server to check the database there.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 49 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">49. Which access control component, implementation, or protocol AUDITS what user actions are performed on the network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q49" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q49" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q49" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q49" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: accounting</div>
+                <p><strong>Deep Dive:</strong> The third "A" in <span class="term" data-term="aaa">AAA</span> stands for <strong>Accounting</strong>. It keeps a strict, timestamped logbook. It audits and tracks exactly what time you logged in, how much data you transferred, and what commands you executed. It is crucial for forensic investigations.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 50 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">50. Which access control component, implementation, or protocol restricts LAN access through publicly accessible switch ports?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q50" value="A"> A. accounting</label>
+                <label class="choice-item"><input type="radio" name="q50" value="B"> B. authorization</label>
+                <label class="choice-item"><input type="radio" name="q50" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q50" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 802.1X</div>
+                <p><strong>Deep Dive:</strong> If your company has a waiting room with an Ethernet wall jack, anyone could plug a laptop in and hack the network! To stop this, we use <strong><span class="term" data-term="8021x">802.1X</span></strong>. It is an IEEE protocol that keeps the physical switch port mathematically disconnected until the user's PC provides a valid username and password (which is then verified by an Authentication Server).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 51 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">51. Which access control component, implementation, or protocol logs EXEC and configuration commands configured by a user?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q51" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q51" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q51" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q51" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: accounting</div>
+                <p><strong>Deep Dive:</strong> In the <span class="term" data-term="aaa">AAA</span> framework, keeping track of every single command a user types (like `enable` or `configure terminal`) is crucial for auditing. If someone accidentally deletes a router configuration, you need to know exactly who did it and when.</p>
+                <ul>
+                    <li><strong>A. authorization:</strong> (Incorrect) Controls <em>if</em> you are allowed to type the command, but doesn't record it.</li>
+                    <li><strong>B. accounting:</strong> (Correct) The logging and tracking mechanism. It audits EXEC session commands and configuration changes.</li>
+                    <li><strong>C. authentication:</strong> (Incorrect) Verifies identity, not actions.</li>
+                    <li><strong>D. 802.1X:</strong> (Incorrect) Controls physical port access.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 52 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">52. Which access control component, implementation, or protocol controls WHO is permitted to access a network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q52" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q52" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q52" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q52" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authentication</div>
+                <p><strong>Deep Dive:</strong> Be careful with the wording here! Authorization controls WHAT you can do, but <strong>Authentication</strong> acts as the front door. It controls WHO is permitted to enter the network in the first place by checking usernames and passwords.</p>
+                <ul>
+                    <li><strong>A. authorization:</strong> (Incorrect) Decides permissions <em>after</em> you are already in.</li>
+                    <li><strong>B. accounting:</strong> (Incorrect) Keeps a log of what you did.</li>
+                    <li><strong>C. authentication:</strong> (Correct) The exact process of verifying a user's identity to permit access.</li>
+                    <li><strong>D. 802.1X:</strong> (Incorrect) While it *uses* authentication to open a port, the core component defining "who" is permitted is Authentication itself.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 53 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">53. Which access control component, implementation, or protocol collects and reports usage data?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q53" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q53" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q53" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q53" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: accounting</div>
+                <p><strong>Deep Dive:</strong> If your ISP bills you for how much data you download, they use <strong>Accounting</strong> to track it. In a corporate network, <span class="term" data-term="aaa">AAA</span> Accounting collects usage data (session start/stop times, bytes transferred) for auditing and billing purposes.</p>
+                <ul>
+                    <li><strong>A. authorization:</strong> (Incorrect) Sets permissions.</li>
+                    <li><strong>B. accounting:</strong> (Correct) Collects, logs, and reports network usage data.</li>
+                    <li><strong>C. authentication:</strong> (Incorrect) Verifies identity.</li>
+                    <li><strong>D. 802.1X:</strong> (Incorrect) Only handles initial access to the switch port.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 54 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">54. Which access control component, implementation, or protocol indicates success or failure of a client-requested service with a PASS or FAIL message?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q54" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q54" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q54" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q54" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authentication</div>
+                <p><strong>Deep Dive:</strong> When you type in a password, the system checks the database. It immediately returns a simple binary response: PASS (the credentials match) or FAIL (the credentials do not match). This direct feedback is the core of <strong>Authentication</strong>.</p>
+                <ul>
+                    <li><strong>A. authorization:</strong> (Incorrect) Authorization silently applies a list of rules; it doesn't give you a binary PASS/FAIL login message.</li>
+                    <li><strong>B. accounting:</strong> (Incorrect) Silent background logging.</li>
+                    <li><strong>C. authentication:</strong> (Correct) The exact process that verifies credentials and returns a PASS or FAIL access message.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 55 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">55. Which access control component, implementation, or protocol is based on device roles of supplicant, authenticator, and authentication server?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q55" value="A"> A. accounting</label>
+                <label class="choice-item"><input type="radio" name="q55" value="B"> B. authorization</label>
+                <label class="choice-item"><input type="radio" name="q55" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q55" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 802.1X</div>
+                <p><strong>Deep Dive:</strong> This specific triad of roles (Supplicant, Authenticator, Authentication Server) is the exact, defining architecture of <strong><span class="term" data-term="8021x">802.1X</span></strong>. The PC (Supplicant) asks the Switch (Authenticator) to open the port. The Switch asks the <span class="term" data-term="radius">RADIUS Server</span> (Auth Server) if the password is correct.</p>
+                <ul>
+                    <li><strong>A, B, C. AAA Components:</strong> (Incorrect) These are general concepts. Only 802.1X specifically defines these three physical/logical device roles.</li>
+                    <li><strong>D. 802.1X:</strong> (Correct) The IEEE standard for port-based Network Access Control (PNAC).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 56 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">56. Which access control component, implementation, or protocol is based upon usernames and passwords?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q56" value="A"> A. authorization</label>
+                <label class="choice-item"><input type="radio" name="q56" value="B"> B. accounting</label>
+                <label class="choice-item"><input type="radio" name="q56" value="C"> C. authentication</label>
+                <label class="choice-item"><input type="radio" name="q56" value="D"> D. 802.1X</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: authentication</div>
+                <p><strong>Deep Dive:</strong> Usernames, passwords, biometrics, and security tokens are all forms of <em>credentials</em>. The process of verifying those credentials to prove your identity is <strong>Authentication</strong>.</p>
+                <ul>
+                    <li><strong>A & B. AuthZ / Accounting:</strong> (Incorrect) These do not use passwords. They use the identity established <em>by</em> the authentication phase.</li>
+                    <li><strong>C. authentication:</strong> (Correct) The fundamental process relying on usernames and passwords.</li>
+                    <li><strong>D. 802.1X:</strong> (Incorrect) 802.1X <em>uses</em> authentication, but it is a broader port-security protocol.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 57 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">57. Which type of wireless network uses transmitters to provide coverage over an extensive geographic area?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q57" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q57" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q57" value="C"> C. wireless personal-area network</label>
+                <label class="choice-item"><input type="radio" name="q57" value="D"> D. wireless wide-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless wide-area network (WWAN)</div>
+                <p><strong>Deep Dive:</strong> An "extensive geographic area" means entire countries, regions, or even global coverage. A <strong><span class="term" data-term="wwan">WWAN</span></strong> uses massive infrastructure like 4G/5G cellular towers and satellites to achieve this.</p>
+                <ul>
+                    <li><strong>A. WLAN:</strong> (Incorrect) Only covers a single home or building (Wi-Fi).</li>
+                    <li><strong>B. WMAN:</strong> (Incorrect) Covers a single city or district.</li>
+                    <li><strong>C. WPAN:</strong> (Incorrect) Only covers a few feet around your body.</li>
+                    <li><strong>D. WWAN:</strong> (Correct) Spans extensive geographic areas globally or nationally.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 58 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">58. Which type of wireless network commonly uses Bluetooth or ZigBee devices?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q58" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q58" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q58" value="C"> C. wireless personal-area network</label>
+                <label class="choice-item"><input type="radio" name="q58" value="D"> D. wireless wide-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless personal-area network (WPAN)</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="bluetooth">Bluetooth</span> and ZigBee (used for smart home lightbulbs) are extremely low-power radio waves that only reach about 20 to 30 feet. Because they only cover the area immediately surrounding a person's body or a single room, they are classified as a <strong><span class="term" data-term="wpan">WPAN</span></strong>.</p>
+                <ul>
+                    <li><strong>A, B, D. WLAN / WMAN / WWAN:</strong> (Incorrect) These networks cover much larger areas using much higher-powered transmitters (like Wi-Fi routers or cell towers).</li>
+                    <li><strong>C. WPAN:</strong> (Correct) Specifically designed for short-range personal devices.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 59 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">59. Which type of wireless network uses transmitters to provide wireless service over a large urban region?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q59" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q59" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q59" value="C"> C. wireless personal-area network</label>
+                <label class="choice-item"><input type="radio" name="q59" value="D"> D. wireless wide-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless metropolitan-area network (WMAN)</div>
+                <p><strong>Deep Dive:</strong> A "metropolis" is a city. A <strong><span class="term" data-term="wman">WMAN</span></strong> uses technologies like WiMAX or specialized antennas mounted on top of tall buildings to blanket a specific city or urban district in wireless coverage.</p>
+                <ul>
+                    <li><strong>A & C. WLAN / WPAN:</strong> (Incorrect) Too small. They cover buildings or rooms.</li>
+                    <li><strong>B. WMAN:</strong> (Correct) Specifically designed for urban regions and cities.</li>
+                    <li><strong>D. WWAN:</strong> (Incorrect) Too large. WWAN covers entire countries or the globe.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 60 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">60. Which type of wireless network is suitable for use in a home or office?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q60" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q60" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q60" value="C"> C. wireless personal-area network</label>
+                <label class="choice-item"><input type="radio" name="q60" value="D"> D. wireless wide-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless local-area network (WLAN)</div>
+                <p><strong>Deep Dive:</strong> A Local Area Network (LAN) is confined to a single geographic location, like a house, school, or office building. When you add Wi-Fi to it, it becomes a <strong><span class="term" data-term="wlan">WLAN</span></strong>. This provides coverage up to about 300 feet, which is perfect for laptops and phones moving around a house.</p>
+                <ul>
+                    <li><strong>A. WLAN:</strong> (Correct) The standard implementation of Wi-Fi in homes and offices.</li>
+                    <li><strong>B & D. WMAN / WWAN:</strong> (Incorrect) Used for massive outdoor city/national coverage.</li>
+                    <li><strong>C. WPAN:</strong> (Incorrect) Too small to cover a whole house (Bluetooth drops after a few rooms).</li>
+                </ul>
+            </div>
+        </div>
+        <!-- QUESTION 61 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">61. Which type of wireless network often makes use of devices mounted on buildings?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q61" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q61" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q61" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q61" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless metropolitan-area network</div>
+                <p><strong>Deep Dive:</strong> To cover an entire city or district, ISPs mount large, high-powered wireless transmitters on the roofs of tall buildings or towers. This specific city-wide setup is a <strong><span class="term" data-term="wman">WMAN</span></strong>.</p>
+                <ul>
+                    <li><strong>A & D. WLAN / WPAN:</strong> (Incorrect) These are used inside single homes or rooms.</li>
+                    <li><strong>B. WMAN:</strong> (Correct) Specifically designed to bounce signals off building-mounted receivers to blanket a city.</li>
+                    <li><strong>C. WWAN:</strong> (Incorrect) Uses massive cell towers or satellites, not typical building-mounted APs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 62 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">62. Which type of wireless network is suitable for national and global communications?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q62" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q62" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q62" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q62" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless wide-area network</div>
+                <p><strong>Deep Dive:</strong> "National and global" implies crossing countries or oceans. The only wireless network capable of doing this is a <strong><span class="term" data-term="wwan">WWAN</span></strong> (like 4G/5G cellular networks or Starlink Satellite internet).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 63 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">63. Which type of wireless network uses transmitters to cover a medium-sized network, usually up to 300 feet (91.4 meters)?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q63" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q63" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q63" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q63" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless local-area network</div>
+                <p><strong>Deep Dive:</strong> 300 feet is the standard maximum range of traditional Wi-Fi operating on 2.4 GHz. A Wi-Fi network inside a home or office is a <strong><span class="term" data-term="wlan">WLAN</span></strong>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 64 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">64. Which type of wireless network is based on the 802.11 standard and a 2.4-GHz or 5-GHz radio frequency?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q64" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q64" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q64" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q64" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless local-area network</div>
+                <p><strong>Deep Dive:</strong> The IEEE 802.11 family of standards (like 802.11n, 802.11ac) is exclusively for Wi-Fi, which operates in the 2.4 GHz and 5 GHz bands to create a <strong><span class="term" data-term="wlan">WLAN</span></strong>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 65 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">65. Which type of wireless network is suitable for providing wireless access to a city or district?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q65" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q65" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q65" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q65" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless metropolitan-area network</div>
+                <p><strong>Deep Dive:</strong> A network that covers a specific city or district is a Metropolis. Therefore, it is a <strong><span class="term" data-term="wman">WMAN</span></strong>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 66 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">66. Which type of wireless network uses low powered transmitters for a short-range network, usually 20 to 30 ft. (6 to 9 meters)?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q66" value="A"> A. wireless local-area network</label>
+                <label class="choice-item"><input type="radio" name="q66" value="B"> B. wireless metropolitan-area network</label>
+                <label class="choice-item"><input type="radio" name="q66" value="C"> C. wireless wide-area network</label>
+                <label class="choice-item"><input type="radio" name="q66" value="D"> D. wireless personal-area network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: wireless personal-area network</div>
+                <p><strong>Deep Dive:</strong> 20 to 30 feet is the exact range of <span class="term" data-term="bluetooth">Bluetooth</span>. Because Bluetooth connects devices right around your physical person (like headphones to your phone), it forms a <strong><span class="term" data-term="wpan">WPAN</span></strong>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 67 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">67. Match each functional component of AAA with its correct description. (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q67" value="A"> A. Authentication = Proves who you are | Authorization = Determines what you can access | Accounting = Records what you did</label>
+                <label class="choice-item"><input type="radio" name="q67" value="B"> B. Authentication = Records what you did | Authorization = Proves who you are | Accounting = Determines what you can access</label>
+                <label class="choice-item"><input type="radio" name="q67" value="C"> C. Authentication = Determines what you can access | Authorization = Records what you did | Accounting = Proves who you are</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Authentication = Proves identity | Authorization = Determines access | Accounting = Records actions</div>
+                <p><strong>Deep Dive:</strong> This is the golden rule of <span class="term" data-term="aaa">AAA</span>. <strong>Authentication</strong> is the username/password check (Who are you?). <strong>Authorization</strong> applies the rules (Are you allowed in the server room?). <strong>Accounting</strong> is the history logbook (You entered the server room at 3:00 PM).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 68 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">68. Which two Cisco solutions help prevent DHCP starvation attacks? (Choose two, Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q68" value="A"> A. Dynamic ARP Inspection AND Web Security Appliance</label>
+                <label class="choice-item"><input type="radio" name="q68" value="B"> B. Port Security AND DHCP Snooping</label>
+                <label class="choice-item"><input type="radio" name="q68" value="C"> C. IP Source Guard AND Dynamic ARP Inspection</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Port Security AND DHCP Snooping</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="dhcp_starvation">DHCP Starvation</span> happens when a hacker's tool (like Gobbler) constantly changes its MAC address to steal every IP in the DHCP pool. You can stop this in two ways: 1) <strong><span class="term" data-term="port_security">Port Security</span></strong> physically limits the port to 1 or 2 MAC addresses, instantly shutting down the hacker's tool. 2) <strong><span class="term" data-term="dhcp_snooping">DHCP Snooping</span></strong> allows you to set a "limit rate" on user ports (e.g., max 5 DHCP packets per second), stopping the flood.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 69 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">69. What are three techniques for mitigating VLAN attacks? (Choose three, Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q69" value="A"> A. Disable DTP. Enable trunking manually. Set the native VLAN to an unused VLAN.</label>
+                <label class="choice-item"><input type="radio" name="q69" value="B"> B. Enable BPDU Guard. Enable Source Guard. Use private VLANs.</label>
+                <label class="choice-item"><input type="radio" name="q69" value="C"> C. Disable DTP. Enable Port Security. Use private VLANs.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Disable DTP, Enable trunking manually, Set the native VLAN to an unused VLAN.</div>
+                <p><strong>Deep Dive:</strong> To stop <span class="term" data-term="vlan_hopping">VLAN Hopping</span>, you must lock down your trunks. 1) Disable <span class="term" data-term="dtp">DTP</span> auto-negotiation so hackers can't trick the switch into forming a trunk. 2) Manually configure legitimate trunks (<code>switchport mode trunk</code>). 3) Change the <span class="term" data-term="native_vlan">Native VLAN</span> to a dummy/unused number (like VLAN 999) to stop Double-Tagging attacks.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 70 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">70. Refer to an exhibit showing <code>show port-security interface</code> with the output "Violation Mode: Shutdown". What can be determined about port security from this information?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q70" value="A"> A. The port violation mode is the default for any port that has port security enabled.</label>
+                <label class="choice-item"><input type="radio" name="q70" value="B"> B. The port has been shut down.</label>
+                <label class="choice-item"><input type="radio" name="q70" value="C"> C. The port has two attached devices.</label>
+                <label class="choice-item"><input type="radio" name="q70" value="D"> D. The port has the maximum number of MAC addresses supported by a Layer 2 switch.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The port violation mode is the default for any port that has port security enabled.</div>
+                <p><strong>Deep Dive:</strong> When you enable <span class="term" data-term="port_security">Port Security</span>, the <span class="term" data-term="violation_modes">Violation Mode</span> defaults to <strong>Shutdown</strong>. You only see "Restrict" or "Protect" if an administrator manually configures it.</p>
+                <ul>
+                    <li><strong>A. violation mode is the default:</strong> (Correct) Shutdown is the factory default behavior.</li>
+                    <li><strong>B. port has been shut down:</strong> (Incorrect) The status shows "Secure-up", meaning it is currently active, it just *will* shut down if a violation occurs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 71 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">71. A network administrator of a college is configuring the WLAN user authentication process. Wireless users are required to enter username and password credentials that will be verified by a server. Which server would provide such service?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q71" value="A"> A. AAA</label>
+                <label class="choice-item"><input type="radio" name="q71" value="B"> B. NAT</label>
+                <label class="choice-item"><input type="radio" name="q71" value="C"> C. SNMP</label>
+                <label class="choice-item"><input type="radio" name="q71" value="D"> D. RADIUS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: RADIUS</div>
+                <p><strong>Deep Dive:</strong> WPA2-Enterprise Wi-Fi requires each user to have their own unique username and password. The WLC forwards these credentials to an external <strong><span class="term" data-term="radius">RADIUS Server</span></strong> to verify them against a database (like Active Directory).</p>
+                <ul>
+                    <li><strong>A. AAA:</strong> (Incorrect) AAA is the general *concept/framework*, but RADIUS is the actual *server/protocol* used.</li>
+                    <li><strong>B. NAT:</strong> (Incorrect) Translates IP addresses.</li>
+                    <li><strong>C. SNMP:</strong> (Incorrect) <span class="term" data-term="snmp">SNMP</span> is used for monitoring device health.</li>
+                    <li><strong>D. RADIUS:</strong> (Correct) Remote Authentication Dial-In User Service is the server software that authenticates Wi-Fi users.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 72 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">72. A technician is troubleshooting a slow WLAN consisting of 802.11b/g devices. A new 802.11n/ac dual-band router replaces the old one, but streaming performance is still poor. What can the technician do to address the slow wireless speed?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q72" value="A"> A. Configure devices to use a different channel.</label>
+                <label class="choice-item"><input type="radio" name="q72" value="B"> B. Split the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band.</label>
+                <label class="choice-item"><input type="radio" name="q72" value="C"> C. Change the SSID.</label>
+                <label class="choice-item"><input type="radio" name="q72" value="D"> D. Update the firmware on the new router.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Split the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band.</div>
+                <p><strong>Deep Dive:</strong> Because 802.11ac routers are dual-band, they broadcast both 2.4 GHz and 5 GHz. If the network is slow, it means all the older devices and new devices are piling into the crowded 2.4 GHz frequency. By giving the 5 GHz band a separate <span class="term" data-term="ssid">SSID</span> (splitting the traffic), you can force high-bandwidth users (video streaming) onto the fast 5 GHz lane, leaving the 2.4 GHz lane clear for older devices.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 73 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">73. The company handbook states that employees cannot have microwave ovens in their offices. Instead, all employees must use the microwaves in the cafeteria. What wireless security risk is the company trying to avoid?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q73" value="A"> A. improperly configured devices</label>
+                <label class="choice-item"><input type="radio" name="q73" value="B"> B. accidental interference</label>
+                <label class="choice-item"><input type="radio" name="q73" value="C"> C. interception of data</label>
+                <label class="choice-item"><input type="radio" name="q73" value="D"> D. rogue access points</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: accidental interference</div>
+                <p><strong>Deep Dive:</strong> Standard Wi-Fi (802.11b/g/n) operates heavily on the 2.4 GHz frequency band. The magnetron inside a standard microwave oven *also* operates at exactly 2.4 GHz! When someone turns on a cheap microwave, it blasts "noise" into the airwaves, causing massive <strong>accidental interference</strong> that will immediately disconnect nearby laptops from the <span class="term" data-term="wlan">WLAN</span>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 74 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">74. What is the function provided by CAPWAP protocol in a corporate wireless network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q74" value="A"> A. CAPWAP provides the encapsulation and forwarding of wireless user traffic between an access point and a wireless LAN controller.</label>
+                <label class="choice-item"><input type="radio" name="q74" value="B"> B. CAPWAP provides connectivity between an AP using IPv6 and a client using IPv4.</label>
+                <label class="choice-item"><input type="radio" name="q74" value="C"> C. CAPWAP provides encryption of wireless user traffic between an AP and a wireless client.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: CAPWAP provides the encapsulation and forwarding of wireless user traffic between an access point and a wireless LAN controller.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="capwap">CAPWAP</span> is the "management tunnel" between a <span class="term" data-term="wlc">WLC</span> and an Access Point. It has two jobs: 1) A Control channel (encrypted with <span class="term" data-term="dtls">DTLS</span>) to push configuration settings to the AP. 2) A Data channel to encapsulate the end-user's internet traffic and tunnel it all the way back to the WLC for processing.</p>
+                <ul>
+                    <li><strong>A. Encapsulation between AP and WLC:</strong> (Correct) This perfectly defines the CAPWAP Data tunnel.</li>
+                    <li><strong>B. IPv6 to IPv4:</strong> (Incorrect) CAPWAP has nothing to do with IP translation.</li>
+                    <li><strong>C. Encryption between AP and client:</strong> (Incorrect) Client encryption is handled by WPA2/AES over the radio waves, not CAPWAP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 75 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">75. Packet Tracer Scenario: You view the <code>show port-security interface fa0/1</code> output and notice the line <code>Violation Mode : Protect</code>. Which event will take place if there is a port security violation on switch S1 interface Fa0/1?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q75" value="A"> A. A notification is sent.</label>
+                <label class="choice-item"><input type="radio" name="q75" value="B"> B. A syslog message is logged.</label>
+                <label class="choice-item"><input type="radio" name="q75" value="C"> C. Packets with unknown source addresses will be dropped.</label>
+                <label class="choice-item"><input type="radio" name="q75" value="D"> D. The interface will go into error-disabled state.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Packets with unknown source addresses will be dropped.</div>
+                <p><strong>Deep Dive:</strong> The "Protect" <span class="term" data-term="violation_modes">Violation Mode</span> is the quietest security mode. If an unauthorized MAC address tries to send traffic, the switch simply drops those specific packets in the trash. The port stays online for the legitimate user, and crucially, <strong>no logs or syslog messages are generated</strong>.</p>
+                <ul>
+                    <li><strong>A & B. Notifications/Syslog:</strong> (Incorrect) This describes the "Restrict" mode.</li>
+                    <li><strong>C. Packets dropped (silently):</strong> (Correct) This perfectly describes the "Protect" mode.</li>
+                    <li><strong>D. Interface err-disabled:</strong> (Incorrect) This describes the "Shutdown" mode.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Submit Button -->
+        <button id="submit-exam">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>
