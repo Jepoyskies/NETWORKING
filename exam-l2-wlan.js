@@ -5,9 +5,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const style = document.createElement('style');
     style.innerHTML = `
-        /* Dictionary & Links CSS */
-        .term { text-decoration: underline dashed; cursor: pointer; color: #38bdf8; font-weight: bold; transition: 0.2s; }
-        .term:hover { color: #7dd3fc; background: rgba(56,189,248,0.1); border-radius: 3px; }
+        /* Dictionary & Links CSS - FIXED GLITCHY UNDERLINE */
+        .term { 
+            text-decoration: none; /* Removed the buggy native underline */
+            border-bottom: 2px dashed #38bdf8; /* Uses a clean border instead */
+            padding-bottom: 2px; /* Gives the text breathing room */
+            cursor: pointer; 
+            color: #38bdf8; 
+            font-weight: bold; 
+            transition: 0.2s; 
+        }
+        .term:hover { 
+            color: #7dd3fc; 
+            border-bottom-color: #7dd3fc;
+            background: rgba(56,189,248,0.1); 
+            border-radius: 3px; 
+        }
         
         #dict-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 998; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         #dict-overlay.active { opacity: 1; pointer-events: all; }
@@ -122,9 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 3. BULLETPROOF AUTO-HIGHLIGHTER (Handles symbols like +, -, .)
+    // 3. BULLETPROOF AUTO-HIGHLIGHTER (FIXED)
     // ==========================================
-    // Sort terms by length (longest first) to prevent "MAC" from overwriting "MAC Address"
+    // Sort terms by length (longest first) to prevent partial word overwrites
     const termsArray = Object.keys(termDictionary).sort((a, b) => b.length - a.length);
 
     function autoLinkTextNode(textNode) {
@@ -134,15 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Escape regex characters
             const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             
-            // Bulletproof Regex: Checks boundaries safely so words like "TACACS+" and "802.1X" get matched perfectly!
+            // Bulletproof Regex: Checks boundaries safely so words like "TACACS+" get matched perfectly!
             const regex = new RegExp(`(^|[^a-zA-Z0-9_])(${escapedTerm})([^a-zA-Z0-9_]|$)`, 'i');
             const match = text.match(regex);
             
             if (match) {
-                const fullMatchStr = match[0];
-                const beforeChar = match[1]; // The space or punctuation before the word
+                const beforeChar = match[1]; // The space/punctuation before the word
                 const matchText = match[2];  // The actual term found
-                const afterChar = match[3];  // The space or punctuation after the word
                 
                 // Calculate exactly where the real word starts
                 const matchIndex = match.index + beforeChar.length;
@@ -151,14 +162,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const afterText = text.substring(matchIndex + matchText.length);
                 const parent = textNode.parentNode;
                 
-                if (beforeText) parent.insertBefore(document.createTextNode(beforeText), textNode);
+                // FIXED BUG: Now recursively scans the LEFT side of the sentence for words!
+                if (beforeText) {
+                    const beforeNode = document.createTextNode(beforeText);
+                    parent.insertBefore(beforeNode, textNode);
+                    autoLinkTextNode(beforeNode); 
+                }
                 
+                // Create the clickable blue dashed link
                 const span = document.createElement('span');
                 span.className = 'term';
                 span.setAttribute('data-term', term);
                 span.textContent = matchText;
                 parent.insertBefore(span, textNode);
                 
+                // Recursively scans the RIGHT side of the sentence
                 if (afterText) {
                     const afterNode = document.createTextNode(afterText);
                     parent.insertBefore(afterNode, textNode);
@@ -171,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Apply auto-highlighter ONLY to text inside paragraphs, choices, and list items
     const elementsToProcess = document.querySelectorAll('.question-text, .choice-item, .explanation-box p, .explanation-box li, .hint-box');
     elementsToProcess.forEach(el => {
         const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
