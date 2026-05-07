@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCC 32.1 - Practical Exam Simulator</title>
+    <title>ITCC 32.1 - IPv6 DHCPv6 Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="simulator-mod11.js" defer></script>
+    <script src="simulator-mod8.js" defer></script>
     <style>
-        /* Simulator Specific Layout Styles */
         .simulator-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: start; }
         .objectives-panel { background: #1e293b; padding: 20px; border-radius: 8px; border: 2px solid #334155; color: #cbd5e1; }
         .objectives-panel h3 { color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 15px; }
         .objectives-panel ul { padding-left: 20px; font-size: 0.95rem; line-height: 1.6; }
         .objectives-panel li { margin-bottom: 10px; }
-        .terminal-window { background: #000; color: #4ade80; font-family: 'Courier New', monospace; padding: 15px; border-radius: 8px; height: 350px; overflow-y: auto; border: 2px solid #334155; display: flex; flex-direction: column; }
+        .terminal-window { background: #000; color: #4ade80; font-family: 'Courier New', monospace; padding: 15px; border-radius: 8px; height: 400px; overflow-y: auto; border: 2px solid #334155; display: flex; flex-direction: column; }
         .terminal-output { white-space: pre-wrap; margin-bottom: 5px; flex-grow: 1; }
         .terminal-input-line { display: flex; align-items: center; }
         .terminal-prompt { margin-right: 8px; font-weight: bold; white-space: nowrap; }
@@ -47,108 +46,93 @@
     </nav>
 
     <div class="container">
-        <h1 style="color: #38bdf8;">ITCC 32.1: Advanced Switch Security Lab</h1>
-        <p style="color: #94a3b8; margin-bottom: 20px;">Select a device, configure it using the CLI, and run the diagnostics below to test your skills.</p>
+        <h1 style="color: #38bdf8;">ITCC 32.1: IPv6 DHCPv6 Lab Simulator</h1>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Master Stateless DHCPv6, Stateful DHCPv6, and DHCP Relay Agents!</p>
 
         <div class="simulator-layout">
             
             <!-- LAB OBJECTIVES SIDEBAR -->
             <div class="objectives-panel" id="objectives-box">
-                <h3>Lab Objectives (Switch0)</h3>
+                <h3>Lab Objectives</h3>
                 <ul>
-                    <li>Use <strong>interface range</strong> to shut down unused ports (f0/3-24).</li>
-                    <li>Disable <strong>DTP</strong> negotiation on trunk link g0/1.</li>
-                    <li>Change the <strong>Native VLAN</strong> on the trunk to 999.</li>
-                    <li>Enable <strong>Port Security</strong> on f0/1 (Max 2, Sticky MAC, Restrict violation).</li>
-                    <li>Enable <strong>DHCP Snooping</strong> globally.</li>
-                    <li>Configure the trunk uplink (g0/1) as a DHCP Snooping trust port, and rate limit f0/1 to 5 pps.</li>
-                    <li>Enable <strong>PortFast</strong> and <strong>BPDU Guard</strong> on the access port (f0/1).</li>
+                    <li>Enable <strong>ipv6 unicast-routing</strong> globally on both routers.</li>
+                    <li><strong>R1 (Stateless DHCPv6):</strong> Configure pool <code>R1-STATELESS</code> with DNS <code>2001:db8:acad::254</code> and domain <code>STATELESS.com</code>.</li>
+                    <li>Apply it to R1's g0/0/1 interface and set the <strong>O-flag</strong> (<code>other-config-flag</code>).</li>
+                    <li><strong>R1 (Stateful DHCPv6):</strong> Configure pool <code>R2-STATEFUL</code> with address prefix <code>2001:db8:acad:3:aaa::/80</code>, DNS <code>2001:db8:acad::254</code>, and domain <code>STATEFUL.com</code>.</li>
+                    <li>Apply it to R1's g0/0/0 interface.</li>
+                    <li><strong>R2 (DHCP Relay):</strong> Go to R2's g0/0/1 interface, set the <strong>M-flag</strong> (<code>managed-config-flag</code>), and set the DHCP Relay destination to R1's G0/0/0 IP (<code>2001:db8:acad:2::1</code>).</li>
                 </ul>
-                
-                <!-- NEW: CHEAT SHEET BUTTON -->
                 <button id="cheat-btn" class="test-btn" style="width: 100%; margin-top: 15px; background: #f59e0b; color: #0f172a;">📜 View Command Cheat Sheet</button>
             </div>
 
             <!-- TERMINAL & DEVICE SELECTOR -->
             <div>
                 <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-                    <button class="test-btn active" style="background:#0ea5e9;" data-device="Router0" onclick="switchDevice('Router0', this)">Router0</button>
-                    <button class="test-btn" data-device="Switch0" onclick="switchDevice('Switch0', this)">Switch0 (Target)</button>
-                    <button class="test-btn" data-device="Switch1" onclick="switchDevice('Switch1', this)">Switch1</button>
+                    <button class="test-btn active" style="background:#0ea5e9;" data-device="R1" onclick="switchDevice('R1', this)">R1 (DHCP Server)</button>
+                    <button class="test-btn" data-device="R2" onclick="switchDevice('R2', this)">R2 (DHCP Relay)</button>
                 </div>
                 
                 <div class="terminal-window" id="terminal" onclick="document.getElementById('cli-input').focus()">
-                    <div class="terminal-output" id="output">System Bootstrap, Version 15.2(4)M1...<br><br>Press RETURN to get started.</div>
+                    <div class="terminal-output" id="output">System Bootstrap, Version 16.9.4...<br><br>Press RETURN to get started.</div>
                     <div class="terminal-input-line">
                         <span class="terminal-prompt" id="prompt"></span>
                         <input type="text" id="cli-input" autocomplete="off" spellcheck="false" autofocus>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- TROUBLESHOOTING ENGINE -->
         <div class="testing-panel">
             <h3 style="color: white; margin-bottom: 15px;">Diagnostic Testing Engine</h3>
             <div class="test-grid">
-                <button class="test-btn" id="test-ccs">1. Ping VLAN 100 PC to VLAN 101 PC</button>
-                <button class="test-btn" id="test-ssh">2. SSH into Switch0 (CCS)</button>
-                <button class="test-btn" id="test-security">3. Basic Device Security</button>
-                <button class="test-btn" id="test-mod11" style="background-color: #8b5cf6;">4. Verify Module 11 Switch Security</button>
+                <button class="test-btn" id="test-r1-stateless">1. Verify R1 Stateless DHCPv6</button>
+                <button class="test-btn" id="test-r1-stateful">2. Verify R1 Stateful DHCPv6 Pool</button>
+                <button class="test-btn" id="test-r2-relay" style="grid-column: span 2; background-color: #8b5cf6;">3. Verify R2 DHCPv6 Relay & Flags</button>
             </div>
             <div id="diagnostic-output">Run a test above to see diagnostics here. Blue dashed words can be clicked for hints!</div>
         </div>
     </div>
 
-    <!-- NEW: CHEAT SHEET MODAL POPUP -->
+    <!-- CHEAT SHEET MODAL POPUP -->
     <div id="cheat-modal">
         <div class="cheat-content">
             <div class="cheat-header">
-                <h2>📜 Cisco CLI Cheat Sheet: Mod 11 Security</h2>
+                <h2>📜 Cisco CLI Cheat Sheet: Mod 8 DHCPv6</h2>
                 <button class="close-cheat" id="close-cheat">&times;</button>
             </div>
             <div class="cheat-body">
                 
                 <div class="cheat-section">
-                    <h4>1. Secure Unused Ports & Trunking</h4>
-                    <div class="cheat-code">interface range f0/3 - 24<br>shutdown<br>switchport mode access<br>switchport access vlan 999</div>
-                    <div class="cheat-desc">Disables unused ports and drops them into a "black hole" VLAN.</div>
-                    
-                    <div class="cheat-code">interface g0/1<br>switchport mode trunk<br>switchport nonegotiate<br>switchport trunk native vlan 999</div>
-                    <div class="cheat-desc">Forces a trunk, turns off DTP to stop VLAN hopping, and changes the Native VLAN.</div>
+                    <h4>1. Basic IPv6 Routing</h4>
+                    <div class="cheat-code">ipv6 unicast-routing</div>
+                    <div class="cheat-desc">Must be enabled globally before a router can send Router Advertisement (RA) messages!</div>
+                    <div class="cheat-code">ipv6 route ::/0 2001:db8:acad:2::2</div>
+                    <div class="cheat-desc">Configures an IPv6 default static route.</div>
                 </div>
 
                 <div class="cheat-section">
-                    <h4>2. Port Security (Access Ports)</h4>
-                    <div class="cheat-code">interface f0/1<br>switchport port-security<br>switchport port-security maximum 2<br>switchport port-security mac-address sticky<br>switchport port-security violation restrict</div>
-                    <div class="cheat-desc">Enables Port Security, limits to 2 MACs, learns them dynamically (sticky), and drops/logs unauthorized traffic (restrict).</div>
+                    <h4>2. Stateless DHCPv6 (SLAAC + DHCPv6 for DNS)</h4>
+                    <div class="cheat-code">ipv6 dhcp pool R1-STATELESS<br> dns-server 2001:db8:acad::254<br> domain-name STATELESS.com</div>
+                    <div class="cheat-desc">Creates a pool that ONLY hands out DNS info (no IP addresses).</div>
+                    <div class="cheat-code">interface g0/0/1<br> ipv6 nd other-config-flag<br> ipv6 dhcp server R1-STATELESS</div>
+                    <div class="cheat-desc">Changes the RA message O-flag to 1 (telling PCs to use SLAAC for IPs, but DHCPv6 for DNS) and binds the pool to the interface.</div>
                 </div>
 
                 <div class="cheat-section">
-                    <h4>3. DHCP Snooping</h4>
-                    <div class="cheat-code">ip dhcp snooping<br>ip dhcp snooping vlan 10,20,99</div>
-                    <div class="cheat-desc">GLOBAL config: Turns on the DHCP Snooping firewall feature.</div>
-                    
-                    <div class="cheat-code">interface g0/1<br>ip dhcp snooping trust</div>
-                    <div class="cheat-desc">Uplink/Trunk config: Tells the switch that the real DHCP server lives down this wire.</div>
-                    
-                    <div class="cheat-code">interface f0/1<br>ip dhcp snooping limit rate 5</div>
-                    <div class="cheat-desc">Access port config: Stops DHCP Starvation attacks by limiting requests to 5 per second.</div>
+                    <h4>3. Stateful DHCPv6</h4>
+                    <div class="cheat-code">ipv6 dhcp pool R2-STATEFUL<br> address prefix 2001:db8:acad:3:aaa::/80<br> dns-server 2001:db8:acad::254<br> domain-name STATEFUL.com</div>
+                    <div class="cheat-desc">Creates a pool that hands out FULL IPv6 addresses AND DNS info.</div>
                 </div>
 
                 <div class="cheat-section">
-                    <h4>4. Spanning Tree (PortFast & BPDU Guard)</h4>
-                    <div class="cheat-code">interface f0/1<br>spanning-tree portfast<br>spanning-tree bpduguard enable</div>
-                    <div class="cheat-desc">Access port config: Skips STP listening/learning (PortFast), and instantly err-disables the port if a rogue switch is plugged in (BPDU Guard).</div>
-                    
-                    <div class="cheat-code">spanning-tree portfast default<br>spanning-tree portfast bpduguard default</div>
-                    <div class="cheat-desc">GLOBAL config: Alternative method. Turns on PortFast & BPDU Guard automatically for ALL access ports.</div>
+                    <h4>4. DHCPv6 Relay Agent (IP Helper for IPv6)</h4>
+                    <div class="cheat-code">interface g0/0/1<br> ipv6 nd managed-config-flag<br> ipv6 dhcp relay destination 2001:db8:acad:2::1 g0/0/0</div>
+                    <div class="cheat-desc">Changes the RA message M-flag to 1 (telling PCs to get their IP from DHCPv6) and forwards those DHCP requests to R1's IP address.</div>
                 </div>
 
             </div>
         </div>
     </div>
-
 </body>
 </html>

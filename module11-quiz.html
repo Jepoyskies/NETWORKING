@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 11 Quiz: Switch Security Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 11 Quiz (Switch Security)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 11 Quiz: Switch Security</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">1. What is a recommended best practice when dealing with the native VLAN?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. Turn off DTP.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. Assign the same VLAN number as the management VLAN.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. Use port security.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. Assign it to an unused VLAN.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Assign it to an unused VLAN.</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="native vlan">Native VLAN</span> is responsible for carrying untagged traffic across a <span class="term" data-term="trunk">trunk</span> link. Hackers exploit the default Native VLAN (VLAN 1) to launch Double-Tagging <span class="term" data-term="vlan hopping">VLAN Hopping</span> attacks. The industry best practice is to change the Native VLAN on all trunk links to a dedicated, unused "black hole" VLAN ID (e.g., VLAN 999) that has no host devices assigned to it.</p>
+                <ul>
+                    <li><strong>A. Turn off DTP:</strong> (Incorrect) This stops basic VLAN Hopping, but does not address Native VLAN Double-Tagging.</li>
+                    <li><strong>B. Same as management:</strong> (Incorrect) The management VLAN should be kept strictly separate from the native VLAN.</li>
+                    <li><strong>D. Assign to an unused VLAN:</strong> (Correct) Isolates untagged traffic into a dead-end VLAN.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">2. On what switch ports should PortFast be enabled to enhance STP stability?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. All end-user ports</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. Only ports that are elected as designated ports</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. All trunk ports that are not root ports</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. Only ports that attach to a neighboring switch</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: All end-user ports</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="portfast">PortFast</span> forces a switch port to immediately skip the 30-second <span class="term" data-term="stp">STP</span> listening and learning phases, going straight to the forwarding state. This feature is designed *exclusively* for edge ports connected to end-user devices (PCs, servers, printers). If you mistakenly enable PortFast on a link connected to another switch, you risk creating an instant Layer 2 broadcast storm.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">3. Which command would be best to use on an unused switch port if a company adheres to the best practices as recommended by Cisco?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. ip dhcp snooping</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. switchport port-security mac-address sticky</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. switchport port-security violation shutdown</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. shutdown</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: shutdown</div>
+                <p><strong>Deep Dive:</strong> Unlike Cisco routers, switch ports are enabled (turned on) by default right out of the box. If a wall jack in a conference room is not currently needed, the absolute simplest and most effective security measure is to administratively disable it using the <code><span class="term" data-term="shutdown">shutdown</span></code> command. This completely prevents rogue devices from physically linking to the network.</p>
+                <ul>
+                    <li><strong>A, B, C:</strong> (Incorrect) These are advanced security commands intended for ports that are *actively in use* by legitimate employees. For an *unused* port, just turn it off!</li>
+                    <li><strong>D. shutdown:</strong> (Correct) Disables the interface entirely.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">4. Which two features on a Cisco Catalyst switch can be used to mitigate DHCP starvation and DHCP spoofing attacks? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. DHCP server failover AND Extended ACL</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. Port security AND DHCP snooping</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. Strong password on DHCP servers AND Port security</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. DHCP snooping AND Extended ACL</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Port security AND DHCP snooping</div>
+                <p><strong>Deep Dive:</strong> You need two tools to fix these two attacks.<br>1. <span class="term" data-term="dhcp starvation">DHCP Starvation</span> involves a hacker spoofing thousands of MAC addresses. You stop this using <strong><span class="term" data-term="port security">Port Security</span></strong> (which restricts a port to 1 or 2 MAC addresses).<br>2. <span class="term" data-term="dhcp spoofing">DHCP Spoofing</span> involves a hacker acting as a fake DHCP server. You stop this using <strong><span class="term" data-term="dhcp snooping">DHCP Snooping</span></strong> (which filters out DHCP server messages coming from untrusted user ports).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">5. What is the best way to prevent a VLAN hopping attack?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. Disable STP on all nontrunk ports.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. Disable trunk negotiation for trunk ports and statically set nontrunk ports as access ports.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. Use VLAN 1 as the native VLAN on trunk ports.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. Use ISL encapsulation on all trunk links.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Disable trunk negotiation for trunk ports and statically set nontrunk ports as access ports.</div>
+                <p><strong>Deep Dive:</strong> Hackers execute a basic <span class="term" data-term="vlan hopping">VLAN Hopping</span> attack (Switch Spoofing) by sending fake <span class="term" data-term="dtp">DTP</span> messages to a switch, tricking it into giving the hacker a <span class="term" data-term="trunk">trunk</span> link. To completely eliminate this threat, you must statically define your ports. Hardcode user ports with <code>switchport mode access</code>, hardcode switch uplinks with <code>switchport mode trunk</code>, and explicitly turn off DTP negotiation using <code>switchport nonegotiate</code>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">6. Which procedure is recommended to mitigate the chances of ARP spoofing?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. Enable DAI on the management VLAN.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. Enable port security globally.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. Enable DHCP snooping on selected VLANs.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. Enable IP Source Guard on trusted ports.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Enable DHCP snooping on selected VLANs.</div>
+                <p><strong>Deep Dive:</strong> To stop ARP Spoofing (ARP Poisoning), you must use <span class="term" data-term="dai">Dynamic ARP Inspection (DAI)</span>. However, DAI doesn't work by itself! It acts as a bouncer, checking IDs against a list. That list is the "DHCP Snooping Binding Table." Therefore, the very first prerequisite procedure to mitigating ARP spoofing is that you MUST enable <strong><span class="term" data-term="dhcp snooping">DHCP Snooping</span></strong> globally and on the selected VLANs to build that database!</p>
+                <ul>
+                    <li><strong>A. Enable DAI on mgmt VLAN:</strong> (Incorrect) DAI should be on user VLANs, not just management.</li>
+                    <li><strong>C. Enable DHCP snooping on selected VLANs:</strong> (Correct) This is the mandatory prerequisite foundation that makes DAI possible.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">7. What are two types of switch ports that are used on Cisco switches as part of the defense against DHCP spoofing attacks? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. Trusted DHCP port AND Untrusted port</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. Established DHCP port AND Unauthorized port</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. Unknown port AND Authorized DHCP port</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. Secure port AND Insecure port</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Trusted DHCP port AND Untrusted port</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="dhcp snooping">DHCP Snooping</span> classifies every port on a switch into two categories. <strong>Untrusted ports</strong> face end-users; the switch will instantly drop any DHCP Server (Offer/Ack) messages originating from them. <strong>Trusted ports</strong> are the uplinks that physically lead toward your legitimate enterprise DHCP server.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">8. Which two commands can be used to enable PortFast on a switch? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. S1(config-line)# spanning-tree portfast AND S1(config)# enable spanning-tree portfast default</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. S1(config)# spanning-tree portfast default AND S1(config-if)# spanning-tree portfast</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. S1(config-if)# enable spanning-tree portfast AND S1(config)# spanning-tree portfast</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: S1(config)# spanning-tree portfast default AND S1(config-if)# spanning-tree portfast</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="portfast">PortFast</span> can be enabled globally or per-interface.<br>1. <strong>Global:</strong> <code>spanning-tree portfast default</code> (turns it on automatically for all non-trunking access ports).<br>2. <strong>Interface:</strong> <code>spanning-tree portfast</code> (turns it on manually for the specific interface you are currently inside).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">9. An administrator who is troubleshooting connectivity issues on a switch notices that a switch port configured for port security is in the err-disabled state. After verifying the cause of the violation, how should the administrator re-enable the port without disrupting network operation?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. Issue the no switchport port-security command, then re-enable port security.</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. Reboot the switch.</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. Issue the no switchport port-security violation shutdown command on the interface.</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. Issue the shutdown command followed by the no shutdown command on the interface.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Issue the shutdown command followed by the no shutdown command on the interface.</div>
+                <p><strong>Deep Dive:</strong> When <span class="term" data-term="port security">Port Security</span> triggers a violation, it places the port into an <strong><span class="term" data-term="err-disabled">err-disabled</span></strong> state (a forced, secure coma). You cannot simply type `no shutdown` to fix it. The switch requires you to acknowledge the event by manually resetting the port. You must explicitly type <code><span class="term" data-term="shutdown">shutdown</span></code> to clear the error state, and then type <code>no shutdown</code> to bring the port back to life.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">10. A network administrator is configuring DHCP snooping on a switch. Which configuration command should be used first?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. ip dhcp snooping</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. ip dhcp snooping vlan</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. ip dhcp snooping limit rate</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. ip dhcp snooping trust</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: ip dhcp snooping</div>
+                <p><strong>Deep Dive:</strong> Cisco IOS commands are hierarchical. Before you can configure specific <span class="term" data-term="dhcp snooping">DHCP Snooping</span> interface trusts, rate limits, or VLAN scopes, you must activate the master switch that turns the entire feature on globally! That very first command, typed in global config mode, is simply <code>ip dhcp snooping</code>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">11. A network administrator is configuring DAI on a switch with the command <code>ip arp inspection validate dst-mac</code>. What is the purpose of this configuration command?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. To check the destination MAC address in the Ethernet header against the source MAC address in the ARP body</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. To check the destination MAC address in the Ethernet header against the target MAC address in the ARP body</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. To check the destination MAC address in the Ethernet header against the user-configured ARP ACLs</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. To check the destination MAC address in the Ethernet header against the MAC address table</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: To check the destination MAC address in the Ethernet header against the target MAC address in the ARP body</div>
+                <p><strong>Deep Dive:</strong> Advanced <span class="term" data-term="dai">DAI (Dynamic ARP Inspection)</span> can validate the payload of the ARP packet itself. Hackers try to spoof systems by putting different data in the outer envelope than in the inner letter. The <code>validate dst-mac</code> command forces the switch to compare the <strong>Destination MAC</strong> on the outer Ethernet header directly against the <strong>Target MAC</strong> listed inside the ARP payload. If they don't match, the packet is dropped.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">12. Which security feature should be enabled in order to prevent an attacker from overflowing the MAC address table of a switch?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. Storm control</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. Port security</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. Root guard</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. BPDU filter</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Port security</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="mac flooding">MAC address table overflow</span> attack floods a switch port with thousands of spoofed source MAC addresses. By configuring <strong><span class="term" data-term="port security">Port Security</span></strong> and setting a maximum allowed MAC limit (like 1 or 2), the switch will block the port the moment the hacker tries to send a barrage of fake addresses.</p>
+                <ul>
+                    <li><strong>A. Storm control:</strong> (Incorrect) Prevents excessive broadcast traffic, but doesn't track MAC table limits.</li>
+                    <li><strong>B. Port security:</strong> (Correct) Limits the number of MACs allowed per physical port.</li>
+                    <li><strong>C & D. Root guard / BPDU filter:</strong> (Incorrect) These protect <span class="term" data-term="stp">Spanning Tree Protocol</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">13. What Layer 2 attack is mitigated by disabling Dynamic Trunking Protocol?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. ARP spoofing</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. VLAN hopping</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. ARP poisoning</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. DHCP spoofing</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: VLAN hopping</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="dtp">Dynamic Trunking Protocol (DTP)</span> automatically forms <span class="term" data-term="trunk">trunk</span> links if a switch port detects another switch on the other side. Hackers exploit this by running software that sends fake DTP messages, tricking the port into becoming a trunk. The hacker can then access every VLAN on the network! Disabling DTP with `switchport nonegotiate` completely stops this <strong><span class="term" data-term="vlan hopping">VLAN Hopping</span></strong> attack.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 14 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">14. A network administrator is configuring DAI on a switch. Which command should be used on the uplink interface that connects to a router?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. ip arp inspection vlan</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. ip dhcp snooping</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. spanning-tree portfast</label>
+                <label class="choice-item"><input type="radio" name="q14" value="D"> D. ip arp inspection trust</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: ip arp inspection trust</div>
+                <p><strong>Deep Dive:</strong> When you enable <span class="term" data-term="dai">Dynamic ARP Inspection (DAI)</span>, all ports become "Untrusted" by default, meaning they will rigorously inspect and potentially drop ARP packets. Uplinks that connect to routers or core switches are generally safe and process massive amounts of legitimate ARP traffic. You must explicitly bypass inspection on these uplinks using the <code>ip arp inspection trust</code> interface command to prevent accidental drops.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 15 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">15. Where are dynamically learned MAC addresses stored when sticky learning is enabled with the <code>switchport port-security mac-address sticky</code> command?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q15" value="A"> A. Flash</label>
+                <label class="choice-item"><input type="radio" name="q15" value="B"> B. RAM</label>
+                <label class="choice-item"><input type="radio" name="q15" value="C"> C. ROM</label>
+                <label class="choice-item"><input type="radio" name="q15" value="D"> D. NVRAM</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: RAM</div>
+                <p><strong>Deep Dive:</strong> When a switch dynamically learns a <span class="term" data-term="sticky mac">Sticky MAC</span> address, it literally pastes that address as a configuration line into the active <strong><span class="term" data-term="running-config">running configuration</span></strong>. Because the running-config is volatile and actively operating the switch, it is stored in <strong>RAM</strong>. If the switch loses power, the RAM (and the sticky MACs) are wiped clean unless the admin types `copy run start` to save it to <span class="term" data-term="nvram">NVRAM</span>.</p>
+            </div>
+        </div>
+
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

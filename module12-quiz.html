@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 12 Quiz: WLAN Concepts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 12 Quiz (WLAN Concepts)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 12 Quiz: WLAN Concepts</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "Check Results" at the very bottom when you are finished.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">1. In the context of mobile devices, what does the term tethering involve?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. Connecting a mobile device to a hands-free headset</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. Connecting a mobile device to another mobile device or computer to share a network connection</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. Connecting a mobile device to a 4G cellular network</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. Connecting a mobile device to a USB port on a computer in order to charge the mobile device</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Connecting a mobile device to another mobile device or computer to share a network connection</div>
+                <p><strong>Deep Dive:</strong> Tethering is a process that allows you to turn your smartphone into a portable <span class="term" data-term="router">router</span>. By using your phone's cellular data connection (<span class="term" data-term="wwan">WWAN</span>), you can "tether" a laptop or PC to it via USB, Bluetooth, or by creating a Wi-Fi hotspot so the laptop can access the Internet.</p>
+                <ul>
+                    <li><strong>A. hands-free headset:</strong> (Incorrect) This is a basic <span class="term" data-term="bluetooth">Bluetooth</span> audio pairing, not network sharing.</li>
+                    <li><strong>B. share a network connection:</strong> (Correct) This perfectly defines tethering.</li>
+                    <li><strong>C. 4G cellular network:</strong> (Incorrect) This is just standard mobile data access, not tethering.</li>
+                    <li><strong>D. USB to charge:</strong> (Incorrect) This is charging, not data/network sharing.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">2. Which feature of 802.11n wireless access points allows them to transmit data at faster speeds than previous versions of 802.11 Wi-Fi standards did?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. SPS</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. MIMO</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. MITM</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. WPS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: MIMO</div>
+                <p><strong>Deep Dive:</strong> Older standards like 802.11a/b/g used a single antenna. 802.11n introduced <strong><span class="term" data-term="mimo">MIMO</span></strong> (Multiple-Input Multiple-Output), which uses multiple antennas to transmit multiple data streams simultaneously, drastically increasing bandwidth and speed.</p>
+                <ul>
+                    <li><strong>A. SPS:</strong> (Incorrect) Single Point Setup is a Cisco technology for clustering APs, not a speed enhancement.</li>
+                    <li><strong>B. MIMO:</strong> (Correct) The antenna technology that skyrocketed Wi-Fi speeds starting with 802.11n.</li>
+                    <li><strong>C. MITM:</strong> (Incorrect) Man-in-the-Middle is a cyberattack.</li>
+                    <li><strong>D. WPS:</strong> (Incorrect) Wi-Fi Protected Setup is an insecure push-button method for joining a network.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">3. Which method of wireless authentication is currently considered to be the strongest among the given choices?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. Open</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. WPA2</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. WEP</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. Shared key / WPA</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: WPA2</div>
+                <p><strong>Deep Dive:</strong> Wireless security has evolved over time. <span class="term" data-term="wep">WEP</span> was the first, but it is easily hacked. <span class="term" data-term="wpa">WPA</span> was a temporary fix. <strong><span class="term" data-term="wpa2">WPA2</span></strong> introduced military-grade <span class="term" data-term="aes">AES</span> encryption, making it the strongest on this list (though WPA3 is the modern successor).</p>
+                <ul>
+                    <li><strong>A. Open:</strong> (Incorrect) No password or encryption at all.</li>
+                    <li><strong>B. WPA2:</strong> (Correct) Uses AES encryption, making it highly secure.</li>
+                    <li><strong>C. WEP:</strong> (Incorrect) Extremely outdated and vulnerable to cracking in minutes.</li>
+                    <li><strong>D. Shared key / WPA:</strong> (Incorrect) Older standards using weaker TKIP encryption.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">4. Which parameter is commonly used to identify a wireless network name when a home wireless AP is being configured?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. BESS</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. ESS</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. SSID</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. Ad hoc</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SSID</div>
+                <p><strong>Deep Dive:</strong> The human-readable name of a Wi-Fi network (like "Starbucks_Guest" or "Home_WiFi") is technically called the <strong><span class="term" data-term="ssid">SSID</span></strong> (Service Set Identifier). It is required for a client to distinguish between multiple nearby networks.</p>
+                <ul>
+                    <li><strong>A & B. BESS / ESS:</strong> (Incorrect) <span class="term" data-term="ess">ESS</span> refers to the physical topology of multiple APs connected together, not the text name of the network.</li>
+                    <li><strong>C. SSID:</strong> (Correct) The 32-character string that identifies a WLAN.</li>
+                    <li><strong>D. Ad hoc:</strong> (Incorrect) A peer-to-peer network topology with no central AP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">5. Which characteristic describes a wireless client operating in active mode?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. Must be configured for security before attaching to an AP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. Ability to dynamically change channels</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. Must know the SSID to connect to an AP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. Only listens for beacon frames from the AP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Must know the SSID to connect to an AP</div>
+                <p><strong>Deep Dive:</strong> In <strong><span class="term" data-term="active_mode">Active Mode</span></strong>, the Access Point uses <span class="term" data-term="ssid_cloaking">SSID Cloaking</span> (it stops broadcasting its name). Because the network is invisible, the client device cannot passively wait to see it on a list. The client MUST already know the exact <span class="term" data-term="ssid">SSID</span> so it can actively broadcast a <span class="term" data-term="probe_request">Probe Request</span> searching for it.</p>
+                <ul>
+                    <li><strong>A & B. Security / Changing channels:</strong> (Incorrect) These apply to both active and passive configurations.</li>
+                    <li><strong>C. Must know the SSID:</strong> (Correct) Active mode requires the client to explicitly ask for the hidden network by name.</li>
+                    <li><strong>D. Only listens for beacons:</strong> (Incorrect) This describes <span class="term" data-term="passive_mode">Passive Mode</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">6. Which IEEE standard operates at wireless frequencies in both the 5 GHz and 2.4 GHz ranges?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. 802.11a</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. 802.11b</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. 802.11n</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. 802.11g</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 802.11n</div>
+                <p><strong>Deep Dive:</strong> The IEEE 802.11 standards dictate frequency bands. <strong>802.11a</strong> is 5 GHz only. <strong>802.11b and g</strong> are 2.4 GHz only. <strong>802.11n</strong> was the first major standard to be "Dual Band", meaning it can broadcast on both 2.4 GHz and 5 GHz to support older and newer devices.</p>
+                <ul>
+                    <li><strong>A. 802.11a:</strong> (Incorrect) 5 GHz only.</li>
+                    <li><strong>B & D. 802.11b/g:</strong> (Incorrect) 2.4 GHz only.</li>
+                    <li><strong>C. 802.11n:</strong> (Correct) Operates in both bands simultaneously.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">7. Which statement describes an autonomous access point?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. It is managed by a WLAN controller.</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. It is server-dependent.</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. It is used for networks that require a large number of access points.</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. It is a standalone access point.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It is a standalone access point.</div>
+                <p><strong>Deep Dive:</strong> An <strong>Autonomous AP</strong> has all of its "brains" built into it. You log directly into it to configure its passwords, channels, and security. It operates completely independently. In contrast, "Lightweight" APs have no brains; they require a <span class="term" data-term="wlc">WLC</span> to push configurations to them.</p>
+                <ul>
+                    <li><strong>A, B, C. Managed by WLC / Large networks:</strong> (Incorrect) These describe Lightweight Access Points (LAPs) running <span class="term" data-term="capwap">CAPWAP</span>.</li>
+                    <li><strong>D. Standalone:</strong> (Correct) Autonomous means it governs itself without needing a central controller.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">8. Which two roles are typically performed by a wireless router that is used in a home or small business? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. Access point AND Ethernet switch</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. RADIUS authentication server AND Repeater</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. WLAN controller AND Access point</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. Ethernet switch AND RADIUS authentication server</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Access point AND Ethernet switch</div>
+                <p><strong>Deep Dive:</strong> A typical home "Wi-Fi Router" (like a Netgear or Linksys) is actually three separate devices shoved into one plastic box: 1) A <span class="term" data-term="router">Router</span> to do NAT and connect to the ISP, 2) An <strong>Ethernet Switch</strong> (the 4 LAN ports on the back), and 3) A Wireless <strong>Access Point</strong> (the antennas for Wi-Fi).</p>
+                <ul>
+                    <li><strong>A. Access point & Ethernet switch:</strong> (Correct) These are built-in features of SOHO wireless routers.</li>
+                    <li><strong>B & D. RADIUS Server:</strong> (Incorrect) A <span class="term" data-term="radius">RADIUS</span> server is a separate enterprise-grade authentication server.</li>
+                    <li><strong>C. WLAN controller:</strong> (Incorrect) Small businesses don't use <span class="term" data-term="wlc">WLCs</span>; they just use the router autonomously.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">9. Which protocol and port numbers are used by both IPv4 and IPv6 CAPWAP tunnels? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. TCP AND 17 & 163</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. UDP AND 5246 & 5247</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. ICMP AND 5246 & 5247</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. UDP AND 17 & 163</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: UDP AND 5246 & 5247</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="capwap">CAPWAP</span> builds two tunnels between a Lightweight AP and a <span class="term" data-term="wlc">WLC</span>. It uses <strong>UDP port 5246</strong> for the Control messages (encrypted via <span class="term" data-term="dtls">DTLS</span>), and <strong>UDP port 5247</strong> for the actual Data payload (the user's web traffic).</p>
+                <ul>
+                    <li><strong>A, C, D. Wrong protocols/ports:</strong> (Incorrect) CAPWAP does not use TCP, ICMP, or ports 17/163.</li>
+                    <li><strong>B. UDP 5246 & 5247:</strong> (Correct) The exact transport layer protocol and ports designated for CAPWAP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">10. If three 802.11b access points need to be deployed in close proximity, which three frequency channels should be used? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. 3, 5, AND 8</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. 1, 3, AND 5</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. 1, 6, AND 11</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. 5, 8, AND 11</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 1, 6, AND 11</div>
+                <p><strong>Deep Dive:</strong> 802.11b operates in the 2.4 GHz band, which is extremely narrow. Radio signals "bleed" into neighboring channels. To prevent APs from causing static and interference with each other (co-channel interference), you must use the only three channels that do not overlap at all: <strong>1, 6, and 11</strong>.</p>
+                <ul>
+                    <li><strong>A, B, D. Overlapping channels:</strong> (Incorrect) Channels like 3, 5, and 8 will bleed into each other, causing massive network lag.</li>
+                    <li><strong>C. 1, 6, and 11:</strong> (Correct) The standard non-overlapping channel scheme for 2.4 GHz <span class="term" data-term="wlan">WLANs</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">11. Which type of telecommunication technology is used to provide Internet access to vessels at sea?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. Cellular</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. Municipal WiFi</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. WiMax</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. Satellite</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Satellite</div>
+                <p><strong>Deep Dive:</strong> If you are in the middle of the Pacific Ocean on a naval vessel or cruise ship, there are no physical cell towers for hundreds of miles. The only way to get a <span class="term" data-term="wwan">WWAN</span> connection is to beam the signal directly to space using <strong>Satellite</strong> technology.</p>
+                <ul>
+                    <li><strong>A & C. Cellular / WiMax:</strong> (Incorrect) These require land-based towers and only cover cities or rural land areas.</li>
+                    <li><strong>B. Municipal WiFi:</strong> (Incorrect) A <span class="term" data-term="wman">WMAN</span> that only covers a city.</li>
+                    <li><strong>D. Satellite:</strong> (Correct) Provides global internet coverage, perfect for ships and airplanes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">12. Which wireless network topology is being configured by a technician who is installing a keyboard, a mouse, and headphones, each of which uses Bluetooth?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. Hotspot</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. Mixed mode</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. Ad hoc mode</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. Infrastructure mode</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Ad hoc mode</div>
+                <p><strong>Deep Dive:</strong> When devices connect *directly* to each other without using a central router or Access Point, it is called a peer-to-peer or <strong><span class="term" data-term="ad_hoc">Ad hoc</span></strong> network. Because <span class="term" data-term="bluetooth">Bluetooth</span> devices (like mice and headphones) pair directly to the PC, they form an ad hoc <span class="term" data-term="wpan">WPAN</span>.</p>
+                <ul>
+                    <li><strong>A. Hotspot:</strong> (Incorrect) A hotspot shares internet via a cellular connection.</li>
+                    <li><strong>C. Ad hoc mode:</strong> (Correct) Independent Basic Service Set (IBSS). Devices speak peer-to-peer.</li>
+                    <li><strong>D. Infrastructure mode:</strong> (Incorrect) This requires a central AP that all clients connect through.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">13. Which type of wireless topology is created when two or more Basic Service Sets are interconnected by Ethernet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. IBISS</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. ESS</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. Ad hoc WLAN</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. BSS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: ESS</div>
+                <p><strong>Deep Dive:</strong> A Basic Service Set (BSS) is simply a single Access Point and its clients. If a building is too large for one AP, you install multiple APs and wire them together through an Ethernet switch. When multiple BSSs are linked together to broadcast the same <span class="term" data-term="ssid">SSID</span>, it becomes an <strong><span class="term" data-term="ess">ESS</span> (Extended Service Set)</strong>.</p>
+                <ul>
+                    <li><strong>A & C. IBISS / Ad hoc:</strong> (Incorrect) Peer-to-peer networks with no APs.</li>
+                    <li><strong>B. ESS:</strong> (Correct) Multiple interconnected BSSs forming a larger WLAN.</li>
+                    <li><strong>D. BSS:</strong> (Incorrect) A single, standalone AP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 14 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">14. What Wi-Fi management frame is regularly broadcast by APs to announce their presence?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. Probe</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. Beacon</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. Association</label>
+                <label class="choice-item"><input type="radio" name="q14" value="D"> D. Authentication</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Beacon</div>
+                <p><strong>Deep Dive:</strong> In <span class="term" data-term="passive_mode">Passive Mode</span>, an Access Point constantly shouts out a management frame multiple times a second saying, "I am here, my SSID is 'GuestNet', and I support WPA2." This specific frame is called a <strong><span class="term" data-term="beacon">Beacon</span></strong>.</p>
+                <ul>
+                    <li><strong>A. Probe:</strong> (Incorrect) Probe requests are sent by the *client* searching for networks.</li>
+                    <li><strong>B. Beacon:</strong> (Correct) Regularly broadcast by the AP to advertise its presence.</li>
+                    <li><strong>C & D. Association / Authentication:</strong> (Incorrect) These frames are only used dynamically when a client is actively trying to log into the AP.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Submit Button (Hidden by JS, but kept for fallback) -->
+        <button id="submit-exam">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

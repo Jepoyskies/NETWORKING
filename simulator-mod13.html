@@ -5,25 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITCC 32.1 - Mod 13 Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
     <script src="simulator-mod13.js" defer></script>
     <style>
-        .gui-window {
-            background-color: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 1.5rem;
-            height: 480px;
-            overflow-y: auto;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #334155;
-            display: none;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
+        /* GUI Simulator Specific Styles */
+        .gui-window { background-color: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 1.5rem; min-height: 480px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
         .gui-section { display: none; }
         .gui-section.active { display: block; animation: fadeIn 0.3s ease; }
         .gui-section h3 { margin-top: 0; color: #0f172a; border-bottom: 2px solid #0284c7; padding-bottom: 8px;}
-        .gui-section h4 { border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 10px; color: #0284c7; margin-top: 1.5rem;}
         .gui-field { margin-bottom: 10px; display: flex; align-items: center; }
         .gui-field label { width: 180px; font-weight: 600; font-size: 0.9rem; color: #475569;}
         .gui-field input, .gui-field select { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; flex-grow: 1; max-width: 300px; outline: none;}
@@ -33,14 +21,20 @@
         .flex-row { display: flex; gap: 20px; flex-wrap: wrap; }
         .flex-col { flex: 1; min-width: 250px; background: white; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
         .flex-col b { color: #0f172a; display: block; margin-bottom: 10px;}
-        
-        /* Guide Styles */
-        .guide-box { background: #ecfdf5; border-left: 4px solid #10b981; padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .guide-box h4 { margin-top: 0; color: #065f46; border-bottom: none; padding-bottom: 0;}
-        .guide-box ul { margin: 10px 0 0 0; padding-left: 20px; font-size: 0.95rem;}
-        .guide-box li { margin-bottom: 5px; }
         .highlight { font-family: monospace; background: rgba(0,0,0,0.05); padding: 2px 5px; border-radius: 3px; font-weight: bold; color: #c2410c;}
         
+        /* Cheat Sheet Modal */
+        #cheat-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .cheat-content { background: #0f172a; width: 90%; max-width: 800px; max-height: 85vh; border-radius: 8px; border: 2px solid #f59e0b; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .cheat-header { background: #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+        .cheat-header h2 { color: #f59e0b; margin: 0; font-size: 1.3rem; }
+        .close-cheat { color: #94a3b8; font-size: 24px; cursor: pointer; background: none; border: none; transition: 0.2s; }
+        .close-cheat:hover { color: #ef4444; transform: scale(1.1); }
+        .cheat-body { padding: 20px; overflow-y: auto; color: #cbd5e1; }
+        .cheat-section { margin-bottom: 20px; }
+        .cheat-section h4 { color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 5px; margin-bottom: 10px; }
+        .cheat-code { background: #000; color: #4ade80; padding: 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9rem; margin-bottom: 5px; }
+        .cheat-desc { font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -61,7 +55,7 @@
                 <button class="dev-btn active" data-device="HomeRouter">Home Router</button>
                 <button class="dev-btn" data-device="WLC">WLC-1</button>
                 <button class="dev-btn" data-device="Hosts">Wireless Hosts</button>
-                <button class="dev-btn" data-device="Guide" style="background-color: #10b981; color: white; border-color: #047857;">Cheat Sheet</button>
+                <button class="dev-btn" id="cheat-btn" style="background-color: #f59e0b; color: #0f172a;">📜 View Cheat Sheet</button>
             </div>
         </div>
 
@@ -92,182 +86,68 @@
                         <div class="gui-field"><label>Passphrase:</label><input type="password" id="hr-pass"></div>
                     </div>
                 </div>
-                <button class="gui-btn" onclick="saveHomeRouter()">Save Home Router Settings</button>
+                <button class="gui-btn" onclick="saveHomeRouter(this)">Save Home Router Settings</button>
             </div>
 
             <!-- WLC GUI -->
             <div class="gui-section" id="gui-WLC">
                 <h3>WLC-1 Management Interface</h3>
                 <p style="font-size: 0.85rem; margin-top:-10px;">(Simplified view combining Controller, Security, and WLAN tabs)</p>
-                
                 <div class="flex-row">
-                    <!-- Interfaces -->
-                    <div class="flex-col">
-                        <h4>1. Virtual Interfaces</h4>
-                        <b>WLAN 2 Interface</b>
-                        <div class="gui-field"><label>VLAN ID:</label><input type="text" id="wlc-vlan2-id"></div>
-                        <div class="gui-field"><label>IP Address:</label><input type="text" id="wlc-vlan2-ip"></div>
-                        <div class="gui-field"><label>Gateway:</label><input type="text" id="wlc-vlan2-gw"></div>
-                        <hr style="border: 0.5px solid #e2e8f0; margin: 15px 0;">
-                        <b>WLAN 5 Interface</b>
-                        <div class="gui-field"><label>VLAN ID:</label><input type="text" id="wlc-vlan5-id"></div>
-                        <div class="gui-field"><label>IP Address:</label><input type="text" id="wlc-vlan5-ip"></div>
-                        <div class="gui-field"><label>Gateway:</label><input type="text" id="wlc-vlan5-gw"></div>
-                    </div>
-
-                    <!-- DHCP & Servers -->
-                    <div class="flex-col">
-                        <h4>2. Internal DHCP Scope</h4>
-                        <div class="gui-field"><label>Scope Name:</label><input type="text" id="wlc-dhcp-name" placeholder="management"></div>
-                        <div class="gui-field"><label>Pool Start:</label><input type="text" id="wlc-dhcp-start"></div>
-                        <div class="gui-field"><label>Pool End:</label><input type="text" id="wlc-dhcp-end"></div>
-                        <div class="gui-field"><label>Network:</label><input type="text" id="wlc-dhcp-net"></div>
-                        <div class="gui-field"><label>Default Router:</label><input type="text" id="wlc-dhcp-def"></div>
-
-                        <h4>3. External Servers</h4>
-                        <div class="gui-field"><label>RADIUS Server IP:</label><input type="text" id="wlc-rad-ip"></div>
-                        <div class="gui-field"><label>RADIUS Secret:</label><input type="password" id="wlc-rad-sec"></div>
-                        <div class="gui-field"><label>SNMP Server IP:</label><input type="text" id="wlc-snmp-ip"></div>
-                        <div class="gui-field"><label>SNMP Community:</label><input type="text" id="wlc-snmp-com"></div>
-                    </div>
+                    <div class="flex-col"><h4>1. Virtual Interfaces</h4><b>WLAN 2 Interface</b><div class="gui-field"><label>VLAN ID:</label><input type="text" id="wlc-vlan2-id"></div><div class="gui-field"><label>IP Address:</label><input type="text" id="wlc-vlan2-ip"></div><div class="gui-field"><label>Gateway:</label><input type="text" id="wlc-vlan2-gw"></div><hr style="border: 0.5px solid #e2e8f0; margin: 15px 0;"><b>WLAN 5 Interface</b><div class="gui-field"><label>VLAN ID:</label><input type="text" id="wlc-vlan5-id"></div><div class="gui-field"><label>IP Address:</label><input type="text" id="wlc-vlan5-ip"></div><div class="gui-field"><label>Gateway:</label><input type="text" id="wlc-vlan5-gw"></div></div>
+                    <div class="flex-col"><h4>2. Internal DHCP Scope</h4><div class="gui-field"><label>Scope Name:</label><input type="text" id="wlc-dhcp-name" placeholder="management"></div><div class="gui-field"><label>Pool Start:</label><input type="text" id="wlc-dhcp-start"></div><div class="gui-field"><label>Pool End:</label><input type="text" id="wlc-dhcp-end"></div><div class="gui-field"><label>Network:</label><input type="text" id="wlc-dhcp-net"></div><div class="gui-field"><label>Default Router:</label><input type="text" id="wlc-dhcp-def"></div><h4>3. External Servers</h4><div class="gui-field"><label>RADIUS Server IP:</label><input type="text" id="wlc-rad-ip"></div><div class="gui-field"><label>RADIUS Secret:</label><input type="password" id="wlc-rad-sec"></div><div class="gui-field"><label>SNMP Server IP:</label><input type="text" id="wlc-snmp-ip"></div><div class="gui-field"><label>SNMP Community:</label><input type="text" id="wlc-snmp-com"></div></div>
                 </div>
-                
                 <div class="flex-row" style="margin-top: 15px;">
-                    <!-- WLANs -->
-                    <div class="flex-col">
-                        <h4>4. WLAN Profiles</h4>
-                        <b>Profile: Wireless VLAN 2</b>
-                        <div class="gui-field"><label>SSID:</label><input type="text" id="wlc-wlan2-ssid"></div>
-                        <div class="gui-field"><label>Interface:</label><select id="wlc-wlan2-int"><option>management</option><option>WLAN 2</option><option>WLAN 5</option></select></div>
-                        <div class="gui-field"><label>Security:</label><select id="wlc-wlan2-sec"><option>None</option><option>WPA2-PSK</option><option>WPA2-Enterprise</option></select></div>
-                        <div class="gui-field"><label>Passphrase:</label><input type="password" id="wlc-wlan2-psk"></div>
-                        
-                        <!-- THE PT GOTCHAS -->
-                        <div style="margin: 10px 0; font-size: 0.9rem;">
-                            <label><input type="checkbox" id="wlc-wlan2-enable"> <b>Enable WLAN</b> (General Tab)</label><br>
-                            <label><input type="checkbox" id="wlc-wlan2-flex1"> FlexConnect Local Switching (Advanced Tab)</label><br>
-                            <label><input type="checkbox" id="wlc-wlan2-flex2"> FlexConnect Local Auth (Advanced Tab)</label>
-                        </div>
-                        
-                        <hr style="border: 0.5px solid #e2e8f0; margin: 15px 0;">
-                        <b>Profile: Wireless VLAN 5</b>
-                        <div class="gui-field"><label>SSID:</label><input type="text" id="wlc-wlan5-ssid"></div>
-                        <div class="gui-field"><label>Interface:</label><select id="wlc-wlan5-int"><option>management</option><option>WLAN 2</option><option>WLAN 5</option></select></div>
-                        <div class="gui-field"><label>Security:</label><select id="wlc-wlan5-sec"><option>None</option><option>WPA2-PSK</option><option>802.1x - WPA2-Enterprise</option></select></div>
-                        <div class="gui-field"><label>Radius Server:</label><select id="wlc-wlan5-rad"><option>None</option><option>10.6.0.254</option></select></div>
-
-                        <!-- THE PT GOTCHAS -->
-                        <div style="margin: 10px 0; font-size: 0.9rem;">
-                            <label><input type="checkbox" id="wlc-wlan5-enable"> <b>Enable WLAN</b> (General Tab)</label><br>
-                            <label><input type="checkbox" id="wlc-wlan5-flex1"> FlexConnect Local Switching (Advanced Tab)</label><br>
-                            <label><input type="checkbox" id="wlc-wlan5-flex2"> FlexConnect Local Auth (Advanced Tab)</label>
-                        </div>
-                    </div>
+                    <div class="flex-col"><h4>4. WLAN Profiles</h4><b>Profile: Wireless VLAN 2</b><div class="gui-field"><label>SSID:</label><input type="text" id="wlc-wlan2-ssid"></div><div class="gui-field"><label>Interface:</label><select id="wlc-wlan2-int"><option>management</option><option>WLAN 2</option><option>WLAN 5</option></select></div><div class="gui-field"><label>Security:</label><select id="wlc-wlan2-sec"><option>None</option><option>WPA2-PSK</option><option>WPA2-Enterprise</option></select></div><div class="gui-field"><label>Passphrase:</label><input type="password" id="wlc-wlan2-psk"></div><div style="margin: 10px 0; font-size: 0.9rem;"><label><input type="checkbox" id="wlc-wlan2-enable"> <b>Enable WLAN</b></label><br><label><input type="checkbox" id="wlc-wlan2-flex1"> FlexConnect Local Switching</label><br><label><input type="checkbox" id="wlc-wlan2-flex2"> FlexConnect Local Auth</label></div><hr style="border: 0.5px solid #e2e8f0; margin: 15px 0;"><b>Profile: Wireless VLAN 5</b><div class="gui-field"><label>SSID:</label><input type="text" id="wlc-wlan5-ssid"></div><div class="gui-field"><label>Interface:</label><select id="wlc-wlan5-int"><option>management</option><option>WLAN 2</option><option>WLAN 5</option></select></div><div class="gui-field"><label>Security:</label><select id="wlc-wlan5-sec"><option>None</option><option>WPA2-PSK</option><option>802.1x - WPA2-Enterprise</option></select></div><div class="gui-field"><label>Radius Server:</label><select id="wlc-wlan5-rad"><option>None</option><option>10.6.0.254</option></select></div><div style="margin: 10px 0; font-size: 0.9rem;"><label><input type="checkbox" id="wlc-wlan5-enable"> <b>Enable WLAN</b></label><br><label><input type="checkbox" id="wlc-wlan5-flex1"> FlexConnect Local Switching</label><br><label><input type="checkbox" id="wlc-wlan5-flex2"> FlexConnect Local Auth</label></div></div>
                 </div>
-                
-                <button class="gui-btn" onclick="saveWLC()">Apply WLC Configuration</button>
+                <button class="gui-btn" onclick="saveWLC(this)">Apply WLC Configuration</button>
             </div>
 
             <!-- HOSTS GUI -->
             <div class="gui-section" id="gui-Hosts">
                 <h3>Wireless Client PC Configuration</h3>
                 <div class="flex-row">
-                    <div class="flex-col">
-                        <h4>Wireless Host 1 (Personal)</h4>
-                        <div class="gui-field"><label>Target SSID:</label><input type="text" id="h1-ssid"></div>
-                        <div class="gui-field"><label>Authentication:</label><select id="h1-sec"><option>Open</option><option>WPA2-Personal</option><option>WPA2-Enterprise</option></select></div>
-                        <div class="gui-field"><label>Passphrase:</label><input type="password" id="h1-pass"></div>
-                    </div>
-                    <div class="flex-col">
-                        <h4>Wireless Host 2 (Enterprise)</h4>
-                        <div class="gui-field"><label>Target SSID:</label><input type="text" id="h2-ssid"></div>
-                        <div class="gui-field"><label>Authentication:</label><select id="h2-sec"><option>Open</option><option>WPA2-Personal</option><option>WPA2-Enterprise</option></select></div>
-                        <div class="gui-field"><label>Username:</label><input type="text" id="h2-user"></div>
-                        <div class="gui-field"><label>Password:</label><input type="password" id="h2-pass"></div>
-                    </div>
+                    <div class="flex-col"><h4>Wireless Host 1 (Personal)</h4><div class="gui-field"><label>Target SSID:</label><input type="text" id="h1-ssid"></div><div class="gui-field"><label>Authentication:</label><select id="h1-sec"><option>Open</option><option>WPA2-Personal</option><option>WPA2-Enterprise</option></select></div><div class="gui-field"><label>Passphrase:</label><input type="password" id="h1-pass"></div></div>
+                    <div class="flex-col"><h4>Wireless Host 2 (Enterprise)</h4><div class="gui-field"><label>Target SSID:</label><input type="text" id="h2-ssid"></div><div class="gui-field"><label>Authentication:</label><select id="h2-sec"><option>Open</option><option>WPA2-Personal</option><option>WPA2-Enterprise</option></select></div><div class="gui-field"><label>Username:</label><input type="text" id="h2-user"></div><div class="gui-field"><label>Password:</label><input type="password" id="h2-pass"></div></div>
                 </div>
-                <button class="gui-btn" onclick="saveHosts()">Connect Hosts</button>
+                <button class="gui-btn" onclick="saveHosts(this)">Connect Hosts</button>
             </div>
-
-            <!-- EXAM CHEAT SHEET / GUIDE -->
-            <div class="gui-section" id="gui-Guide">
-                <h3>📖 How to answer the Packet Tracer Lab (Answer Key)</h3>
-                <p>Use this guide to study the exact inputs required to get 100% on the final Module 13 Capstone.</p>
-                
-                <div class="guide-box">
-                    <h4>1. Home Wireless Router</h4>
-                    <ul>
-                        <li><b>Internet Connection:</b> <span class="highlight">DHCP</span></li>
-                        <li><b>Router IP:</b> <span class="highlight">192.168.6.1</span> / Subnet: <span class="highlight">255.255.255.224</span></li>
-                        <li><b>DHCP Pool:</b> Start IP <span class="highlight">192.168.6.3</span>, Max Users <span class="highlight">20</span></li>
-                        <li><b>Static DNS:</b> <span class="highlight">10.100.100.252</span></li>
-                        <li><b>Wireless 2.4GHz:</b> SSID <span class="highlight">HomeSSID</span>, Channel <span class="highlight">6</span></li>
-                        <li><b>Security:</b> <span class="highlight">WPA2-Personal</span>, Passphrase <span class="highlight">Cisco123</span></li>
-                    </ul>
-                </div>
-
-                <div class="guide-box" style="border-left-color: #3b82f6; background: #eff6ff;">
-                    <h4 style="color: #1d4ed8;">2. WLC-1 Management (The Tricky Part)</h4>
-                    <ul>
-                        <li><b>Controller > Interfaces:</b>
-                            <ul>
-                                <li>Create <span class="highlight">WLAN 2</span> (VLAN <span class="highlight">2</span>, IP <span class="highlight">192.168.2.254</span>, GW <span class="highlight">192.168.2.1</span>)</li>
-                                <li>Create <span class="highlight">WLAN 5</span> (VLAN <span class="highlight">5</span>, IP <span class="highlight">192.168.5.254</span>, GW <span class="highlight">192.168.5.1</span>)</li>
-                            </ul>
-                        </li>
-                        <li><b>Controller > Internal DHCP Server:</b>
-                            <ul>
-                                <li>Scope <span class="highlight">management</span> (Pool: <span class="highlight">192.168.100.235</span> - <span class="highlight">.245</span>, Net: <span class="highlight">192.168.100.0</span>, Def Router: <span class="highlight">192.168.100.1</span>)</li>
-                            </ul>
-                        </li>
-                        <li><b>Security Tab:</b>
-                            <ul>
-                                <li>Add RADIUS Server: IP <span class="highlight">10.6.0.254</span>, Secret <span class="highlight">RadiusPW</span></li>
-                            </ul>
-                        </li>
-                        <li><b>Management Tab:</b>
-                            <ul>
-                                <li>Add SNMP Trap Receiver: Community <span class="highlight">WLAN</span>, IP <span class="highlight">10.6.0.254</span></li>
-                            </ul>
-                        </li>
-                        <li><b>WLANs Tab (🚨 DO NOT FORGET THESE GOTCHAS):</b>
-                            <ul>
-                                <li><b>WLAN 2:</b> SSID <span class="highlight">SSID-2</span>, map to Interface <span class="highlight">WLAN 2</span>, Security <span class="highlight">WPA2-PSK</span> (Cisco123).</li>
-                                <li><b>WLAN 5:</b> SSID <span class="highlight">SSID-5</span>, map to Interface <span class="highlight">WLAN 5</span>, Security <span class="highlight">802.1x</span> (Select your Radius server).</li>
-                                <li><i>For BOTH WLANS:</i> You MUST check <b>Enabled</b> on the General tab.</li>
-                                <li><i>For BOTH WLANS:</i> Go to Advanced Tab -> Scroll down -> Check <b>FlexConnect Local Switching</b> & <b>FlexConnect Local Auth</b>.</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="guide-box" style="border-left-color: #8b5cf6; background: #f5f3ff;">
-                    <h4 style="color: #6d28d9;">3. Connecting the Hosts (PC Wireless App)</h4>
-                    <ul>
-                        <li><b>Wireless Host 1:</b> Connect to <span class="highlight">SSID-2</span> using <span class="highlight">WPA2-Personal</span> and password <span class="highlight">Cisco123</span>.</li>
-                        <li><b>Wireless Host 2:</b> Connect to <span class="highlight">SSID-5</span> using <span class="highlight">WPA2-Enterprise</span>. Login name <span class="highlight">userWLAN5</span>, password <span class="highlight">userW5pass</span>.</li>
-                    </ul>
-                </div>
-            </div>
-
         </div>
 
         <!-- TROUBLESHOOTING ENGINE -->
         <div class="testing-panel">
-            <h3>Test Network Configurations (Success Indicators)</h3>
-            <ol style="margin-bottom: 15px; color: #334155; font-size: 0.95rem;">
-                <li>Configure Home Wireless Router for DHCP and WPA2-PSK.</li>
-                <li>Configure WLC Interfaces and Management DHCP scope.</li>
-                <li>Configure WLC with RADIUS, SNMP, and multiple WLANs.</li>
-                <li>Connect Hosts securely using WPA2-PSK and WPA2-Enterprise.</li>
-            </ol>
+            <h3 style="color: white; margin-bottom: 15px;">Diagnostic Testing Engine</h3>
             <div class="test-grid">
                 <button class="test-btn" id="test-home">1. Verify Home Router Config</button>
                 <button class="test-btn" id="test-wlc-net">2. Verify WLC Network & DHCP</button>
                 <button class="test-btn" id="test-wlc-wlan">3. Verify WLC WLANs & Servers</button>
                 <button class="test-btn" id="test-hosts" style="grid-column: span 2; background-color: #8b5cf6;">4. Test End-to-End Host Connectivity</button>
             </div>
-            <div id="diagnostic-output">Run a test to see diagnostics here...</div>
+            <div id="diagnostic-output">Run a test above to see diagnostics here. Blue dashed words can be clicked for hints!</div>
+        </div>
+    </div>
+
+    <!-- CHEAT SHEET MODAL POPUP -->
+    <div id="cheat-modal">
+        <div class="cheat-content">
+            <div class="cheat-header">
+                <h2>📜 Mod 13 Packet Tracer Guide</h2>
+                <button class="close-cheat" id="close-cheat">&times;</button>
+            </div>
+            <div class="cheat-body" id="cheat-body">
+                <div class="cheat-section">
+                    <h4>1. Home Wireless Router</h4>
+                    <ul><li><b>Internet Connection:</b> <span class="highlight">DHCP</span></li><li><b>Router IP:</b> <span class="highlight">192.168.6.1</span> / Subnet: <span class="highlight">255.255.255.224</span></li><li><b>DHCP Pool:</b> Start IP <span class="highlight">192.168.6.3</span>, Max Users <span class="highlight">20</span></li><li><b>Static DNS:</b> <span class="highlight">10.100.100.252</span></li><li><b>Wireless 2.4GHz:</b> SSID <span class="highlight">HomeSSID</span>, Channel <span class="highlight">6</span></li><li><b>Security:</b> <span class="highlight">WPA2-Personal</span>, Passphrase <span class="highlight">Cisco123</span></li></ul>
+                </div>
+                <div class="cheat-section">
+                    <h4>2. WLC-1 Management (The Tricky Part)</h4>
+                    <ul><li><b>Controller > Interfaces:</b><ul><li>Create <span class="highlight">WLAN 2</span> (VLAN <span class="highlight">2</span>, IP <span class="highlight">192.168.2.254</span>, GW <span class="highlight">192.168.2.1</span>)</li><li>Create <span class="highlight">WLAN 5</span> (VLAN <span class="highlight">5</span>, IP <span class="highlight">192.168.5.254</span>, GW <span class="highlight">192.168.5.1</span>)</li></ul></li><li><b>Controller > Internal DHCP Server:</b><ul><li>Scope <span class="highlight">management</span> (Pool: <span class="highlight">192.168.100.235</span> - <span class="highlight">.245</span>, Net: <span class="highlight">192.168.100.0</span>, Def Router: <span class="highlight">192.168.100.1</span>)</li></ul></li><li><b>Security Tab:</b><ul><li>Add RADIUS Server: IP <span class="highlight">10.6.0.254</span>, Secret <span class="highlight">RadiusPW</span></li></ul></li><li><b>Management Tab:</b><ul><li>Add SNMP Trap Receiver: Community <span class="highlight">WLAN</span>, IP <span class="highlight">10.6.0.254</span></li></ul></li><li><b>WLANs Tab (🚨 DO NOT FORGET THESE GOTCHAS):</b><ul><li><b>WLAN 2:</b> SSID <span class="highlight">SSID-2</span>, map to Interface <span class="highlight">WLAN 2</span>, Security <span class="highlight">WPA2-PSK</span> (Cisco123).</li><li><b>WLAN 5:</b> SSID <span class="highlight">SSID-5</span>, map to Interface <span class="highlight">WLAN 5</span>, Security <span class="highlight">802.1x</span> (Select your Radius server).</li><li><i>For BOTH WLANS:</i> You MUST check <b>Enabled</b> on the General tab.</li><li><i>For BOTH WLANS:</i> Go to Advanced Tab -> Scroll down -> Check <b>FlexConnect Local Switching</b> & <b>FlexConnect Local Auth</b>.</li></ul></li></ul>
+                </div>
+                <div class="cheat-section">
+                    <h4>3. Connecting the Hosts (PC Wireless App)</h4>
+                    <ul><li><b>Wireless Host 1:</b> Connect to <span class="highlight">SSID-2</span> using <span class="highlight">WPA2-Personal</span> and password <span class="highlight">Cisco123</span>.</li><li><b>Wireless Host 2:</b> Connect to <span class="highlight">SSID-5</span> using <span class="highlight">WPA2-Enterprise</span>. Login name <span class="highlight">userWLAN5</span>, password <span class="highlight">userW5pass</span>.</li></ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>

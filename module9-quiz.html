@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 9 Quiz: FHRP Concepts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 9 Quiz (FHRP Concepts)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 9 Quiz: FHRP Concepts</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">1. What is the purpose of HSRP?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. It enables an access port to immediately transition to the forwarding state.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. It prevents malicious hosts from connecting to trunk ports.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. It provides a continuous network connection when a router fails.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. It prevents a rogue switch from becoming the STP root.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It provides a continuous network connection when a router fails.</div>
+                <p><strong>Deep Dive:</strong> HSRP (Hot Standby Router Protocol) is a First Hop Redundancy Protocol (FHRP). If a company only has one <span class="term" data-term="router">router</span> and it loses power, the entire office loses internet. HSRP fixes this by allowing two physical routers to share a single "Virtual" IP address. If the main router dies, the backup router instantly takes over the virtual IP, ensuring continuous connectivity without the users ever noticing.</p>
+                <ul>
+                    <li><strong>A. transition to forwarding state:</strong> (Incorrect) This describes <span class="term" data-term="portfast">PortFast</span>.</li>
+                    <li><strong>B. prevents malicious hosts:</strong> (Incorrect) This describes security features like <span class="term" data-term="port security">Port Security</span> or dropping <span class="term" data-term="dtp">DTP</span>.</li>
+                    <li><strong>C. continuous network connection:</strong> (Correct) The exact definition of default gateway redundancy.</li>
+                    <li><strong>D. prevents rogue switch:</strong> (Incorrect) This describes Root Guard or <span class="term" data-term="bpdu guard">BPDU Guard</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">2. Which nonproprietary protocol provides router redundancy for a group of routers which support IPv4 LANs?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. GLBP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. SLB</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. HSRP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. VRRPv2</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: VRRPv2</div>
+                <p><strong>Deep Dive:</strong> There are three main FHRPs you need to memorize. HSRP and GLBP are strictly Cisco-proprietary (they only work on Cisco equipment). If you have a network with a mix of Cisco, Juniper, and HP routers, you MUST use the open-standard (nonproprietary) protocol, which is <strong>VRRP</strong> (Virtual Router Redundancy Protocol).</p>
+                <ul>
+                    <li><strong>A & C. GLBP / HSRP:</strong> (Incorrect) These are highly effective, but they are Cisco-proprietary.</li>
+                    <li><strong>B. SLB:</strong> (Incorrect) Server Load Balancing is for distributing traffic to servers, not routing redundancy.</li>
+                    <li><strong>D. VRRPv2:</strong> (Correct) The industry standard, nonproprietary redundancy protocol for <span class="term" data-term="ipv4">IPv4</span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">3. A network administrator is analyzing first-hop router redundancy protocols. What is a characteristic of VRRPv3?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. It works together with HSRP.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. It allows load balancing between routers.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. It supports IPv6 and IPv4 addressing.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. VRRPv3 is Cisco proprietary.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It supports IPv6 and IPv4 addressing.</div>
+                <p><strong>Deep Dive:</strong> VRRP version 2 only supported IPv4. Because the world is transitioning to <span class="term" data-term="ipv6">IPv6</span>, the IEEE released <strong>VRRPv3</strong>, which natively supports both IPv4 and IPv6 redundancy.</p>
+                <ul>
+                    <li><strong>A. Works with HSRP:</strong> (Incorrect) VRRP and HSRP are competing protocols; they do not work together.</li>
+                    <li><strong>B. Allows load balancing:</strong> (Incorrect) VRRP is Active/Standby. Only GLBP does true load balancing.</li>
+                    <li><strong>C. Supports IPv6 and IPv4:</strong> (Correct) The primary upgrade feature of version 3.</li>
+                    <li><strong>D. Cisco proprietary:</strong> (Incorrect) VRRP is an open IEEE standard.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">4. What is a potential disadvantage when implementing HSRP as compared to GLBP?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. HSRP does not provide load balancing with multiple active routers.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. HSRP does not have the capability to support IPv6 addresses.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. HSRP does not function in a multivendor environment.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. HSRP provides default gateway failover only when the active router fails.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: HSRP does not provide load balancing with multiple active routers.</div>
+                <p><strong>Deep Dive:</strong> HSRP operates in an "Active / Standby" state. If you buy two $10,000 routers, HSRP forces Router B to sit completely idle doing absolutely nothing until Router A dies. That is a waste of money! <strong>GLBP (Gateway Load Balancing Protocol)</strong> solves this by operating in "Active / Active", splitting the network traffic 50/50 across both routers simultaneously.</p>
+                <ul>
+                    <li><strong>A. does not provide load balancing:</strong> (Correct) HSRP leaves the backup router sitting idle. GLBP utilizes all routers at the same time.</li>
+                    <li><strong>B. does not support IPv6:</strong> (Incorrect) Newer versions of HSRP support IPv6.</li>
+                    <li><strong>C. multivendor environment:</strong> (Incorrect) Neither HSRP nor GLBP support multivendor environments; they are both Cisco proprietary.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">5. A network engineer is configuring a LAN with a redundant first hop to make better use of the available network resources. Which protocol should the engineer implement?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. VRRP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. FHRP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. HSRP</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. GLBP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: GLBP</div>
+                <p><strong>Deep Dive:</strong> The key phrase in this question is "make better use of available network resources." By implementing <strong>GLBP</strong>, the engineer ensures that all redundant routers are actively forwarding packets at the same time (Load Balancing), rather than leaving backup routers sitting idle like HSRP and VRRP do.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">6. When first hop redundancy protocols are used, which two items will be shared by a set of routers that are presenting the illusion of being a single router? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. MAC address AND IP address</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. Static route AND Hostname</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. BID AND MAC address</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. IP address AND Static route</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: MAC address AND IP address</div>
+                <p><strong>Deep Dive:</strong> To successfully trick 50 office PCs into thinking there is only one <span class="term" data-term="default gateway">default gateway</span>, the two physical routers must create a "Virtual Router" ghost between them. For the PCs to talk to this ghost, it must be assigned a Virtual <strong><span class="term" data-term="ip address">IP Address</span></strong> (so the PCs can ping it) and a Virtual <strong><span class="term" data-term="mac address">MAC Address</span></strong> (so the PCs can send Ethernet frames to it).</p>
+                <ul>
+                    <li><strong>A. MAC address AND IP address:</strong> (Correct) The two necessary addresses shared by the FHRP group.</li>
+                    <li><strong>B, C, D. Static route / Hostname / BID:</strong> (Incorrect) Hostnames are just local labels. BIDs are used in <span class="term" data-term="stp">STP</span> switching, not Layer 3 routing.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">7. In FHRP terminology, what represents a set of routers that present the illusion of a single router to hosts?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. Virtual router</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. Forwarding router</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. Standby router</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. Default gateway</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Virtual router</div>
+                <p><strong>Deep Dive:</strong> When you configure HSRP, you group physical Router A and physical Router B together. In the configuration, you literally type the command <code>standby 1 ip 192.168.1.254</code>. This creates a "Ghost" or <strong>Virtual Router</strong> that hovers between them. All the PCs point to the Virtual Router as their gateway.</p>
+                <ul>
+                    <li><strong>A. Virtual router:</strong> (Correct) The illusionary entity created by FHRP.</li>
+                    <li><strong>B & C. Forwarding / Standby router:</strong> (Incorrect) These describe the *physical* roles the real routers are playing behind the scenes.</li>
+                    <li><strong>D. Default gateway:</strong> (Incorrect) While the virtual router *acts* as the gateway, "Virtual Router" is the exact FHRP terminology.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">8. A user needs to add redundancy to the routers in a company. What are the three options the user can use? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. GLBP, VRRP, AND HSRP</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. IPFIX, STP, AND RAID</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. VRRP, STP, AND HSRP</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. GLBP, RAID, AND IPFIX</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: GLBP, VRRP, AND HSRP</div>
+                <p><strong>Deep Dive:</strong> There are only three First Hop Redundancy Protocols (FHRPs) you need to know for the CCNA: <strong>HSRP</strong> (Cisco Active/Standby), <strong>VRRP</strong> (Open Standard Active/Standby), and <strong>GLBP</strong> (Cisco Active/Active Load Balancing).</p>
+                <ul>
+                    <li><strong>A. GLBP, VRRP, AND HSRP:</strong> (Correct) The three valid Layer 3 FHRPs.</li>
+                    <li><strong>B, C, D. STP / RAID / IPFIX:</strong> (Incorrect) <span class="term" data-term="stp">STP</span> is for Layer 2 switch redundancy. RAID is for hard drive storage redundancy. IPFIX is for monitoring traffic flow.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">9. Which two protocols provide gateway redundancy at Layer 3? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. PVST AND RSTP</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. STP AND HSRP</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. VRRP AND HSRP</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. VRRP AND PVST</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: VRRP AND HSRP</div>
+                <p><strong>Deep Dive:</strong> Redundancy happens at two different OSI layers. If you want redundancy for your physical cabling and switches (Layer 2), you use Spanning Tree Protocol (<span class="term" data-term="stp">STP</span>, PVST, RSTP). If you want redundancy for your IP Routing and Default Gateways (Layer 3), you use FHRPs like HSRP and VRRP.</p>
+                <ul>
+                    <li><strong>A, B, D. Involve STP/PVST:</strong> (Incorrect) Spanning Tree Protocols operate at Layer 2 (MAC addresses), not Layer 3 (IP addresses).</li>
+                    <li><strong>C. VRRP AND HSRP:</strong> (Correct) These are Layer 3 routing redundancy protocols.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">10. A network administrator is overseeing the implementation of first hop redundancy protocols. Which two protocols are Cisco proprietary? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. VRRP AND IRDP</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. GLBP AND HSRP</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. VRRPv2 AND GLBP</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. HSRP AND VRRP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: GLBP AND HSRP</div>
+                <p><strong>Deep Dive:</strong> Cisco invented <strong>HSRP</strong> to solve the gateway redundancy problem. Later, they invented <strong>GLBP</strong> to add load-balancing capabilities. Because Cisco invented both of these, they are <em>proprietary</em> and will only work if all the routers in the group are Cisco brands.</p>
+                <ul>
+                    <li><strong>B. GLBP AND HSRP:</strong> (Correct) The two Cisco-owned protocols.</li>
+                    <li><strong>A, C, D. Include VRRP:</strong> (Incorrect) VRRP is an open IEEE standard created so non-Cisco routers could also have redundancy.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">11. Which statement describes a characteristic of GLBP?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. It provides automatic rerouting if any router in the group fails.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. It provides multiple virtual IP addresses and multiple virtual MAC addresses.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. It does not provide support for IPv6.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. It provides load balancing for a maximum of four gateways.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It provides automatic rerouting if any router in the group fails.</div>
+                <p><strong>Deep Dive:</strong> GLBP shares the traffic load across all routers in the group. If one of those active routers catches on fire and fails, GLBP seamlessly and automatically reroutes that router's portion of the traffic to the surviving routers without the PCs ever dropping a packet.</p>
+                <ul>
+                    <li><strong>A. automatic rerouting:</strong> (Correct) True of all FHRPs, but explicitly true for GLBP's redundant load-balancing nature.</li>
+                    <li><strong>B. multiple virtual IP addresses:</strong> (Incorrect) GLBP uses a <em>single</em> Virtual IP address, but distributes multiple Virtual <span class="term" data-term="mac address">MAC addresses</span> to clients.</li>
+                    <li><strong>C. no support for IPv6:</strong> (Incorrect) GLBP fully supports <span class="term" data-term="ipv6">IPv6</span>.</li>
+                    <li><strong>D. maximum of four gateways limit:</strong> (Incorrect) GLBP can load balance across up to 4 routers (AVFs), but there is no strict total limit to the number of gateways in the standby group overall. (However, A is the definitively stated answer in Cisco curriculum).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">12. A network administrator is analyzing the features that are supported by different first-hop router redundancy protocols. Which statement is a feature that is associated with GLBP?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. GLBP allows load balancing between routers.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. It uses a virtual router master.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. It is nonproprietary.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. It works together with VRRP.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: GLBP allows load balancing between routers.</div>
+                <p><strong>Deep Dive:</strong> The very name tells you its main feature: Gateway <strong>Load Balancing</strong> Protocol. While HSRP and VRRP only use one active router at a time, GLBP utilizes all of your expensive routing hardware simultaneously.</p>
+                <ul>
+                    <li><strong>A. GLBP allows load balancing:</strong> (Correct) The primary advantage of GLBP.</li>
+                    <li><strong>B. uses a virtual router master:</strong> (Incorrect) "Master" is the specific terminology used by VRRP. HSRP uses "Active", and GLBP uses "Active Virtual Gateway (AVG)".</li>
+                    <li><strong>C. is nonproprietary:</strong> (Incorrect) GLBP is strictly Cisco-proprietary.</li>
+                    <li><strong>D. works with VRRP:</strong> (Incorrect) They are entirely different, competing protocols.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

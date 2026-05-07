@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10 Quiz: LAN Security Concepts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 10 Quiz (LAN Security Concepts)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 10 Quiz: LAN Security Concepts</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">1. What two protocols are supported on Cisco devices for AAA communications? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. HSRP AND LLDP</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. RADIUS AND TACACS+</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. VTP AND CDP</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. SSH AND HTTPS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: RADIUS AND TACACS+</div>
+                <p><strong>Deep Dive:</strong> In a Server-Based <span class="term" data-term="aaa">AAA</span> setup, the router does not store usernames and passwords locally. It forwards login requests to a centralized security server. The two standard languages (protocols) the router uses to talk to this server are <strong>RADIUS</strong> (the open standard) and <strong>TACACS+</strong> (the Cisco proprietary, fully encrypted standard).</p>
+                <ul>
+                    <li><strong>A. HSRP & LLDP:</strong> (Incorrect) HSRP is for router redundancy. <span class="term" data-term="lldp">LLDP</span> is for neighbor discovery.</li>
+                    <li><strong>B. RADIUS AND TACACS+:</strong> (Correct) The two primary AAA authentication protocols.</li>
+                    <li><strong>C. VTP & CDP:</strong> (Incorrect) VTP syncs VLANs. <span class="term" data-term="cdp">CDP</span> is Cisco's neighbor discovery.</li>
+                    <li><strong>D. SSH & HTTPS:</strong> (Incorrect) These are used to securely access the router, but they do not query backend AAA servers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">2. Which service is enabled on a Cisco router by default that can reveal significant information about the router and potentially make it more vulnerable to attack?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. LLDP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. HTTP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. FTP</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. CDP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: CDP</div>
+                <p><strong>Deep Dive:</strong> <strong><span class="term" data-term="cdp">CDP</span> (Cisco Discovery Protocol)</strong> is a helpful tool that makes Cisco devices broadcast information about themselves (like OS version, device model, and IP addresses) so network admins can draw topology maps. However, because it is enabled by default globally, if it isn't disabled on user-facing ports, a hacker can run a packet sniffer and immediately learn exactly what Cisco vulnerabilities to exploit.</p>
+                <ul>
+                    <li><strong>A. LLDP:</strong> (Incorrect) While LLDP does the exact same thing, it is an open standard and is typically NOT enabled by default on Cisco routers.</li>
+                    <li><strong>B & C. HTTP / FTP:</strong> (Incorrect) Application layer protocols not used for neighbor discovery.</li>
+                    <li><strong>D. CDP:</strong> (Correct) The Cisco proprietary protocol enabled by default that leaks reconnaissance data to attackers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">3. When security is a concern, which OSI Layer is considered to be the weakest link in a network system?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. Layer 4</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Layer 3</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. Layer 7</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. Layer 2</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Layer 2</div>
+                <p><strong>Deep Dive:</strong> Security is only as strong as its weakest link. For decades, admins focused on securing Layer 3 (Routers/Firewalls) and Layer 7 (Applications). They completely ignored <strong>Layer 2 (The Data Link Layer / Switching)</strong>. Because switches inherently trust physical connections, Layer 2 is highly vulnerable to inside attacks like <span class="term" data-term="mac flooding">MAC Flooding</span>, ARP Spoofing, and VLAN Hopping.</p>
+                <ul>
+                    <li><strong>A, B, C. Layers 4, 3, 7:</strong> (Incorrect) These layers usually have extensive security mechanisms (like VPNs, Access Control Lists, and HTTPS).</li>
+                    <li><strong>D. Layer 2:</strong> (Correct) The switching layer is historically the most vulnerable "weakest link" on local area networks.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">4. Which Layer 2 attack will result in a switch flooding incoming frames to all ports?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. Spanning Tree Protocol manipulation</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. ARP poisoning</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. IP address spoofing</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. MAC address overflow</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: MAC address overflow</div>
+                <p><strong>Deep Dive:</strong> Switches use a <span class="term" data-term="mac address table">MAC Address Table</span> (CAM table) to remember which PC is on which port. In a <strong>MAC address overflow</strong> (or <span class="term" data-term="mac flooding">MAC Flooding</span>) attack, a hacker uses a tool like *macof* to blast 100,000 fake MAC addresses at the switch in seconds. The table fills up, and the switch panics. Instead of dropping traffic, it "fails open" and starts behaving like a dumb Hub—flooding every single frame out of all ports, allowing the hacker to sniff everyone's traffic.</p>
+                <ul>
+                    <li><strong>A. STP manipulation:</strong> (Incorrect) Used to alter the root bridge and intercept traffic, but doesn't cause raw flooding.</li>
+                    <li><strong>B. ARP poisoning:</strong> (Incorrect) Tricks PCs into sending traffic to the hacker (Man-in-the-Middle).</li>
+                    <li><strong>C. IP address spoofing:</strong> (Incorrect) Faking an IP to bypass ACLs.</li>
+                    <li><strong>D. MAC address overflow:</strong> (Correct) Fills the CAM table, forcing the switch to flood unknown unicast frames.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">5. Why is authentication with AAA preferred over a local database method?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. It uses less network bandwidth.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. It provides a fallback authentication method if the administrator forgets the username or password.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. It specifies a different password for each line or port.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. It requires a login and password combination on the console, vty lines, and aux ports.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It provides a fallback authentication method if the administrator forgets the username or password.</div>
+                <p><strong>Deep Dive:</strong> If you only configure local passwords on a router, and you forget them, you are completely locked out and have to perform a factory password recovery. With <span class="term" data-term="aaa">AAA</span>, you can set up a "Method List". This allows you to say: "Try to log me in using the RADIUS server first. If the server is offline or I forgot my RADIUS password, fallback to the local backup database."</p>
+                <ul>
+                    <li><strong>A. uses less bandwidth:</strong> (Incorrect) AAA actually uses *more* bandwidth because it has to send packets to a server.</li>
+                    <li><strong>B. provides a fallback authentication method:</strong> (Correct) The modular nature of AAA lets you chain multiple login methods together for safety.</li>
+                    <li><strong>C. different password for each line:</strong> (Incorrect) You can do this with local databases too.</li>
+                    <li><strong>D. requires login combination:</strong> (Incorrect) You can enforce this without AAA.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">6. In a server-based AAA implementation, which protocol will allow the router to successfully communicate with the AAA server?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. SSH</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. RADIUS</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. 802.1x</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. TACACS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: RADIUS</div>
+                <p><strong>Deep Dive:</strong> When a router needs to ask a central server if a user's password is correct, it uses either <strong><span class="term" data-term="radius">RADIUS</span></strong> or TACACS+. (Note: *TACACS* is an ancient, obsolete protocol. *TACACS+* is the modern Cisco version. Since TACACS+ is not an option here, RADIUS is the only correct answer.)</p>
+                <ul>
+                    <li><strong>A. SSH:</strong> (Incorrect) Secure Shell is used by the *human* to talk to the *router*, not the router to the server.</li>
+                    <li><strong>B. RADIUS:</strong> (Correct) The industry standard open-source AAA protocol.</li>
+                    <li><strong>C. 802.1x:</strong> (Incorrect) This is a port-authentication standard that *relies* on RADIUS, but is not the server communication protocol itself.</li>
+                    <li><strong>D. TACACS:</strong> (Incorrect) A legacy protocol replaced entirely by TACACS+.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">7. Which Cisco solution helps prevent MAC and IP address spoofing attacks?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. IP Source Guard</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. Dynamic ARP Inspection</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. DHCP Snooping</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. Port Security</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: IP Source Guard</div>
+                <p><strong>Deep Dive:</strong> If a hacker manually changes their computer's IP or MAC address to bypass security filters, it's called <span class="term" data-term="spoofing">spoofing</span>. <strong><span class="term" data-term="ipsg">IP Source Guard (IPSG)</span></strong> stops this by checking every packet against the <span class="term" data-term="dhcp snooping">DHCP Snooping</span> binding table. If the source IP/MAC doesn't match what the DHCP server originally handed out to that specific port, IPSG drops the traffic instantly.</p>
+                <ul>
+                    <li><strong>A. IP Source Guard:</strong> (Correct) Explicitly prevents IP and MAC address spoofing.</li>
+                    <li><strong>B. Dynamic ARP Inspection:</strong> (Incorrect) <span class="term" data-term="dai">DAI</span> prevents ARP poisoning (Man-in-the-Middle) attacks, not general IP spoofing.</li>
+                    <li><strong>C. DHCP Snooping:</strong> (Incorrect) Prevents rogue DHCP servers.</li>
+                    <li><strong>D. Port Security:</strong> (Incorrect) Prevents MAC flooding attacks, but does not check Layer 3 IP addresses.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">8. What is the purpose of AAA accounting?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. To prove users are who they say they are</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. To determine which operations the user can perform</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. To determine which resources the user can access</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. To collect and report application usage</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: To collect and report application usage</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="aaa">AAA</span> framework has three distinct jobs. Authentication checks identities. Authorization checks permissions. <strong>Accounting</strong> is the logging phase. It tracks how long a user was logged in, how much bandwidth they used, and what commands they typed. This data is used for billing and security auditing.</p>
+                <ul>
+                    <li><strong>A. prove users are who they say they are:</strong> (Incorrect) This is Authentication.</li>
+                    <li><strong>B & C. determine operations/resources:</strong> (Incorrect) This is Authorization.</li>
+                    <li><strong>D. collect and report usage:</strong> (Correct) The definition of Accounting.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">9. Which Layer 2 attack will result in legitimate users not getting valid IP addresses?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. IP address spoofing</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. DHCP starvation</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. ARP spoofing</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. MAC address flooding</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: DHCP starvation</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="dhcp">DHCP</span> server has a limited "pool" of IP addresses it can hand out. In a <strong><span class="term" data-term="dhcp starvation">DHCP Starvation</span></strong> attack, a hacker uses a tool to generate thousands of fake MAC addresses, requesting a new IP for every single one. Within seconds, the DHCP pool is completely exhausted, and real employees can't get an IP address to join the network.</p>
+                <ul>
+                    <li><strong>A. IP address spoofing:</strong> (Incorrect) Faking an identity.</li>
+                    <li><strong>B. DHCP starvation:</strong> (Correct) Exhausts the IP pool, creating a Denial of Service.</li>
+                    <li><strong>C. ARP spoofing:</strong> (Incorrect) Redirects traffic to the attacker.</li>
+                    <li><strong>D. MAC address flooding:</strong> (Incorrect) Fills the switch's CAM table, causing frame flooding.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">10. Which three Cisco products focus on endpoint security solutions? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. Email Security Appliance, Web Security Appliance, AND NAC Appliance</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. SSL/IPsec VPN Appliance, Adaptive Security Appliance, AND IPS Sensor</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. Web Security Appliance, IPS Sensor, AND NAC Appliance</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. Adaptive Security Appliance, Email Security Appliance, AND VPN Appliance</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Email Security Appliance, Web Security Appliance, AND NAC Appliance</div>
+                <p><strong>Deep Dive:</strong> Security is split into two categories: "Network" security (protecting the wires and routers) and "Endpoint" security (protecting the user's laptop/email). The Cisco ESA (Email), WSA (Web), and NAC (Network Admission Control) are specifically designed to filter malware, block bad websites, and check laptops for antivirus software before letting them on the network.</p>
+                <ul>
+                    <li><strong>A. Email, Web, and NAC:</strong> (Correct) These focus directly on securing end-user devices (endpoints).</li>
+                    <li><strong>B, C, D. Include VPN/ASA/IPS:</strong> (Incorrect) ASA Firewalls, VPNs, and IPS sensors are considered "Network Infrastructure" security devices, not endpoint devices.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">11. True or False? In the 802.1X standard, the client attempting to access the network is referred to as the supplicant.</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. True</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. False</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: True</div>
+                <p><strong>Deep Dive:</strong> The <strong><span class="term" data-term="802.1x">802.1X</span></strong> protocol uses three specific roles. The user's PC or laptop that is begging for access to the switch port is called the <strong><span class="term" data-term="supplicant">Supplicant</span></strong>. The Switch is the <span class="term" data-term="authenticator">Authenticator</span>. The RADIUS server is the <span class="term" data-term="authentication server">Authentication Server</span>.</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">12. What is involved in an IP address spoofing attack?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. A rogue DHCP server provides false IP configuration parameters to legitimate DHCP clients.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. Bogus DHCPDISCOVER messages are sent to consume all the available IP addresses on a DHCP server.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. A legitimate network IP address is hijacked by a rogue node.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. A rogue node replies to an ARP request with its own MAC address indicated for the target IP address.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: A legitimate network IP address is hijacked by a rogue node.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="spoofing">Spoofing</span> is the act of falsifying your identity. In an IP Spoofing attack, a hacker manually changes their computer's <span class="term" data-term="ip address">IP address</span> to match the IP address of a trusted machine (like the CEO's computer or a Server). This allows the hacker to bypass IP-based Access Control Lists (ACLs) and hijack traffic.</p>
+                <ul>
+                    <li><strong>A. Rogue DHCP server:</strong> (Incorrect) This is a <span class="term" data-term="dhcp spoofing">DHCP Spoofing</span> attack.</li>
+                    <li><strong>B. Bogus DHCPDISCOVER messages:</strong> (Incorrect) This is a <span class="term" data-term="dhcp starvation">DHCP Starvation</span> attack.</li>
+                    <li><strong>C. Legitimate IP address is hijacked:</strong> (Correct) The exact definition of IP Address Spoofing.</li>
+                    <li><strong>D. Rogue node replies to ARP request:</strong> (Incorrect) This is ARP Poisoning (ARP Spoofing).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">13. What three services are provided by the AAA framework? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. Accounting, Authorization, AND Authentication</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. Autoconfiguration, Autobalancing, AND Automation</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. Authorization, Automation, AND Accounting</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. Authentication, Autoconfiguration, AND Autobalancing</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Accounting, Authorization, AND Authentication</div>
+                <p><strong>Deep Dive:</strong> The acronym <strong><span class="term" data-term="aaa">AAA</span></strong> strictly stands for: <br>1. <strong>Authentication</strong> (Proving who you are).<br>2. <strong>Authorization</strong> (Checking what you are allowed to do).<br>3. <strong>Accounting</strong> (Logging everything you did).</p>
+            </div>
+        </div>
+
+        <!-- QUESTION 14 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">14. Because of implemented security controls, a user can only access a server with FTP. Which AAA component accomplishes this?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. Authorization</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. Accounting</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. Authentication</label>
+                <label class="choice-item"><input type="radio" name="q14" value="D"> D. Auditing</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Authorization</div>
+                <p><strong>Deep Dive:</strong> Once a user types their password correctly (Authentication), the <span class="term" data-term="aaa">AAA</span> server looks up their profile to see their privileges. If the profile says "This user is only permitted to use FTP, block HTTP and SSH," that restrictive rule application is the definition of <strong>Authorization</strong>.</p>
+                <ul>
+                    <li><strong>A. Authorization:</strong> (Correct) Determines which network resources and operations are permitted.</li>
+                    <li><strong>B. Accounting:</strong> (Incorrect) Logs the fact that the user used FTP.</li>
+                    <li><strong>C. Authentication:</strong> (Incorrect) Verifies the user's password.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 15 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">15. What mitigation plan is best for thwarting a DoS attack that is creating a MAC address table overflow?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q15" value="A"> A. Place unused ports in an unused VLAN.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="B"> B. Disable DTP.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="C"> C. Disable STP.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="D"> D. Enable port security.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Enable port security.</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="mac address table">MAC address table</span> overflow attack (<span class="term" data-term="mac flooding">MAC Flooding</span>) works by sending 100,000 fake MAC addresses into a single switch port. The easiest way to stop this is to configure <strong><span class="term" data-term="port security">Port Security</span></strong>. You can tell the switch, "Only allow a maximum of 2 MAC addresses on this port." The moment the hacker sends the 3rd fake MAC address, the switch will instantly shut the port down, thwarting the attack.</p>
+                <ul>
+                    <li><strong>A & B. Unused VLANs / Disable DTP:</strong> (Incorrect) These steps mitigate <span class="term" data-term="vlan hopping">VLAN Hopping</span> attacks, not MAC flooding.</li>
+                    <li><strong>C. Disable STP:</strong> (Incorrect) You should NEVER disable <span class="term" data-term="stp">STP</span>, as it prevents physical loops.</li>
+                    <li><strong>D. Enable port security:</strong> (Correct) The definitive countermeasure for MAC flooding.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

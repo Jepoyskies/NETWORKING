@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8 Quiz: SLAAC and DHCPv6</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 8 Quiz (SLAAC and DHCPv6)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 8 Quiz: SLAAC & DHCPv6</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">1. How does an IPv6 client ensure that it has a unique address after it configures its IPv6 address using the SLAAC allocation method?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. It checks with the IPv6 address database that is hosted by the SLAAC server.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. It sends an ICMPv6 Neighbor Solicitation message with the IPv6 address as the target IPv6 address.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. It contacts the DHCPv6 server via a special formed ICMPv6 message.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. It sends an ARP message with the IPv6 address as the destination IPv6 address.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It sends an ICMPv6 Neighbor Solicitation message...</div>
+                <p><strong>Deep Dive:</strong> Because <span class="term" data-term="slaac">SLAAC</span> is <span class="term" data-term="stateless">stateless</span> (meaning no server tracks who has what IP), the <span class="term" data-term="host">host</span> generates its own <span class="term" data-term="ipv6">IPv6</span> address. To make absolutely sure no one else on the network accidentally generated the exact same IP, the host performs <span class="term" data-term="dad">DAD</span> (Duplicate Address Detection). It does this by broadcasting an <span class="term" data-term="icmpv6">ICMPv6</span> Neighbor Solicitation message asking, "Is anyone already using this IP?"</p>
+                <ul>
+                    <li><strong>A & C. Database / DHCPv6 Server:</strong> (Incorrect) SLAAC does not use a central database or server.</li>
+                    <li><strong>B. Sends ICMPv6 Neighbor Solicitation:</strong> (Correct) This is the mechanism used to perform DAD.</li>
+                    <li><strong>D. ARP message:</strong> (Incorrect) ARP is strictly used in IPv4. IPv6 uses ICMPv6 Neighbor Discovery instead.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">2. Which method would an IPv6-enabled host using SLAAC employ to learn the address of the default gateway?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. Router advertisements that are received from the link router</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. Reply messages that are received from the DHCPv6 server</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. Neighbor advertisements that are received from link neighbors</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. Advertise messages that are received from the DHCPv6 server</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Router advertisements that are received from the link router</div>
+                <p><strong>Deep Dive:</strong> In an IPv6 network, the <span class="term" data-term="router">router</span> periodically broadcasts <span class="term" data-term="ra">Router Advertisement (RA)</span> messages. The source address of this RA message is the router's own <span class="term" data-term="link_local">Link-Local Address</span> (FE80::). When a host running <span class="term" data-term="slaac">SLAAC</span> receives this RA, it automatically sets that link-local address as its <span class="term" data-term="default gateway">default gateway</span>.</p>
+                <ul>
+                    <li><strong>A. Router advertisements:</strong> (Correct) RAs contain the network prefix and the router's link-local address.</li>
+                    <li><strong>B & D. DHCPv6 server messages:</strong> (Incorrect) SLAAC specifically avoids relying on a DHCPv6 server for basic IP and gateway info.</li>
+                    <li><strong>C. Neighbor advertisements:</strong> (Incorrect) NAs are used to map MAC addresses to IP addresses, not to hand out default gateways.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">3. What two methods can be used to generate an interface ID by an IPv6 host that is using SLAAC? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. Random generation AND Stateful DHCPv6</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Random generation AND EUI-64</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. ARP AND DAD</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. EUI-64 AND DAD</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Random generation AND EUI-64</div>
+                <p><strong>Deep Dive:</strong> When using <span class="term" data-term="slaac">SLAAC</span>, the router provides the first 64 bits (the Network Prefix). The <span class="term" data-term="host">host</span> must make up the last 64 bits (the Interface ID) by itself. It does this in one of two ways: <strong>1)</strong> Using <span class="term" data-term="eui_64">EUI-64</span>, which takes the device's <span class="term" data-term="mac address">MAC Address</span>, splits it in half, and inserts `FFFE` in the middle, or <strong>2)</strong> Using a purely random 64-bit number (which modern OSs like Windows 10 do for privacy).</p>
+                <ul>
+                    <li><strong>A. Stateful DHCPv6:</strong> (Incorrect) This is the opposite of SLAAC.</li>
+                    <li><strong>B. Random generation AND EUI-64:</strong> (Correct) The two standard methods an OS uses to invent its own IPv6 Interface ID.</li>
+                    <li><strong>C & D. ARP / DAD:</strong> (Incorrect) ARP is IPv4 only. <span class="term" data-term="dad">DAD</span> is used to check if an address is unique, not to generate it.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">4. A client is using SLAAC to obtain an IPv6 address for its interface. After an address has been generated and applied to the interface, what must the client do before it can begin to use this IPv6 address?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. It must send an ICMPv6 Neighbor Solicitation message to ensure that the address is not already in use on the network.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. It must send a DHCPv6 REQUEST message to the DHCPv6 server to request permission to use this address.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. It must send a DHCPv6 INFORMATION-REQUEST message to request the address of the DNS server.</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. It must send an ICMPv6 Router Solicitation message to determine what default gateway it should use.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It must send an ICMPv6 Neighbor Solicitation message to ensure that the address is not already in use on the network.</div>
+                <p><strong>Deep Dive:</strong> Because <span class="term" data-term="slaac">SLAAC</span> allows devices to essentially invent their own IP addresses without asking a server, there is a tiny chance two devices might generate the exact same IP. Before routing any real data, the host must perform <span class="term" data-term="dad">Duplicate Address Detection (DAD)</span> using an <span class="term" data-term="icmpv6">ICMPv6</span> Neighbor Solicitation message to ask the network if the IP is taken.</p>
+                <ul>
+                    <li><strong>A. Send Neighbor Solicitation:</strong> (Correct) This performs DAD to guarantee uniqueness.</li>
+                    <li><strong>B. Send DHCPv6 REQUEST:</strong> (Incorrect) SLAAC does not ask a DHCP server for permission to use an IP.</li>
+                    <li><strong>C. Send INFORMATION-REQUEST:</strong> (Incorrect) While Stateless DHCPv6 does this to get DNS, it is not required just to *use* the IP address itself.</li>
+                    <li><strong>D. Send Router Solicitation:</strong> (Incorrect) <span class="term" data-term="rs">RS</span> messages are sent *before* the IP is generated to find the router prefix, not after.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">5. Which command should be configured on a router interface to set the router as a stateful DHCPv6 client?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. ipv6 address autoconfigure</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. ipv6 dhcp server stateful</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. ipv6 enable</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. ipv6 address dhcp</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: ipv6 address dhcp</div>
+                <p><strong>Deep Dive:</strong> Sometimes a <span class="term" data-term="router">router</span> itself needs to obtain an IPv6 address from an ISP's upstream <span class="term" data-term="dhcpv6">DHCPv6</span> server. To make a router interface act as a client and request a <span class="term" data-term="stateful">stateful</span> IP address lease, you use the <code>ipv6 address dhcp</code> interface command.</p>
+                <ul>
+                    <li><strong>A. ipv6 address autoconfigure:</strong> (Incorrect) This tells the router interface to act as a client and use <span class="term" data-term="slaac">SLAAC</span>, not stateful DHCPv6.</li>
+                    <li><strong>B. ipv6 dhcp server:</strong> (Incorrect) This makes the router act as a server handing OUT addresses, not a client.</li>
+                    <li><strong>C. ipv6 enable:</strong> (Incorrect) This merely turns on IPv6 processing and generates a <span class="term" data-term="link_local">link-local</span> address.</li>
+                    <li><strong>D. ipv6 address dhcp:</strong> (Correct) Configures the interface to acquire an IPv6 address via a stateful DHCPv6 server.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">6. What message informs IPv6 enabled interfaces to use stateful DHCPv6 for obtaining an IPv6 address?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. The ICMPv6 Router Advertisement</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. The ICMPv6 Router Solicitation</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. The DHCPv6 Advertise message</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. The DHCPv6 Reply message</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The ICMPv6 Router Advertisement</div>
+                <p><strong>Deep Dive:</strong> When an IPv6 <span class="term" data-term="host">host</span> boots up, it doesn't immediately know how it's supposed to get an IP address. It waits for the <span class="term" data-term="router">router</span> to send an <span class="term" data-term="icmpv6">ICMPv6</span> <span class="term" data-term="ra">Router Advertisement (RA)</span>. If the router has the <span class="term" data-term="m_flag">M-Flag</span> (Managed) set to 1 inside that RA message, it acts as a direct command telling the host: "Stop using SLAAC. Go find a Stateful DHCPv6 server to get your IP address."</p>
+                <ul>
+                    <li><strong>A. Router Advertisement:</strong> (Correct) The RA message dictates the IP assignment method (SLAAC, Stateless DHCPv6, or Stateful DHCPv6).</li>
+                    <li><strong>B. Router Solicitation:</strong> (Incorrect) This is sent by the host asking the router to send an RA.</li>
+                    <li><strong>C & D. Advertise / Reply:</strong> (Incorrect) These are DHCPv6 messages sent *after* the host has already been told to use DHCPv6 by the RA.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">7. Which destination IP address is used when an IPv6 host sends a DHCPv6 SOLICIT message to locate a DHCPv6 server?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. FE80::1</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. FF02::1:2</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. FF02::2</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. FF02::1</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: FF02::1:2</div>
+                <p><strong>Deep Dive:</strong> In IPv4, DHCP Discover messages are broadcasted to everyone (255.255.255.255). IPv6 does not use broadcasts; it uses highly specific multicast addresses. When a client needs an IP, it sends a SOLICIT message to the <strong>All-DHCPv6-Servers-and-Relay-Agents</strong> multicast address, which is <code>FF02::1:2</code>.</p>
+                <ul>
+                    <li><strong>A. FE80::1:</strong> (Incorrect) A <span class="term" data-term="link_local">link-local</span> unicast address.</li>
+                    <li><strong>B. FF02::1:2:</strong> (Correct) The multicast address exclusively for reaching DHCPv6 servers and relay agents.</li>
+                    <li><strong>C. FF02::2:</strong> (Incorrect) The multicast address for ALL routers on the local link.</li>
+                    <li><strong>D. FF02::1:</strong> (Incorrect) The multicast address for ALL IPv6 nodes (devices) on the local link.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">8. In which alternative to DHCPv6 does a router dynamically provide IPv6 configuration information to hosts?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. ICMPv6</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. SLAAC</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. EUI-64</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. ARP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SLAAC</div>
+                <p><strong>Deep Dive:</strong> <strong><span class="term" data-term="slaac">SLAAC</span></strong> (Stateless Address Autoconfiguration) is the primary alternative to using a DHCPv6 server. The router provides the network prefix, default gateway, and even <span class="term" data-term="dns">DNS</span> server info directly in its RA messages, allowing hosts to completely self-configure.</p>
+                <ul>
+                    <li><strong>A. ICMPv6:</strong> (Incorrect) This is the protocol *used* to deliver the messages, not the configuration method itself.</li>
+                    <li><strong>B. SLAAC:</strong> (Correct) The standard stateless alternative to DHCPv6.</li>
+                    <li><strong>C. EUI-64:</strong> (Incorrect) A method for creating an interface ID, not a full network configuration delivery method.</li>
+                    <li><strong>D. ARP:</strong> (Incorrect) Address Resolution Protocol is exclusively used in IPv4.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">9. A company implements the stateless DHCPv6 method. After a workstation receives ADVERTISE messages from multiple DHCPv6 servers to indicate their availability, which message does it send to a server to get DNS information?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. DHCPv6 INFORMATION-REQUEST</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. DHCPv6 REQUEST</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. DHCPv6 SOLICIT</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. DHCPv6 ADVERTISE</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: DHCPv6 INFORMATION-REQUEST</div>
+                <p><strong>Deep Dive:</strong> In <em>Stateless</em> <span class="term" data-term="dhcpv6">DHCPv6</span>, the client already created its own IP address using <span class="term" data-term="slaac">SLAAC</span>. It doesn't need to REQUEST an IP lease. It only needs "extra" information, like the IP address of the <span class="term" data-term="dns">DNS</span> server. Therefore, it sends a specific <strong>INFORMATION-REQUEST</strong> message to the DHCPv6 server.</p>
+                <ul>
+                    <li><strong>A. INFORMATION-REQUEST:</strong> (Correct) Used in Stateless DHCPv6 to ask for DNS/Domain info without asking for an IP address.</li>
+                    <li><strong>B. REQUEST:</strong> (Incorrect) Used in <em>Stateful</em> DHCPv6 to officially request an IP address lease.</li>
+                    <li><strong>C & D. Solicit / Advertise:</strong> (Incorrect) These are the initial discovery steps.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">10. What process is used in ICMPv6 for a host to verify that an IPv6 address is unique before configuring it on an interface?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. SLAAC</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. DAD</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. EUI-64</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. ARP</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: DAD</div>
+                <p><strong>Deep Dive:</strong> <strong><span class="term" data-term="dad">Duplicate Address Detection (DAD)</span></strong> is a critical safety check in IPv6. Whenever an interface receives an IPv6 address (whether by SLAAC, DHCPv6, or manual entry), it sends a Neighbor Solicitation message out to the network asking, "Does anyone have this IP?" If someone replies, the address is marked as a duplicate and disabled.</p>
+                <ul>
+                    <li><strong>A. SLAAC:</strong> (Incorrect) The process of generating an IP, not checking it.</li>
+                    <li><strong>B. DAD:</strong> (Correct) The verification process ensuring IP uniqueness.</li>
+                    <li><strong>C. EUI-64:</strong> (Incorrect) A method of generating an interface ID.</li>
+                    <li><strong>D. ARP:</strong> (Incorrect) IPv4 protocol.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">11. What are two characteristics of the SLAAC method for IPv6 address configuration? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. The default gateway will be the link-local address of the router AND IPv6 addressing is dynamically assigned through ICMPv6.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. This stateful method requires at least one DHCPv6 server AND Clients send RA messages to routers.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. Router solicitation messages are sent by the router AND IPv6 addressing is dynamically assigned through ICMPv6.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. The default gateway will be the link-local address of the router AND Router solicitation messages are sent by the router.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The default gateway will be the link-local address of the router AND IPv6 addressing is dynamically assigned through ICMPv6.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="slaac">SLAAC</span> is totally reliant on <span class="term" data-term="icmpv6">ICMPv6</span>. The <span class="term" data-term="router">router</span> sends an RA (Router Advertisement) containing the network prefix. The host uses this to assign itself a <span class="term" data-term="gua">Global Unicast Address</span>. Simultaneously, the host takes the source address of that RA message (which is the router's <span class="term" data-term="link_local">Link-Local Address</span>) and uses it as its <span class="term" data-term="default gateway">default gateway</span>.</p>
+                <ul>
+                    <li><strong>B. Stateful / Clients send RA:</strong> (Incorrect) SLAAC is stateless. Routers send RAs, clients send RSs.</li>
+                    <li><strong>C & D. Routers send Solicitations:</strong> (Incorrect) Hosts send Solicitations (<span class="term" data-term="rs">RS</span>) to ask for information. Routers send Advertisements (<span class="term" data-term="ra">RA</span>) to give the information.</li>
+                    <li><strong>A. Link-local gateway & ICMPv6 assignment:</strong> (Correct) Accurately describes the core functions of SLAAC.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">12. After booting, a client receives an ICMPv6 RA message with the M flag set to 0 and the O flag set to 1. What does this indicate?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. The client should be statically configured with an IPv6 address because the local router does not support autoconfiguration.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. The client should automatically configure an IPv6 address without contacting a DHCPv6 server.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. The client should automatically configure an IPv6 address and then contact a DHCPv6 server for more information.</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. The client should request an IPv6 address directly from a DHCPv6 server.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The client should automatically configure an IPv6 address and then contact a DHCPv6 server for more information.</div>
+                <p><strong>Deep Dive:</strong> RA messages have specific flags to instruct clients. The <span class="term" data-term="m_flag">M-flag</span> (Managed) controls the IP address. The <span class="term" data-term="o_flag">O-flag</span> (Other) controls things like <span class="term" data-term="dns">DNS</span>. <br><br>M=0 means "Do not use Stateful DHCPv6 for your IP, use <span class="term" data-term="slaac">SLAAC</span> instead."<br>O=1 means "Go to the Stateless DHCPv6 server to get Other info (like DNS)."</p>
+                <ul>
+                    <li><strong>A. Statically configured:</strong> (Incorrect) The M and O flags are for dynamic setups.</li>
+                    <li><strong>B. Without contacting a server:</strong> (Incorrect) This would be M=0, O=0 (Pure SLAAC).</li>
+                    <li><strong>C. Configure address, then contact server for more info:</strong> (Correct) This perfectly describes M=0, O=1 (Stateless DHCPv6).</li>
+                    <li><strong>D. Request IP directly from server:</strong> (Incorrect) This describes M=1 (Stateful DHCPv6).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">13. A network administrator is entering the command <code>ipv6 unicast-routing</code> to start configuring DHCPv6 operation on a router. Which statement describes the function of this command?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. It is required for enabling DNS service in DHCPv6 configurations.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. It is required to configure stateless DHCPv6 server on the router.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. It is required to configure stateful DHCPv6 server on the router.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. It is required for sending ICMPv6 RA messages.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It is required for sending ICMPv6 RA messages.</div>
+                <p><strong>Deep Dive:</strong> By default, Cisco routers have <span class="term" data-term="ipv6">IPv6</span> routing completely disabled! If a router has IPv6 routing turned off, it is physically impossible for it to broadcast <span class="term" data-term="ra">Router Advertisement (RA)</span> messages. Without RAs, clients cannot use SLAAC or find the DHCPv6 servers. The command <code>ipv6 unicast-routing</code> awakens the IPv6 brain of the router, allowing it to send RAs.</p>
+                <ul>
+                    <li><strong>A, B, C. Required for DNS / DHCPv6 servers:</strong> (Incorrect) While you often type this command before setting up DHCPv6, its specific technical function is enabling the router to act as an IPv6 gateway and broadcast RA messages.</li>
+                    <li><strong>D. Required for sending RA messages:</strong> (Correct) Enabling IPv6 routing is the trigger that starts the periodic broadcasting of ICMPv6 RAs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>

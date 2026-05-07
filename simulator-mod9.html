@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITCC 32.1 - Practical Exam Simulator</title>
+    <title>ITCC 32.1 - HSRP Lab Simulator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="simulator-mod11.js" defer></script>
+    <script src="simulator-mod9.js" defer></script>
     <style>
-        /* Simulator Specific Layout Styles */
         .simulator-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: start; }
         .objectives-panel { background: #1e293b; padding: 20px; border-radius: 8px; border: 2px solid #334155; color: #cbd5e1; }
         .objectives-panel h3 { color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 15px; }
         .objectives-panel ul { padding-left: 20px; font-size: 0.95rem; line-height: 1.6; }
         .objectives-panel li { margin-bottom: 10px; }
-        .terminal-window { background: #000; color: #4ade80; font-family: 'Courier New', monospace; padding: 15px; border-radius: 8px; height: 350px; overflow-y: auto; border: 2px solid #334155; display: flex; flex-direction: column; }
+        .terminal-window { background: #000; color: #4ade80; font-family: 'Courier New', monospace; padding: 15px; border-radius: 8px; height: 400px; overflow-y: auto; border: 2px solid #334155; display: flex; flex-direction: column; }
         .terminal-output { white-space: pre-wrap; margin-bottom: 5px; flex-grow: 1; }
         .terminal-input-line { display: flex; align-items: center; }
         .terminal-prompt { margin-right: 8px; font-weight: bold; white-space: nowrap; }
@@ -47,108 +46,94 @@
     </nav>
 
     <div class="container">
-        <h1 style="color: #38bdf8;">ITCC 32.1: Advanced Switch Security Lab</h1>
-        <p style="color: #94a3b8; margin-bottom: 20px;">Select a device, configure it using the CLI, and run the diagnostics below to test your skills.</p>
+        <h1 style="color: #38bdf8;">ITCC 32.1: FHRP & HSRP Lab Simulator</h1>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Master Default Gateway Redundancy using Hot Standby Router Protocol (HSRP)!</p>
 
         <div class="simulator-layout">
             
             <!-- LAB OBJECTIVES SIDEBAR -->
             <div class="objectives-panel" id="objectives-box">
-                <h3>Lab Objectives (Switch0)</h3>
+                <h3>Lab Objectives</h3>
                 <ul>
-                    <li>Use <strong>interface range</strong> to shut down unused ports (f0/3-24).</li>
-                    <li>Disable <strong>DTP</strong> negotiation on trunk link g0/1.</li>
-                    <li>Change the <strong>Native VLAN</strong> on the trunk to 999.</li>
-                    <li>Enable <strong>Port Security</strong> on f0/1 (Max 2, Sticky MAC, Restrict violation).</li>
-                    <li>Enable <strong>DHCP Snooping</strong> globally.</li>
-                    <li>Configure the trunk uplink (g0/1) as a DHCP Snooping trust port, and rate limit f0/1 to 5 pps.</li>
-                    <li>Enable <strong>PortFast</strong> and <strong>BPDU Guard</strong> on the access port (f0/1).</li>
+                    <li><strong>R1 (Active Router):</strong> Go to interface <code>g0/1</code>.</li>
+                    <li>Change the HSRP protocol version to <strong>version 2</strong>.</li>
+                    <li>Set the HSRP Group to <strong>1</strong> and the Virtual IP to <code>192.168.1.254</code>.</li>
+                    <li>Increase the HSRP priority to <strong>150</strong> to force R1 to become the Active router.</li>
+                    <li>Enable <strong>preempt</strong> so R1 takes back control if it reboots.</li>
+                    <br>
+                    <li><strong>R3 (Standby Router):</strong> Go to interface <code>g0/0</code>.</li>
+                    <li>Change the HSRP protocol version to <strong>version 2</strong>.</li>
+                    <li>Set the HSRP Group to <strong>1</strong> and the Virtual IP to <code>192.168.1.254</code>.</li>
                 </ul>
-                
-                <!-- NEW: CHEAT SHEET BUTTON -->
                 <button id="cheat-btn" class="test-btn" style="width: 100%; margin-top: 15px; background: #f59e0b; color: #0f172a;">📜 View Command Cheat Sheet</button>
             </div>
 
             <!-- TERMINAL & DEVICE SELECTOR -->
             <div>
                 <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-                    <button class="test-btn active" style="background:#0ea5e9;" data-device="Router0" onclick="switchDevice('Router0', this)">Router0</button>
-                    <button class="test-btn" data-device="Switch0" onclick="switchDevice('Switch0', this)">Switch0 (Target)</button>
-                    <button class="test-btn" data-device="Switch1" onclick="switchDevice('Switch1', this)">Switch1</button>
+                    <button class="test-btn active" style="background:#0ea5e9;" data-device="R1" onclick="switchDevice('R1', this)">R1 (Active Router)</button>
+                    <button class="test-btn" data-device="R3" onclick="switchDevice('R3', this)">R3 (Standby Router)</button>
                 </div>
                 
                 <div class="terminal-window" id="terminal" onclick="document.getElementById('cli-input').focus()">
-                    <div class="terminal-output" id="output">System Bootstrap, Version 15.2(4)M1...<br><br>Press RETURN to get started.</div>
+                    <div class="terminal-output" id="output">System Bootstrap, Version 16.9.4...<br><br>Press RETURN to get started.</div>
                     <div class="terminal-input-line">
                         <span class="terminal-prompt" id="prompt"></span>
                         <input type="text" id="cli-input" autocomplete="off" spellcheck="false" autofocus>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- TROUBLESHOOTING ENGINE -->
         <div class="testing-panel">
             <h3 style="color: white; margin-bottom: 15px;">Diagnostic Testing Engine</h3>
             <div class="test-grid">
-                <button class="test-btn" id="test-ccs">1. Ping VLAN 100 PC to VLAN 101 PC</button>
-                <button class="test-btn" id="test-ssh">2. SSH into Switch0 (CCS)</button>
-                <button class="test-btn" id="test-security">3. Basic Device Security</button>
-                <button class="test-btn" id="test-mod11" style="background-color: #8b5cf6;">4. Verify Module 11 Switch Security</button>
+                <button class="test-btn" id="test-r1-hsrp">1. Verify R1 HSRP (Active)</button>
+                <button class="test-btn" id="test-r3-hsrp">2. Verify R3 HSRP (Standby)</button>
+                <button class="test-btn" id="test-failover" style="grid-column: span 2; background-color: #8b5cf6;">3. Verify FHRP Redundancy & Preemption</button>
             </div>
             <div id="diagnostic-output">Run a test above to see diagnostics here. Blue dashed words can be clicked for hints!</div>
         </div>
     </div>
 
-    <!-- NEW: CHEAT SHEET MODAL POPUP -->
+    <!-- CHEAT SHEET MODAL POPUP -->
     <div id="cheat-modal">
         <div class="cheat-content">
             <div class="cheat-header">
-                <h2>📜 Cisco CLI Cheat Sheet: Mod 11 Security</h2>
+                <h2>📜 Cisco CLI Cheat Sheet: Mod 9 HSRP</h2>
                 <button class="close-cheat" id="close-cheat">&times;</button>
             </div>
             <div class="cheat-body">
                 
                 <div class="cheat-section">
-                    <h4>1. Secure Unused Ports & Trunking</h4>
-                    <div class="cheat-code">interface range f0/3 - 24<br>shutdown<br>switchport mode access<br>switchport access vlan 999</div>
-                    <div class="cheat-desc">Disables unused ports and drops them into a "black hole" VLAN.</div>
-                    
-                    <div class="cheat-code">interface g0/1<br>switchport mode trunk<br>switchport nonegotiate<br>switchport trunk native vlan 999</div>
-                    <div class="cheat-desc">Forces a trunk, turns off DTP to stop VLAN hopping, and changes the Native VLAN.</div>
+                    <h4>1. Configure the Active Router (R1)</h4>
+                    <div class="cheat-code">interface g0/1<br>standby version 2</div>
+                    <div class="cheat-desc">Enables HSRP version 2 (required for IPv6 and modern networks).</div>
+                    <div class="cheat-code">standby 1 ip 192.168.1.254</div>
+                    <div class="cheat-desc">Creates HSRP Group 1 and assigns the shared Virtual IP address that PCs will use as their Default Gateway.</div>
+                    <div class="cheat-code">standby 1 priority 150</div>
+                    <div class="cheat-desc">The default priority is 100. Changing it to 150 forces this router to win the election and become Active.</div>
+                    <div class="cheat-code">standby 1 preempt</div>
+                    <div class="cheat-desc">Forces this router to instantly take back the Active role if it reboots and comes back online.</div>
                 </div>
 
                 <div class="cheat-section">
-                    <h4>2. Port Security (Access Ports)</h4>
-                    <div class="cheat-code">interface f0/1<br>switchport port-security<br>switchport port-security maximum 2<br>switchport port-security mac-address sticky<br>switchport port-security violation restrict</div>
-                    <div class="cheat-desc">Enables Port Security, limits to 2 MACs, learns them dynamically (sticky), and drops/logs unauthorized traffic (restrict).</div>
+                    <h4>2. Configure the Standby Router (R3)</h4>
+                    <div class="cheat-code">interface g0/0<br>standby version 2<br>standby 1 ip 192.168.1.254</div>
+                    <div class="cheat-desc">The standby router only needs the version, group, and virtual IP. It uses the default priority of 100, so it automatically becomes the backup.</div>
                 </div>
 
                 <div class="cheat-section">
-                    <h4>3. DHCP Snooping</h4>
-                    <div class="cheat-code">ip dhcp snooping<br>ip dhcp snooping vlan 10,20,99</div>
-                    <div class="cheat-desc">GLOBAL config: Turns on the DHCP Snooping firewall feature.</div>
-                    
-                    <div class="cheat-code">interface g0/1<br>ip dhcp snooping trust</div>
-                    <div class="cheat-desc">Uplink/Trunk config: Tells the switch that the real DHCP server lives down this wire.</div>
-                    
-                    <div class="cheat-code">interface f0/1<br>ip dhcp snooping limit rate 5</div>
-                    <div class="cheat-desc">Access port config: Stops DHCP Starvation attacks by limiting requests to 5 per second.</div>
-                </div>
-
-                <div class="cheat-section">
-                    <h4>4. Spanning Tree (PortFast & BPDU Guard)</h4>
-                    <div class="cheat-code">interface f0/1<br>spanning-tree portfast<br>spanning-tree bpduguard enable</div>
-                    <div class="cheat-desc">Access port config: Skips STP listening/learning (PortFast), and instantly err-disables the port if a rogue switch is plugged in (BPDU Guard).</div>
-                    
-                    <div class="cheat-code">spanning-tree portfast default<br>spanning-tree portfast bpduguard default</div>
-                    <div class="cheat-desc">GLOBAL config: Alternative method. Turns on PortFast & BPDU Guard automatically for ALL access ports.</div>
+                    <h4>3. Verification Commands</h4>
+                    <div class="cheat-code">show standby</div>
+                    <div class="cheat-desc">Displays detailed HSRP info (Active/Standby IPs, Virtual MAC address, timers).</div>
+                    <div class="cheat-code">show standby brief</div>
+                    <div class="cheat-desc">Shows a quick summary table of HSRP interfaces, groups, priorities, and roles.</div>
                 </div>
 
             </div>
         </div>
     </div>
-
 </body>
 </html>

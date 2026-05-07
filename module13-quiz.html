@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 13 Quiz: WLAN Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+</head>
+<body>
+    <nav>
+        <div><strong>Module 13 Quiz (WLAN Configuration)</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Module 13 Quiz: WLAN Configuration</h1>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
+
+        <!-- QUESTION 1 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">1. A user is configuring a wireless access point and wants to prevent any neighbors from discovering the network. What action does the user need to take?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q1" value="A"> A. Enable WPA encryption.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. Configure DMZ settings.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="C"> C. Configure a DNS server.</label>
+                <label class="choice-item"><input type="radio" name="q1" value="D"> D. Disable SSID broadcast.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Disable SSID broadcast.</div>
+                <p><strong>Deep Dive:</strong> To stop neighbors from seeing your Wi-Fi name on their phones, you must turn off the <span class="term" data-term="beacon">Beacon</span> broadcasts. This is known as <span class="term" data-term="ssid_cloaking">SSID Cloaking</span>. This forces the AP into <span class="term" data-term="active_mode">Active Mode</span>, meaning legitimate users must manually type the hidden name to connect.</p>
+                <ul>
+                    <li><strong>A. Enable WPA encryption:</strong> (Incorrect) This adds a password, but the network name is still publicly visible.</li>
+                    <li><strong>B. Configure DMZ:</strong> (Incorrect) DMZ exposes a local device to the public internet, completely unrelated to Wi-Fi visibility.</li>
+                    <li><strong>C. Configure DNS:</strong> (Incorrect) <span class="term" data-term="dns">DNS</span> resolves domain names to IP addresses.</li>
+                    <li><strong>D. Disable SSID broadcast:</strong> (Correct) Prevents the AP from announcing the network name to casual observers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 2 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">2. When a wireless network in a small office is being set up, which type of IP addressing is typically used on the networked devices?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q2" value="A"> A. Network</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. Private</label>
+                <label class="choice-item"><input type="radio" name="q2" value="C"> C. Wireless</label>
+                <label class="choice-item"><input type="radio" name="q2" value="D"> D. Public</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Private</div>
+                <p><strong>Deep Dive:</strong> Internal office networks always use <span class="term" data-term="private_ip">Private IP addresses</span> (like 192.168.1.x or 10.0.0.x) provided by a <span class="term" data-term="dhcp">DHCP</span> server. These addresses are free, abundant, and easily managed. Because they cannot cross the public internet, the office router uses <span class="term" data-term="nat">NAT</span> to translate them when users browse the web.</p>
+                <ul>
+                    <li><strong>A & C. Network / Wireless:</strong> (Incorrect) These are not standard classifications for IP address types.</li>
+                    <li><strong>B. Private:</strong> (Correct) The standard, best practice for internal LAN and <span class="term" data-term="wlan">WLAN</span> device addressing.</li>
+                    <li><strong>D. Public:</strong> (Incorrect) Public IPs cost money and are strictly regulated. You would not assign them to internal office laptops.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 3 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">3. A user has just purchased a generic home router and would like to secure it. What should be done to help secure the wireless home router?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q3" value="A"> A. Change the default SSID.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Allow only IPv6 traffic to enter the router.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="C"> C. Set a private IPv4 network for the internal network.</label>
+                <label class="choice-item"><input type="radio" name="q3" value="D"> D. Change the default administrator password.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Change the default administrator password.</div>
+                <p><strong>Deep Dive:</strong> Fresh out of the box, most home routers have globally known login credentials (like admin/admin or admin/password). If you don't change this immediately, anyone connected to your network can log into the <span class="term" data-term="router">router</span>'s web interface and lock you out. It is the absolute first step in securing a new device.</p>
+                <ul>
+                    <li><strong>A. Change the default SSID:</strong> (Incorrect) While a good idea, changing the <span class="term" data-term="ssid">SSID</span> does not actually secure the configuration portal of the router itself.</li>
+                    <li><strong>B. Allow only IPv6:</strong> (Incorrect) Many older devices still rely on <span class="term" data-term="ipv4">IPv4</span>, this would break connectivity.</li>
+                    <li><strong>C. Set a private IPv4 network:</strong> (Incorrect) Routers do this by default automatically.</li>
+                    <li><strong>D. Change the default administrator password:</strong> (Correct) Secures the device's management interface from unauthorized tampering.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 4 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">4. Which protocol could be used by a company to monitor devices such as a wireless LAN controller (WLC)?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q4" value="A"> A. SNMP</label>
+                <label class="choice-item"><input type="radio" name="q4" value="B"> B. SSH</label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. NTP</label>
+                <label class="choice-item"><input type="radio" name="q4" value="D"> D. PAT</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SNMP</div>
+                <p><strong>Deep Dive:</strong> Network administrators use <strong>SNMP (Simple Network Management Protocol)</strong> to collect health metrics, bandwidth usage, and error logs from devices like a <span class="term" data-term="wlc">WLC</span>. The devices send "Traps" to the SNMP server whenever an issue arises.</p>
+                <ul>
+                    <li><strong>A. SNMP:</strong> (Correct) The industry-standard protocol for monitoring and managing network infrastructure.</li>
+                    <li><strong>B. SSH:</strong> (Incorrect) <span class="term" data-term="ssh">SSH</span> provides encrypted command-line access, but it is not an automated monitoring tool.</li>
+                    <li><strong>C. NTP:</strong> (Incorrect) <span class="term" data-term="ntp">NTP</span> keeps the system clocks perfectly synchronized.</li>
+                    <li><strong>D. PAT:</strong> (Incorrect) Port Address Translation shares a single public IP among many private IPs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 5 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">5. When configuring a Cisco 3500 series wireless LAN controller (WLC) for a WPA2 Enterprise WLAN, what has to be created on the WLC before creating the new WLAN?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q5" value="A"> A. A security policy</label>
+                <label class="choice-item"><input type="radio" name="q5" value="B"> B. A new SSID</label>
+                <label class="choice-item"><input type="radio" name="q5" value="C"> C. A security module</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. A VLAN for the wireless network</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: A VLAN for the wireless network</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="wlc">WLC</span> sits between the wireless airwaves and the wired physical network. To pass traffic properly, every new <span class="term" data-term="wlan">WLAN</span> you create must be mapped to a specific logical network on the switch side. Therefore, you must first create a dynamic virtual interface and assign it a <span class="term" data-term="802.1q">VLAN</span> ID before the WLAN can be established.</p>
+                <ul>
+                    <li><strong>A & C. Security Policy/Module:</strong> (Incorrect) Security settings like <span class="term" data-term="wpa2">WPA2</span> are configured *during* the creation of the WLAN profile itself.</li>
+                    <li><strong>B. A new SSID:</strong> (Incorrect) The <span class="term" data-term="ssid">SSID</span> is created concurrently with the WLAN.</li>
+                    <li><strong>D. A VLAN for the wireless network:</strong> (Correct) The foundation that links the wireless SSID to the wired network.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 6 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">6. What is a DHCP scope as it relates to a WLAN configured on the WLC controller?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q6" value="A"> A. Security rules associated with DHCP for WLANs</label>
+                <label class="choice-item"><input type="radio" name="q6" value="B"> B. The distance allotted for wireless clients that can receive IP addressing information</label>
+                <label class="choice-item"><input type="radio" name="q6" value="C"> C. A pool of IP addresses for WLAN clients</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. A corporate plan for allocation of IP addresses for wireless clients</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: A pool of IP addresses for WLAN clients</div>
+                <p><strong>Deep Dive:</strong> If you configure a <span class="term" data-term="wlc">WLC</span> to hand out <span class="term" data-term="ip_address">IP addresses</span> internally, you must define a <strong>Scope</strong>. In standard <span class="term" data-term="dhcp">DHCP</span> terminology, a "Scope" is simply the valid range (pool) of IP addresses available to be leased out to laptops and phones connecting to the network.</p>
+                <ul>
+                    <li><strong>A. Security rules:</strong> (Incorrect) That would refer to <span class="term" data-term="dhcp_snooping">DHCP Snooping</span>, not a Scope.</li>
+                    <li><strong>B. Distance allotted:</strong> (Incorrect) DHCP doesn't govern physical distance.</li>
+                    <li><strong>C. A pool of IP addresses:</strong> (Correct) Includes the range, the subnet mask, default gateway, and <span class="term" data-term="dns">DNS</span> server.</li>
+                    <li><strong>D. A corporate plan:</strong> (Incorrect) While planning is good, a Scope is a specific technical configuration on the server.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 7 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">7. Why would a technician configure a passphrase for a WLAN on a wireless router?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q7" value="A"> A. To configure wireless client authentication</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. To protect someone from cabling directly to the router and accessing the router</label>
+                <label class="choice-item"><input type="radio" name="q7" value="C"> C. To protect the SSID from being changed</label>
+                <label class="choice-item"><input type="radio" name="q7" value="D"> D. To protect someone from changing the configuration</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: To configure wireless client authentication</div>
+                <p><strong>Deep Dive:</strong> When you set a Wi-Fi password (technically called a <span class="term" data-term="psk">Pre-Shared Key</span> or Passphrase) using <span class="term" data-term="wpa2">WPA2</span> or WPA3, you are establishing <strong>Authentication</strong>. It forces any client trying to access the network to prove they are authorized to be there by providing the correct password.</p>
+                <ul>
+                    <li><strong>A. Client authentication:</strong> (Correct) Verifies the identity/authorization of users trying to join the <span class="term" data-term="wlan">WLAN</span>.</li>
+                    <li><strong>B. Protect from cabling directly:</strong> (Incorrect) A Wi-Fi passphrase does not affect physical ethernet ports.</li>
+                    <li><strong>C & D. Protect SSID/Configuration:</strong> (Incorrect) You protect the router's settings by setting a strong Admin password, not a Wi-Fi passphrase.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 8 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">8. A customer installs a wireless access point in a closet next to the kitchen. Wireless performance degrades heavily when the cordless phone or microwave oven is in use. What is the possible reason?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. The cordless phone joins the WLAN and shares the available bandwidth.</label>
+                <label class="choice-item"><input type="radio" name="q8" value="B"> B. The access point is close to walls.</label>
+                <label class="choice-item"><input type="radio" name="q8" value="C"> C. The wireless signal is in the same radio frequency range as the household devices are in.</label>
+                <label class="choice-item"><input type="radio" name="q8" value="D"> D. The surge of electricity when a microwave oven is in use disrupts the access point.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The wireless signal is in the same radio frequency range as the household devices are in.</div>
+                <p><strong>Deep Dive:</strong> The standard 2.4 GHz frequency band used by <span class="term" data-term="wi-fi">Wi-Fi</span> is unregulated (ISM band). Unfortunately, traditional microwave ovens and old cordless phones operate on the exact same 2.4 GHz radio frequency! When turned on, they blast "noise" into the airwaves, causing massive accidental interference and dropping Wi-Fi packets.</p>
+                <ul>
+                    <li><strong>A. Cordless phone joins WLAN:</strong> (Incorrect) Dumb appliances don't join your Wi-Fi network; they just emit disruptive radio waves.</li>
+                    <li><strong>B. Close to walls:</strong> (Incorrect) While walls degrade signal, they don't explain why it gets worse *only* when the microwave is turned on.</li>
+                    <li><strong>C. Same radio frequency range:</strong> (Correct) 2.4 GHz interference is a classic Wi-Fi troubleshooting issue.</li>
+                    <li><strong>D. Surge of electricity:</strong> (Incorrect) Power draw does not degrade radio signal quality directly.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 9 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">9. What functionality is required on routers to provide remote workers with VoIP and videoconferencing capabilities?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q9" value="A"> A. IPsec</label>
+                <label class="choice-item"><input type="radio" name="q9" value="B"> B. VPN</label>
+                <label class="choice-item"><input type="radio" name="q9" value="C"> C. PPPoE</label>
+                <label class="choice-item"><input type="radio" name="q9" value="D"> D. QoS</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: QoS</div>
+                <p><strong>Deep Dive:</strong> Voice (VoIP) and video are highly sensitive to latency. If someone starts downloading a huge file, a Zoom call will instantly stutter and freeze. <strong><span class="term" data-term="qos">Quality of Service (QoS)</span></strong> allows the <span class="term" data-term="router">router</span> to prioritize real-time voice and video packets, sending them out first and making file downloads wait in line.</p>
+                <ul>
+                    <li><strong>A & B. IPsec / VPN:</strong> (Incorrect) These provide encrypted tunneling for remote workers, but they don't ensure the call doesn't lag.</li>
+                    <li><strong>C. PPPoE:</strong> (Incorrect) An outdated DSL internet connection protocol.</li>
+                    <li><strong>D. QoS:</strong> (Correct) Prioritizes critical, time-sensitive traffic over standard data.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 10 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">10. A wireless router is displaying the IP address of 192.168.0.1. What could this mean?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q10" value="A"> A. The wireless router still has the factory default IP address.</label>
+                <label class="choice-item"><input type="radio" name="q10" value="B"> B. The wireless router has been configured to use the frequencies on channel 1.</label>
+                <label class="choice-item"><input type="radio" name="q10" value="C"> C. The NAT function is not working on the wireless router.</label>
+                <label class="choice-item"><input type="radio" name="q10" value="D"> D. Dynamic IP address allocation has been configured on the router and is functioning correctly.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The wireless router still has the factory default IP address.</div>
+                <p><strong>Deep Dive:</strong> Almost all generic SOHO routers (Linksys, TP-Link, Netgear) ship from the factory with their LAN interface statically set to 192.168.0.1 or 192.168.1.1. Seeing this address highly suggests the router is fresh out of the box and has not been customized for a specific enterprise network.</p>
+                <ul>
+                    <li><strong>A. Factory default IP:</strong> (Correct) 192.168.0.1 is the most common default <span class="term" data-term="default_gateway">default gateway</span> address used by manufacturers.</li>
+                    <li><strong>B. Frequencies on channel 1:</strong> (Incorrect) IP addressing has absolutely nothing to do with radio frequency channels.</li>
+                    <li><strong>C. NAT is not working:</strong> (Incorrect) A local IP address does not indicate a <span class="term" data-term="nat">NAT</span> failure.</li>
+                    <li><strong>D. Dynamic allocation functioning:</strong> (Incorrect) The router's *own* address is usually static, it's the *clients* that get dynamic addresses.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 11 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">11. A laptop cannot connect to a wireless access point. Which two troubleshooting steps should be taken first? (Combined)</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. Ensure the NIC is configured for the proper frequency AND Ensure the correct network media is selected.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="B"> B. Ensure the laptop antenna is attached AND Ensure the wireless NIC is enabled.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="C"> C. Ensure the correct network media is selected AND Ensure the wireless SSID is chosen.</label>
+                <label class="choice-item"><input type="radio" name="q11" value="D"> D. Ensure that the wireless NIC is enabled AND Ensure that the wireless SSID is chosen.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Ensure that the wireless NIC is enabled AND Ensure that the wireless SSID is chosen.</div>
+                <p><strong>Deep Dive:</strong> When troubleshooting, always start with the absolute simplest Layer 1 / Layer 2 problems (the "Is it plugged in?" approach). Most laptops have an "Airplane Mode" button that kills the Wi-Fi card. Ensure the card is actually turned on, and ensure the user clicked the correct <span class="term" data-term="ssid">SSID</span> (Network Name) from their list.</p>
+                <ul>
+                    <li><strong>A, B, C. Antennas / Frequencies / Media:</strong> (Incorrect) Laptops have built-in antennas that cannot be detached. The NIC handles frequency selection automatically. "Network media" applies more to switching physical cables.</li>
+                    <li><strong>D. NIC enabled & SSID chosen:</strong> (Correct) The most logical and common first steps for end-user Wi-Fi troubleshooting.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 12 -->
+        <div class="card question-card" data-correct="D">
+            <div class="question-text">12. In setting up a small office network, the administrator decides to assign private IP addresses dynamically. Which feature must be enabled on the company router in order for office devices to access the internet?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. MAC filtering</label>
+                <label class="choice-item"><input type="radio" name="q12" value="B"> B. UPnP</label>
+                <label class="choice-item"><input type="radio" name="q12" value="C"> C. QoS</label>
+                <label class="choice-item"><input type="radio" name="q12" value="D"> D. NAT</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: NAT</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="private_ip">Private IP addresses</span> (like 10.x.x.x) are permanently banned from crossing the global internet. To allow the office devices to browse the web, the router uses <strong><span class="term" data-term="nat">Network Address Translation (NAT)</span></strong> to swap out their private IPs for the router's one valid Public IP before sending packets to the ISP.</p>
+                <ul>
+                    <li><strong>A. MAC filtering:</strong> (Incorrect) An access-control security feature.</li>
+                    <li><strong>B. UPnP:</strong> (Incorrect) Allows devices to automatically open firewall ports (often a security risk).</li>
+                    <li><strong>C. QoS:</strong> (Incorrect) Prioritizes important traffic.</li>
+                    <li><strong>D. NAT:</strong> (Correct) The essential mechanism that bridges Private networks to Public networks.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 13 -->
+        <div class="card question-card" data-correct="C">
+            <div class="question-text">13. What is a difference between autonomous APs that operate in a home environment and controller-based APs that operate in a corporate environment?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q13" value="A"> A. Controller-based APs are known as lightweight APs and require an initial configuration to operate.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="B"> B. Autonomous APs do not support PoE.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="C"> C. Controller-based APs can be automatically configured and managed by a WLAN controller.</label>
+                <label class="choice-item"><input type="radio" name="q13" value="D"> D. Autonomous APs incorporate the functions of a router, switch, and AP into one device.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Controller-based APs can be automatically configured and managed by a WLAN controller.</div>
+                <p><strong>Deep Dive:</strong> An Autonomous AP has its own brain and requires manual setup. A Controller-based (Lightweight) AP is "dumb". When plugged in, it searches for a <span class="term" data-term="wlc">WLC</span> using <span class="term" data-term="capwap">CAPWAP</span>. The WLC then pushes all the settings, passwords, and firmware automatically, allowing a single admin to manage thousands of APs simultaneously.</p>
+                <ul>
+                    <li><strong>A. Require initial config:</strong> (Incorrect) Lightweight APs do *not* require manual configuration; they pull it from the WLC.</li>
+                    <li><strong>B. Do not support PoE:</strong> (Incorrect) Both types can run on Power over Ethernet.</li>
+                    <li><strong>C. Automatically configured by WLC:</strong> (Correct) The primary advantage of enterprise Controller-based APs.</li>
+                    <li><strong>D. Incorporate functions of router/switch:</strong> (Incorrect) While SOHO routers do this, dedicated enterprise Autonomous APs do not necessarily act as routers/switches.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 14 -->
+        <div class="card question-card" data-correct="B">
+            <div class="question-text">14. Which WLC tab would a network administrator typically use to see a summary view of the most heavily used WLANs including the number of clients using a particular WLAN?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. Commands</label>
+                <label class="choice-item"><input type="radio" name="q14" value="B"> B. Monitor</label>
+                <label class="choice-item"><input type="radio" name="q14" value="C"> C. Controller</label>
+                <label class="choice-item"><input type="radio" name="q14" value="D"> D. WLANs</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Monitor</div>
+                <p><strong>Deep Dive:</strong> On a Cisco <span class="term" data-term="wlc">WLC</span>, the <strong>Monitor</strong> tab acts as your main dashboard. It provides a visual summary showing system uptime, total active clients, rogue APs detected, and graphs displaying which <span class="term" data-term="wlan">WLANs</span> are experiencing the heaviest traffic loads.</p>
+                <ul>
+                    <li><strong>A. Commands:</strong> (Incorrect) Used for rebooting, uploading firmware, or pinging devices.</li>
+                    <li><strong>B. Monitor:</strong> (Correct) The default landing page providing a bird's-eye view of network health and client statistics.</li>
+                    <li><strong>C. Controller:</strong> (Incorrect) Used to configure NTP, IPv6, and internal WLC hardware settings.</li>
+                    <li><strong>D. WLANs:</strong> (Incorrect) Used to *create/edit* the networks and change security passwords, not view traffic graphs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUESTION 15 -->
+        <div class="card question-card" data-correct="A">
+            <div class="question-text">15. Users on an IEEE 802.11n network are complaining of slow speeds. The network administrator checks the AP and verifies it is operating properly. What can be done to improve the wireless performance in the network?</div>
+            <div class="choices-list">
+                <label class="choice-item"><input type="radio" name="q15" value="A"> A. Split the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="B"> B. Switch to an 802.11g AP.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="C"> C. Set the AP to mixed mode.</label>
+                <label class="choice-item"><input type="radio" name="q15" value="D"> D. Change the authentication method on the AP.</label>
+            </div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Split the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band.</div>
+                <p><strong>Deep Dive:</strong> 802.11n routers are dual-band. If everyone connects to the single default <span class="term" data-term="ssid">SSID</span>, most devices will crowd into the longer-range, highly congested 2.4 GHz band. Renaming the networks (e.g., "Office" and "Office_5G") allows you to push laptops streaming video onto the faster 5 GHz band, clearing the traffic jam.</p>
+                <ul>
+                    <li><strong>A. Split traffic:</strong> (Correct) Moving high-bandwidth users to 5 GHz instantly alleviates 2.4 GHz congestion.</li>
+                    <li><strong>B. Switch to 802.11g:</strong> (Incorrect) 802.11g is much older and slower (max 54 Mbps). This would ruin performance.</li>
+                    <li><strong>C. Mixed mode:</strong> (Incorrect) Mixed mode slows the network down by accommodating legacy devices.</li>
+                    <li><strong>D. Change authentication:</strong> (Incorrect) Passwords do not affect radio frequency transmission speeds.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
+    </div>
+</body>
+</html>
