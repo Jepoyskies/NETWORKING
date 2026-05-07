@@ -5,26 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const style = document.createElement('style');
     style.innerHTML = `
-        /* Dictionary & Links CSS - FIXED GLITCHY UNDERLINE */
-        .term { 
-            text-decoration: none; /* Removed the buggy native underline */
-            border-bottom: 2px dashed #38bdf8; /* Uses a clean border instead */
-            padding-bottom: 2px; /* Gives the text breathing room */
-            cursor: pointer; 
-            color: #38bdf8; 
-            font-weight: bold; 
-            transition: 0.2s; 
-        }
-        .term:hover { 
-            color: #7dd3fc; 
-            border-bottom-color: #7dd3fc;
-            background: rgba(56,189,248,0.1); 
-            border-radius: 3px; 
-        }
-        
+        /* Dictionary & Links CSS */
+        .term { text-decoration: none; border-bottom: 2px dashed #38bdf8; padding-bottom: 2px; cursor: pointer; color: #38bdf8; font-weight: bold; transition: 0.2s; }
+        .term:hover { color: #7dd3fc; border-bottom-color: #7dd3fc; background: rgba(56,189,248,0.1); border-radius: 3px; }
         #dict-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 998; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         #dict-overlay.active { opacity: 1; pointer-events: all; }
-        
         #dict-panel { position: fixed; top: 0; right: -400px; width: 350px; height: 100vh; background: #0f172a; box-shadow: -5px 0 25px rgba(0,0,0,0.8); z-index: 999; transition: right 0.3s ease; padding: 20px; color: white; display: flex; flex-direction: column; overflow-y: auto;}
         #dict-panel.active { right: 0; }
         #dict-close { align-self: flex-end; font-size: 28px; cursor: pointer; color: #94a3b8; border: none; background: transparent; transition: 0.2s;}
@@ -60,29 +45,69 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 
     // ==========================================
-    // 2. MASSIVE REFRESHER DICTIONARY
+    // 2. MASSIVE REFRESHER DICTIONARY (UPDATED WITH MOD 8, 9, 10)
     // ==========================================
     const termDictionary = {
-        "tacacs+": "Terminal Access Controller Access-Control System Plus. A Cisco proprietary AAA protocol that encrypts the ENTIRE payload (highly secure). Uses TCP.",
-        "radius": "Remote Authentication Dial-In User Service. An open standard AAA protocol that encrypts ONLY the password payload. Uses UDP.",
-        "802.1x": "IEEE standard for Port-based Network Access Control. Authenticates users via RADIUS before granting physical switch port access.",
-        "wi-fi": "A family of wireless network protocols based on the IEEE 802.11 family of standards.",
-        "ntp": "Network Time Protocol. Used to synchronize the clocks of computer systems over a network.",
-        "https": "Hypertext Transfer Protocol Secure. Secures web browser traffic using TLS encryption.",
-        "chap": "Challenge Handshake Authentication Protocol. Authenticates a user securely without sending the password in plaintext.",
+        // --- IPv6, SLAAC, DHCPv6 (Mod 8) ---
+        "ipv4": "Internet Protocol version 4. Uses 32-bit addresses (e.g. 192.168.1.1).",
+        "ipv6": "Internet Protocol version 6. Uses 128-bit hexadecimal addresses.",
+        "icmpv6": "Internet Control Message Protocol for IPv6. Used for Neighbor Discovery, DAD, and Router Advertisements.",
+        "slaac": "Stateless Address Autoconfiguration. Clients create their own IP using the router prefix.",
+        "dhcpv6": "Dynamic Host Configuration Protocol for IPv6.",
+        "stateless": "A method (like SLAAC) where no server keeps a database tracking which client has which IP address.",
+        "stateful": "A method where a DHCP server maintains a strict database of assigned IPs.",
+        "dad": "Duplicate Address Detection. A process where a host checks if its newly generated IPv6 address is already in use.",
+        "ra": "Router Advertisement. An ICMPv6 message sent by routers carrying network prefixes, gateways, and M/O flags.",
+        "rs": "Router Solicitation. An ICMPv6 message sent by a booting host to immediately discover routers.",
+        "eui-64": "A method where a host creates its 64-bit interface ID by taking its MAC address and inserting 'fffe' in the middle.",
+        "link-local": "An IPv6 address used only within the same local network segment (starts with fe80::).",
+        "m-flag": "Managed Address Flag. In an RA, tells the client to use a Stateful DHCPv6 server for its IP.",
+        "o-flag": "Other Configuration Flag. In an RA, tells the client to get IP via SLAAC, but ask DHCPv6 for DNS.",
+        "dhcp relay": "A router configured to forward DHCP requests across subnets to a remote DHCP server.",
+        "unicast-routing": "The global command required to enable IPv6 routing and RA messages on a Cisco router.",
+        "dhcpdiscover": "The initial broadcast message sent by an IPv4 client searching for a DHCP server.",
+        
+        // --- FHRP, HSRP, VRRP, GLBP (Mod 9) ---
+        "fhrp": "First Hop Redundancy Protocol. A category of protocols that provide default gateway redundancy.",
+        "hsrp": "Hot Standby Router Protocol. A Cisco-proprietary FHRP that uses an Active/Standby router model.",
+        "vrrp": "Virtual Router Redundancy Protocol. An open-standard IEEE FHRP identical to HSRP, but works on any vendor's hardware.",
+        "vrrpv2": "Virtual Router Redundancy Protocol version 2. Supports IPv4 only.",
+        "vrrpv3": "Virtual Router Redundancy Protocol version 3. Supports both IPv4 and IPv6.",
+        "glbp": "Gateway Load Balancing Protocol. A Cisco-proprietary FHRP that natively load-balances traffic across multiple active routers.",
+        "slb": "Server Load Balancing. Distributes client requests across multiple backend servers.",
+        "virtual ip": "A phantom IP address shared by multiple physical routers in an FHRP group. PCs use this as their Default Gateway.",
+        "virtual mac": "A phantom MAC address generated by an FHRP so switches know where to send frames for the Virtual IP.",
+        "virtual router": "The illusionary router created by combining multiple physical routers in an FHRP group.",
+        "active router": "The router in an HSRP group that is currently forwarding traffic for the network.",
+        "standby router": "The backup router in an HSRP group that waits silently. It takes over if the Active router crashes.",
+        "priority": "A number (0-255) determining which router becomes Active. Default is 100. Highest priority wins.",
+        "preempt": "A command that allows a router with a higher priority to violently seize the Active role from a lower-priority router.",
+        "pvst": "Per-VLAN Spanning Tree. Cisco's version of STP that runs a separate spanning tree instance for every VLAN.",
+        "rstp": "Rapid Spanning Tree Protocol. A faster-converging version of STP.",
+
+        // --- LAN Security (Mod 10 & 11) ---
+        "layer 2": "The Data Link layer of the OSI model. Deals with MAC addresses and switching. Historically the weakest security link.",
+        "layer 3": "The Network layer of the OSI model. Deals with IP addresses and routing.",
+        "layer 4": "The Transport layer of the OSI model. Deals with TCP/UDP ports.",
+        "layer 7": "The Application layer of the OSI model.",
         "aaa": "Authentication, Authorization, and Accounting. Framework for controlling network access and tracking user activity.",
+        "radius": "Remote Authentication Dial-In User Service. An open standard AAA protocol that encrypts ONLY the password payload. Uses UDP.",
+        "tacacs+": "Terminal Access Controller Access-Control System Plus. A Cisco proprietary AAA protocol that encrypts the ENTIRE payload. Uses TCP.",
+        "802.1x": "IEEE standard for Port-based Network Access Control. Authenticates users via RADIUS before granting physical switch port access.",
+        "supplicant": "The 802.1X term for the client device (laptop/phone) requesting access.",
+        "authenticator": "The 802.1X term for the switch or AP blocking access until authenticated.",
+        "authentication server": "The 802.1X term for the backend RADIUS/AAA server verifying credentials.",
         "ssh": "Secure Shell. Encrypted protocol for remote CLI management. Replaces Telnet.",
         "telnet": "Unencrypted remote CLI management protocol. Very insecure because it sends data in plaintext.",
+        "http": "Hypertext Transfer Protocol. Unencrypted web traffic.",
+        "ftp": "File Transfer Protocol. Unencrypted file transfer protocol.",
         "vty": "Virtual Teletype. The virtual lines configured on a Cisco device to allow SSH/Telnet access.",
-        "dhcp": "Dynamic Host Configuration Protocol. Automatically assigns IP addresses to devices on a network.",
-        "dns": "Domain Name System. Translates human-readable domain names (like google.com) into IP addresses.",
-        "mac address": "Media Access Control address. A unique 48-bit physical identifier burned into a network card.",
-        "ip address": "Internet Protocol address. A unique numerical identifier for a device on a network.",
-        "ipv4": "Internet Protocol version 4. Uses 32-bit addresses.",
-        "ipv6": "Internet Protocol version 6. Uses 128-bit addresses to solve the IPv4 shortage.",
-        "icmpv6": "Internet Control Message Protocol for IPv6. Used for network diagnostics, Router Advertisements, and Neighbor Discovery.",
+        "cdp": "Cisco Discovery Protocol. Shares device info with neighbors. Dangerous if enabled on user-facing ports.",
+        "lldp": "Link Layer Discovery Protocol. The open-standard equivalent of CDP.",
+        "vtp": "VLAN Trunking Protocol. A Cisco-proprietary protocol that syncs VLAN creation across switches.",
         "mac flooding": "An attack sending fake MACs to exhaust the switch MAC table, causing it to flood all traffic.",
-        "mac address table": "A table stored in a switch's RAM mapping physical MAC addresses to specific switch ports.",
+        "mac address overflow": "Another term for MAC flooding. Fills the switch's CAM table to force a fail-open state.",
+        "cam table": "Content Addressable Memory table. The switch's memory that maps MAC addresses to physical ports.",
         "port security": "A switch feature limiting the number and identity of MAC addresses allowed on a port.",
         "err-disabled": "A state where a switch OS forcibly shuts down a port due to a severe security violation.",
         "violation modes": "Port Security actions: Shutdown (kills port), Restrict (drops & logs), Protect (drops silently).",
@@ -92,19 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
         "dhcp snooping": "Security feature blocking rogue DHCP servers and limiting DHCP request rates on untrusted ports.",
         "dai": "Dynamic ARP Inspection. Blocks ARP spoofing by validating ARP packets against the DHCP snooping database.",
         "ipsg": "IP Source Guard. Prevents IP spoofing by verifying the source IP against the DHCP snooping database.",
-        "vlan hopping": "An attack tricking a switch into granting access to an unauthorized VLAN.",
-        "dtp": "Dynamic Trunking Protocol. Auto-negotiates trunks. Should be disabled to prevent VLAN hopping.",
+        "arp spoofing": "An attack where a hacker sends fake ARP replies to associate their MAC address with another device's IP address.",
+        "arp poisoning": "Another term for ARP Spoofing. Falsifying ARP messages to intercept traffic.",
+        "dos attack": "Denial of Service attack. Flooding a network or device to make it unusable for legitimate users.",
+        "vlan hopping": "An attack tricking a switch into granting access to an unauthorized VLAN (Switch Spoofing or Double Tagging).",
+        "dtp": "Dynamic Trunking Protocol. Auto-negotiates trunks. Should be disabled (switchport nonegotiate) to prevent VLAN hopping.",
         "native vlan": "An untagged VLAN on an 802.1Q trunk. Vulnerable to Double-Tagging attacks if left as default.",
         "802.1q": "The IEEE standard for VLAN tagging over trunk links.",
+        "trunk": "A point-to-point link carrying traffic for multiple VLANs.",
+        "access port": "A switch port assigned to a single VLAN, connected to an end-user device.",
         "stp": "Spanning Tree Protocol. Prevents Layer 2 broadcast storms by blocking redundant physical loops.",
         "bpdu": "Bridge Protocol Data Unit. Messages sent between switches to map out the STP topology.",
         "portfast": "Bypasses STP listening/learning states on edge ports connected to end-user PCs.",
         "bpdu guard": "Instantly err-disables a PortFast port if it receives a BPDU (switch message).",
-        "cdp": "Cisco Discovery Protocol. Shares device info with neighbors. Dangerous if enabled on user-facing ports.",
-        "lldp": "Link Layer Discovery Protocol. The open-standard equivalent of CDP.",
-        "supplicant": "The 802.1X term for the client device requesting access.",
-        "authenticator": "The 802.1X term for the switch or AP blocking access until authenticated.",
-        "authentication server": "The 802.1X term for the backend RADIUS/AAA server verifying credentials.",
+        "root guard": "Prevents unauthorized switches from becoming the STP Root Bridge.",
+        "nac appliance": "Network Admission Control. An endpoint security device that checks a PC's antivirus posture before letting it on the network.",
+        "vpn": "Virtual Private Network. Creates a secure, encrypted tunnel over the public internet.",
+        "ipsec": "Internet Protocol Security. A suite of protocols used to encrypt and secure VPN tunnels.",
+        "dmz": "Demilitarized Zone. A subnetwork exposed to the internet, separated from the internal secure LAN.",
+        "pppoe": "Point-to-Point Protocol over Ethernet. Commonly used by DSL internet providers.",
+        
+        // --- WLAN Concepts (Mod 12 & 13) ---
         "wlan": "Wireless Local Area Network. Wi-Fi network covering a building.",
         "wman": "Wireless Metropolitan Area Network. Covers a city/district.",
         "wwan": "Wireless Wide Area Network. Covers countries/regions (cellular/satellite).",
@@ -116,18 +149,32 @@ document.addEventListener('DOMContentLoaded', () => {
         "beacon": "A management frame broadcasted regularly by an AP to announce its presence.",
         "probe request": "A frame sent by a client device searching for a specific Wi-Fi network.",
         "wep": "Wired Equivalent Privacy. Extremely weak, obsolete Wi-Fi encryption.",
+        "wpa": "Wi-Fi Protected Access. An older wireless security protocol that used TKIP.",
         "wpa2": "Wi-Fi Protected Access 2. Uses strong AES encryption.",
+        "wpa3": "The latest Wi-Fi security standard. Defends against brute-force dictionary attacks.",
         "psk": "Pre-Shared Key. A single Wi-Fi password shared by everyone.",
         "aes": "Advanced Encryption Standard. The highly secure encryption cipher used by WPA2.",
+        "tkip": "Temporal Key Integrity Protocol. Older, vulnerable encryption used in WPA. Replaced by AES.",
         "wlc": "Wireless LAN Controller. Centralized brain managing multiple Access Points.",
         "capwap": "Protocol used to tunnel control data and user traffic between a WLC and an AP.",
         "dtls": "Datagram Transport Layer Security. Encrypts the CAPWAP control tunnel.",
         "infrastructure mode": "WLAN topology where clients connect to a central AP, which connects to wired network.",
+        "ad hoc": "A peer-to-peer wireless network with no router or AP involved.",
+        "hotspot": "A small wireless access point, usually created by a smartphone sharing its cellular data.",
+        "ess": "Extended Service Set. Multiple APs connected together broadcasting the same SSID.",
+        "bss": "Basic Service Set. A single AP and its connected clients.",
+        "ibiss": "Independent Basic Service Set. Another term for an Ad Hoc (peer-to-peer) network.",
         "mimo": "Multiple-Input Multiple-Output. Using multiple antennas to transmit/receive faster.",
+        
+        // --- General Networking ---
+        "dhcp": "Dynamic Host Configuration Protocol. Automatically assigns IP addresses to devices on a network.",
+        "dns": "Domain Name System. Translates human-readable domain names (like google.com) into IP addresses.",
+        "mac address": "Media Access Control address. A unique 48-bit physical identifier burned into a network card.",
+        "ip address": "Internet Protocol address. A unique numerical identifier for a device on a network.",
         "router": "A network device that forwards data packets between computer networks.",
         "nat": "Network Address Translation. Translates private unroutable IPs into public internet IPs.",
         "qos": "Quality of Service. Prioritizes critical network traffic (like voice/video) over standard data.",
-        "default gateway": "The router interface IP address that provides an exit point for a PC to reach other networks (the Internet).",
+        "default gateway": "The router interface IP address that provides an exit point for a PC to reach the Internet.",
         "plaintext": "Data sent over the network that is not encrypted, making it readable to anyone intercepting it.",
         "spoofing": "Falsifying an identity (like a fake MAC or IP address) to deceive a network into trusting the attacker.",
         "rogue": "An unauthorized device (like a rogue switch or rogue access point) plugged into the network without permission.",
@@ -135,48 +182,39 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 3. BULLETPROOF AUTO-HIGHLIGHTER (FIXED)
+    // 3. BULLETPROOF AUTO-HIGHLIGHTER
     // ==========================================
-    // Sort terms by length (longest first) to prevent partial word overwrites
     const termsArray = Object.keys(termDictionary).sort((a, b) => b.length - a.length);
 
     function autoLinkTextNode(textNode) {
         let text = textNode.nodeValue;
         
         for (let term of termsArray) {
-            // Escape regex characters
             const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            
-            // Bulletproof Regex: Checks boundaries safely so words like "TACACS+" get matched perfectly!
             const regex = new RegExp(`(^|[^a-zA-Z0-9_])(${escapedTerm})([^a-zA-Z0-9_]|$)`, 'i');
             const match = text.match(regex);
             
             if (match) {
-                const beforeChar = match[1]; // The space/punctuation before the word
-                const matchText = match[2];  // The actual term found
-                
-                // Calculate exactly where the real word starts
+                const beforeChar = match[1]; 
+                const matchText = match[2];  
                 const matchIndex = match.index + beforeChar.length;
                 
                 const beforeText = text.substring(0, matchIndex);
                 const afterText = text.substring(matchIndex + matchText.length);
                 const parent = textNode.parentNode;
                 
-                // FIXED BUG: Now recursively scans the LEFT side of the sentence for words!
                 if (beforeText) {
                     const beforeNode = document.createTextNode(beforeText);
                     parent.insertBefore(beforeNode, textNode);
                     autoLinkTextNode(beforeNode); 
                 }
                 
-                // Create the clickable blue dashed link
                 const span = document.createElement('span');
                 span.className = 'term';
                 span.setAttribute('data-term', term);
                 span.textContent = matchText;
                 parent.insertBefore(span, textNode);
                 
-                // Recursively scans the RIGHT side of the sentence
                 if (afterText) {
                     const afterNode = document.createTextNode(afterText);
                     parent.insertBefore(afterNode, textNode);
@@ -189,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Apply auto-highlighter ONLY to text inside paragraphs, choices, and list items
     const elementsToProcess = document.querySelectorAll('.question-text, .choice-item, .explanation-box p, .explanation-box li, .hint-box');
     elementsToProcess.forEach(el => {
         const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
@@ -267,7 +304,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const mainContainer = document.querySelector('.container');
     const h1Title = document.querySelector('.container h1');
-    mainContainer.insertBefore(navWrapper, h1Title.nextSibling.nextSibling);
+    if(mainContainer && h1Title) {
+        mainContainer.insertBefore(navWrapper, h1Title.nextSibling.nextSibling);
+    }
 
     const navButtons =[];
 
