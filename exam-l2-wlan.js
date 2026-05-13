@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         #dict-close { align-self: flex-end; font-size: 28px; cursor: pointer; color: #94a3b8; border: none; background: transparent; transition: 0.2s;}
         #dict-close:hover { color: #ef4444; transform: scale(1.1);}
         #dict-panel h2 { font-size: 1.1rem; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;}
-        #dict-title { font-size: 1.8rem; color: #38bdf8; margin-bottom: 15px; }
+        #dict-title { font-size: 1.8rem; color: #38bdf8; margin-bottom: 15px; text-transform: capitalize; }
         .dict-content-box { background: #1e293b; padding: 20px; border-radius: 8px; border-left: 4px solid #38bdf8; font-size: 1rem; line-height: 1.6; color: #cbd5e1; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);}
 
         /* Quiz Buttons & Hints CSS */
@@ -45,13 +45,60 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 
     // ==========================================
-    // 2. MASSIVE REFRESHER DICTIONARY (UPDATED WITH MOD 8, 9, 10)
+    // 2. MASSIVE REFRESHER DICTIONARY (THE ULTIMATE EDITION)
     // ==========================================
     const termDictionary = {
+        // --- IP Addressing & Subnetting ---
+        "prefix length": "The number of bits set to 1 in a subnet mask (e.g., /24). It defines the network portion of an IP address.",
+        "subnet mask": "A 32-bit number that separates the network address from the host address in IPv4.",
+        "host bits": "The trailing bits of an IP address used to uniquely identify a specific device on a subnet.",
+        "network address": "The first IP address of a subnet. It represents the network itself and cannot be assigned to a host.",
+        "broadcast address": "The last IP address of a subnet. Data sent here is received by all hosts on that local network.",
+        "private ip": "IP addresses reserved for internal LAN use (e.g., 10.x.x.x, 192.168.x.x) that cannot be routed on the public internet.",
+        "destination ip": "The Layer 3 IP address indicating the final target recipient of a packet.",
+        "source ip": "The Layer 3 IP address indicating the original sender of a packet.",
+        
+        // --- General Networking & Routing ---
+        "lan": "Local Area Network. A network confined to a small geographic area like a single home or office building.",
+        "frame": "A Layer 2 Protocol Data Unit (PDU). It encapsulates the IP packet with source and destination MAC addresses.",
+        "upper layer": "Refers to OSI Layers 4-7 (Transport, Session, Presentation, Application). Examples include TCP, UDP, HTTP.",
+        "metric": "A value used by routing protocols to determine the 'cost' or distance to a destination network. Lowest metric wins.",
+        "osi network": "Layer 3 of the OSI model. Responsible for logical IP addressing and routing packets across multiple networks.",
+        "connectionless": "A protocol (like IP or UDP) that sends data without first establishing a dedicated connection or verifying the receiver is ready.",
+        "ttl": "Time-to-Live (IPv4) or Hop Limit (IPv6). A counter that drops the packet if it passes through too many routers, preventing infinite loops.",
+        "hop limit": "The IPv6 equivalent of TTL. Prevents infinite routing loops by dropping the packet when the counter hits zero.",
+        "protocol field": "An IPv4 header field that identifies the Layer 4 payload inside (e.g., TCP is 6, UDP is 17).",
+        "routing table": "A database stored in a router or PC that lists known network destinations and the best path/interface to reach them.",
+        "flow label": "An IPv6 header field used to keep time-sensitive packets (like VoIP/Video) on the exact same physical path to prevent jitter.",
+        "dscp": "Differentiated Services Code Point. An IP header field used to classify and prioritize QoS traffic (like prioritizing voice over data).",
+        "checksum": "A mathematical value in the IPv4 header used to detect if the header was corrupted during transit.",
+        "tunneling": "Wrapping one protocol inside another (e.g., putting an IPv6 packet inside an IPv4 packet to cross an older network).",
+        "dual-stack": "A network device running both IPv4 and IPv6 protocols simultaneously.",
+        "translation": "Converting an IPv6 packet into an IPv4 packet (NAT64) so devices on different protocols can communicate.",
+        "traceroute": "A diagnostic tool (tracert on Windows) that uses ICMP and TTL manipulation to map the hop-by-hop path to a destination.",
+        
+        // --- ARP & Layer 2 ---
+        "arp": "Address Resolution Protocol. Broadcasts a request to map a known IPv4 address to an unknown MAC address on the local network.",
+        "arp cache": "A temporary table on a PC or router that stores recently learned IP-to-MAC address mappings.",
+        "arp spoofing": "A cyberattack where a hacker sends fake ARP replies to intercept traffic meant for another device (like the default gateway). Also known as ARP Poisoning.",
+        "switch": "A Layer 2 network device that forwards Ethernet frames based strictly on destination MAC addresses.",
+        "broadcast": "A message sent to every single device on the local network segment (MAC FF:FF:FF:FF:FF:FF).",
+        "unicast": "A message sent from exactly one sender to exactly one specific destination.",
+        "multicast": "A message sent from one sender to a specific subscribed group of receivers (One-to-Many).",
+        "anycast": "An IPv6 addressing method where one IP is shared by multiple servers, and traffic is routed to the closest one.",
+        
+        // --- Hardware & Memory ---
+        "console port": "A physical management port on Cisco devices used for initial out-of-band configuration via a rollover cable.",
+        "post": "Power-On Self Test. The first step of bootup that checks hardware components like CPU and RAM.",
+        "startup-config": "The saved configuration file stored safely in NVRAM that loads when the router boots.",
+        "running-config": "The active, currently unsaved configuration running in volatile RAM.",
+        "flash": "A type of non-volatile memory in Cisco devices used primarily to store the IOS operating system image.",
+        "nvram": "Non-Volatile RAM. Where a Cisco device permanently saves its startup-config file.",
+
         // --- IPv6, SLAAC, DHCPv6 (Mod 8) ---
         "ipv4": "Internet Protocol version 4. Uses 32-bit addresses (e.g. 192.168.1.1).",
         "ipv6": "Internet Protocol version 6. Uses 128-bit hexadecimal addresses.",
-        "icmpv6": "Internet Control Message Protocol for IPv6. Used for Neighbor Discovery, DAD, and Router Advertisements.",
+        "icmpv6": "Internet Control Message Protocol for IPv6. Handles Ping, Traceroute, and Neighbor Discovery (NDP).",
         "slaac": "Stateless Address Autoconfiguration. Clients create their own IP using the router prefix.",
         "dhcpv6": "Dynamic Host Configuration Protocol for IPv6.",
         "stateless": "A method (like SLAAC) where no server keeps a database tracking which client has which IP address.",
@@ -71,8 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "fhrp": "First Hop Redundancy Protocol. A category of protocols that provide default gateway redundancy.",
         "hsrp": "Hot Standby Router Protocol. A Cisco-proprietary FHRP that uses an Active/Standby router model.",
         "vrrp": "Virtual Router Redundancy Protocol. An open-standard IEEE FHRP identical to HSRP, but works on any vendor's hardware.",
-        "vrrpv2": "Virtual Router Redundancy Protocol version 2. Supports IPv4 only.",
-        "vrrpv3": "Virtual Router Redundancy Protocol version 3. Supports both IPv4 and IPv6.",
         "glbp": "Gateway Load Balancing Protocol. A Cisco-proprietary FHRP that natively load-balances traffic across multiple active routers.",
         "slb": "Server Load Balancing. Distributes client requests across multiple backend servers.",
         "virtual ip": "A phantom IP address shared by multiple physical routers in an FHRP group. PCs use this as their Default Gateway.",
@@ -82,9 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "standby router": "The backup router in an HSRP group that waits silently. It takes over if the Active router crashes.",
         "priority": "A number (0-255) determining which router becomes Active. Default is 100. Highest priority wins.",
         "preempt": "A command that allows a router with a higher priority to violently seize the Active role from a lower-priority router.",
-        "pvst": "Per-VLAN Spanning Tree. Cisco's version of STP that runs a separate spanning tree instance for every VLAN.",
-        "rstp": "Rapid Spanning Tree Protocol. A faster-converging version of STP.",
-
+        
         // --- LAN Security (Mod 10 & 11) ---
         "layer 2": "The Data Link layer of the OSI model. Deals with MAC addresses and switching. Historically the weakest security link.",
         "layer 3": "The Network layer of the OSI model. Deals with IP addresses and routing.",
@@ -117,8 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "dhcp snooping": "Security feature blocking rogue DHCP servers and limiting DHCP request rates on untrusted ports.",
         "dai": "Dynamic ARP Inspection. Blocks ARP spoofing by validating ARP packets against the DHCP snooping database.",
         "ipsg": "IP Source Guard. Prevents IP spoofing by verifying the source IP against the DHCP snooping database.",
-        "arp spoofing": "An attack where a hacker sends fake ARP replies to associate their MAC address with another device's IP address.",
-        "arp poisoning": "Another term for ARP Spoofing. Falsifying ARP messages to intercept traffic.",
         "dos attack": "Denial of Service attack. Flooding a network or device to make it unusable for legitimate users.",
         "vlan hopping": "An attack tricking a switch into granting access to an unauthorized VLAN (Switch Spoofing or Double Tagging).",
         "dtp": "Dynamic Trunking Protocol. Auto-negotiates trunks. Should be disabled (switchport nonegotiate) to prevent VLAN hopping.",
@@ -182,8 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 3. BULLETPROOF AUTO-HIGHLIGHTER
+    // 3. BULLETPROOF AUTO-HIGHLIGHTER (FIXED)
     // ==========================================
+    // Sort terms by length (longest first) to prevent partial word overwrites
     const termsArray = Object.keys(termDictionary).sort((a, b) => b.length - a.length);
 
     function autoLinkTextNode(textNode) {
@@ -195,26 +237,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const match = text.match(regex);
             
             if (match) {
-                const beforeChar = match[1]; 
-                const matchText = match[2];  
+                const beforeChar = match[1]; // The space/punctuation before the word
+                const matchText = match[2];  // The actual term found
+                
+                // Calculate exactly where the real word starts
                 const matchIndex = match.index + beforeChar.length;
                 
                 const beforeText = text.substring(0, matchIndex);
                 const afterText = text.substring(matchIndex + matchText.length);
                 const parent = textNode.parentNode;
                 
+                // Recursively scans the LEFT side of the sentence for words
                 if (beforeText) {
                     const beforeNode = document.createTextNode(beforeText);
                     parent.insertBefore(beforeNode, textNode);
                     autoLinkTextNode(beforeNode); 
                 }
                 
+                // Create the clickable blue dashed link
                 const span = document.createElement('span');
                 span.className = 'term';
                 span.setAttribute('data-term', term);
                 span.textContent = matchText;
                 parent.insertBefore(span, textNode);
                 
+                // Recursively scans the RIGHT side of the sentence
                 if (afterText) {
                     const afterNode = document.createTextNode(afterText);
                     parent.insertBefore(afterNode, textNode);
@@ -227,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Apply auto-highlighter ONLY to text inside paragraphs, choices, and list items
     const elementsToProcess = document.querySelectorAll('.question-text, .choice-item, .explanation-box p, .explanation-box li, .hint-box');
     elementsToProcess.forEach(el => {
         const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
@@ -240,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. DICTIONARY SIDE-PANEL LOGIC
+    // 4. DICTIONARY SIDE-PANEL LOGIC (FIXED FOR UNDERSCORES)
     // ==========================================
     const overlay = document.createElement('div');
     overlay.id = 'dict-overlay';
@@ -260,15 +308,20 @@ document.addEventListener('DOMContentLoaded', () => {
             term.parentNode.replaceChild(newTerm, term);
             
             newTerm.addEventListener('click', (e) => {
-                const termKey = e.target.getAttribute('data-term').toLowerCase();
+                // FIXED BUG: Normalize underscores to spaces so old hardcoded HTML tags map correctly to the dictionary!
+                let rawTermKey = e.target.getAttribute('data-term').toLowerCase();
+                let termKey = rawTermKey.replace(/_/g, ' '); 
+                
                 const dictEntry = termDictionary[termKey];
                 
-                document.getElementById('dict-title').innerText = e.target.innerText.toUpperCase();
+                // Format the title nicely without underscores
+                let displayTitle = e.target.innerText.toUpperCase();
+                document.getElementById('dict-title').innerText = displayTitle;
                 
                 if (dictEntry) {
-                    document.getElementById('dict-desc').innerHTML = `<strong>${e.target.innerText.toUpperCase()}</strong>: ${dictEntry}`;
+                    document.getElementById('dict-desc').innerHTML = `<strong>${displayTitle}</strong>: ${dictEntry}`;
                 } else {
-                    document.getElementById('dict-desc').innerHTML = `<strong>${e.target.innerText.toUpperCase()}</strong>: Keep studying to master this concept!`;
+                    document.getElementById('dict-desc').innerHTML = `<strong>${displayTitle}</strong>: Keep studying to master this concept!`;
                 }
                 
                 panel.classList.add('active');
@@ -357,8 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
         actionContainer.appendChild(finishBtn);
 
         const choicesList = card.querySelector('.choices-list');
-        choicesList.parentNode.insertBefore(hintBox, choicesList.nextSibling);
-        hintBox.parentNode.insertBefore(actionContainer, hintBox.nextSibling);
+        if(choicesList) {
+            choicesList.parentNode.insertBefore(hintBox, choicesList.nextSibling);
+            hintBox.parentNode.insertBefore(actionContainer, hintBox.nextSibling);
+        }
 
         const radios = card.querySelectorAll('input[type="radio"]');
         const explanationBox = card.querySelector('.explanation-box');
@@ -407,12 +462,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedOption = card.querySelector('input[type="radio"]:checked');
             const correctAnswer = card.getAttribute('data-correct');
 
-            if (selectedOption.value === correctAnswer) {
+            if (selectedOption && selectedOption.value === correctAnswer) {
                 globalScore++;
                 card.style.borderColor = '#4ade80';
                 card.style.backgroundColor = 'rgba(74, 222, 128, 0.05)';
                 navButtons[index].classList.add('locked-correct');
-            } else {
+            } else if (selectedOption) {
                 card.style.borderColor = '#f87171';
                 card.style.backgroundColor = 'rgba(248, 113, 113, 0.05)';
                 navButtons[index].classList.add('locked-incorrect');
@@ -420,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             radios.forEach(r => r.disabled = true);
             hintBox.style.display = 'none'; 
-            explanationBox.classList.add('show'); 
+            if(explanationBox) explanationBox.classList.add('show'); 
             
             attachDictionaryListeners(); 
 
@@ -475,26 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // ANTI-CHEAT / ANTI-INSPECT MECHANISMS
 // ==========================================
-
-// 1. Disable Right-Click (Context Menu)
 document.addEventListener('contextmenu', event => event.preventDefault());
-
-// 2. Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U
 document.onkeydown = function(e) {
-    // Disable F12
-    if (e.keyCode == 123) {
-        return false;
-    }
-    // Disable Ctrl+Shift+I (Open DevTools)
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-        return false;
-    }
-    // Disable Ctrl+Shift+J (Open Console)
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-        return false;
-    }
-    // Disable Ctrl+U (View Source)
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-        return false;
-    }
+    if (e.keyCode == 123) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
 };
