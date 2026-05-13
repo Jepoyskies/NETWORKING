@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkpoint Exam: Modules 8-10</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <script src="exam-l2-wlan.js" defer></script>
     <style>
-        .card { padding: 1rem 1.5rem; margin-bottom: 1rem; }
-        .question-text { font-size: 1.1rem; }
-        pre { background: #f1f5f9; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 0.95rem; border-left: 3px solid #cbd5e1; }
+        pre { background: #f1f5f9; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 0.95rem; border-left: 3px solid #cbd5e1; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -20,18 +18,26 @@
 
     <div class="container">
         <h1>Practice Exam: Communicating Between Networks</h1>
-        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> to understand it. When finished, click "Check Results" at the very bottom!</em></p>
+        <p><em>Select your answers below. Tap any <span class="term" data-term="router">blue dashed word</span> if you forget what it means! Click "🔒 Lock Answer" to grade and review.</em></p>
 
         <!-- Q1 -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">1. Which information is used by routers to forward a data packet toward its destination?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q1" value="A"> A. source IP address</label>
-                <label class="choice-item"><input type="radio" name="q1" value="B"> B. <span class="term" data-term="destination_ip">destination IP address</span></label>
+                <label class="choice-item"><input type="radio" name="q1" value="B"> B. destination IP address</label>
                 <label class="choice-item"><input type="radio" name="q1" value="C"> C. source data-link address</label>
                 <label class="choice-item"><input type="radio" name="q1" value="D"> D. destination data-link address</label>
             </div>
-            <div class="explanation-box"><p>Routers operate at Layer 3 and strictly use the <strong>destination IP address</strong> to determine the path from their routing table.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: destination IP address</div>
+                <p><strong>Deep Dive:</strong> Routers operate at Layer 3 of the OSI model. Their primary job is to inspect the incoming packet, look at the destination IP address, and compare it against their routing table to determine the best path forward.</p>
+                <ul>
+                    <li><strong>A. source IP address:</strong> (Incorrect) Routers don't use the sender's IP to determine the forward path.</li>
+                    <li><strong>B. destination IP address:</strong> (Correct) The exact field used to look up routes in the routing table.</li>
+                    <li><strong>C & D. source/destination data-link address:</strong> (Incorrect) MAC addresses (data-link) are used by Layer 2 switches, not routers.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q2 -->
@@ -39,10 +45,17 @@
             <div class="question-text">2. A computer has to send a packet to a destination host in the same LAN. How will the packet be sent?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q2" value="A"> A. To the default gateway first, then to the destination host.</label>
-                <label class="choice-item"><input type="radio" name="q2" value="B"> B. Directly to the destination <span class="term" data-term="host">host</span>.</label>
+                <label class="choice-item"><input type="radio" name="q2" value="B"> B. Directly to the destination host.</label>
                 <label class="choice-item"><input type="radio" name="q2" value="C"> C. Only to the default gateway.</label>
             </div>
-            <div class="explanation-box"><p>If two computers are on the same <span class="term" data-term="lan">LAN</span> (subnet), they don't need a router. The switch handles it directly using MAC addresses.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Directly to the destination host.</div>
+                <p><strong>Deep Dive:</strong> If two computers are on the exact same subnet (LAN), they do not need a router to talk. The sending PC will use ARP to find the destination MAC address and send the frame directly through the local switch.</p>
+                <ul>
+                    <li><strong>A & C. To the default gateway:</strong> (Incorrect) The default gateway (router) is only used when data needs to leave the local network to reach a remote network (like the Internet).</li>
+                    <li><strong>B. Directly to the destination host:</strong> (Correct) Local traffic stays local via Layer 2 switching.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q3 -->
@@ -50,11 +63,20 @@
             <div class="question-text">3. A router receives a packet from Gigabit 0/0 and determines it needs to be forwarded out Gigabit 0/1. What will the router do next?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q3" value="A"> A. Route the packet out Gigabit 0/1 directly</label>
-                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Create a new <span class="term" data-term="frame">Layer 2 Ethernet frame</span> to be sent to the destination</label>
+                <label class="choice-item"><input type="radio" name="q3" value="B"> B. Create a new Layer 2 Ethernet frame to be sent to the destination</label>
                 <label class="choice-item"><input type="radio" name="q3" value="C"> C. Look into the ARP cache</label>
                 <label class="choice-item"><input type="radio" name="q3" value="D"> D. Look into the routing table</label>
             </div>
-            <div class="explanation-box"><p>It already looked at the routing table. To physically send the packet out of G0/1, it MUST encapsulate it into a <strong>new Layer 2 frame</strong>.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Create a new Layer 2 Ethernet frame to be sent to the destination</div>
+                <p><strong>Deep Dive:</strong> A packet cannot travel over physical cables naked; it must be encapsulated inside a Layer 2 frame. When a router receives a frame, it strips off the old Layer 2 header, looks at the Layer 3 IP packet to find the route, and then must build a brand new Layer 2 frame to push it out the exit interface.</p>
+                <ul>
+                    <li><strong>A. Route directly:</strong> (Incorrect) It cannot send raw packets; encapsulation is required.</li>
+                    <li><strong>B. Create a new Layer 2 Ethernet frame:</strong> (Correct) The router encapsulates the packet with a new Source MAC (itself) and Destination MAC (the next hop).</li>
+                    <li><strong>C. Look into the ARP cache:</strong> (Incorrect) It does this *during* frame creation to find the destination MAC.</li>
+                    <li><strong>D. Look into the routing table:</strong> (Incorrect) It already did this to determine that G0/1 was the exit interface.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q4 -->
@@ -63,9 +85,17 @@
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q4" value="A"> A. 126.0.0.1</label>
                 <label class="choice-item"><input type="radio" name="q4" value="B"> B. 127.0.0.0</label>
-                <label class="choice-item"><input type="radio" name="q4" value="C"> C. <span class="term" data-term="loopback">127.0.0.1</span></label>
+                <label class="choice-item"><input type="radio" name="q4" value="C"> C. 127.0.0.1</label>
             </div>
-            <div class="explanation-box"><p><strong>127.0.0.1</strong> is the universal IPv4 loopback address. Pinging it tests your PC's internal TCP/IP stack.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 127.0.0.1</div>
+                <p><strong>Deep Dive:</strong> The IPv4 address block 127.0.0.0/8 is reserved for loopback testing. Pinging your own loopback address tests if your computer's internal TCP/IP software stack is installed and functioning correctly.</p>
+                <ul>
+                    <li><strong>A. 126.0.0.1:</strong> (Incorrect) This is a standard Class A public IP address.</li>
+                    <li><strong>B. 127.0.0.0:</strong> (Incorrect) This is the network address for the entire loopback block.</li>
+                    <li><strong>C. 127.0.0.1:</strong> (Correct) The universally standard loopback testing IP address.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q5 -->
@@ -75,9 +105,17 @@
                 <label class="choice-item"><input type="radio" name="q5" value="A"> A. The cable is not connected properly to the NIC.</label>
                 <label class="choice-item"><input type="radio" name="q5" value="B"> B. The computer has an invalid IP address.</label>
                 <label class="choice-item"><input type="radio" name="q5" value="C"> C. The computer has an incorrect subnet mask.</label>
-                <label class="choice-item"><input type="radio" name="q5" value="D"> D. The computer has an invalid <span class="term" data-term="default_gateway">default gateway</span> address.</label>
+                <label class="choice-item"><input type="radio" name="q5" value="D"> D. The computer has an invalid default gateway address.</label>
             </div>
-            <div class="explanation-box"><p>To leave your local network, you need a working default gateway (router). If that's wrong, you are trapped locally.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The computer has an invalid default gateway address.</div>
+                <p><strong>Deep Dive:</strong> If you can talk to local devices (like a network printer), your IP, subnet, and cables are working fine. However, to leave your local network and reach the internet, your PC must forward traffic to the router. If your default gateway IP is wrong, your PC is trapped locally.</p>
+                <ul>
+                    <li><strong>A. Cable not connected:</strong> (Incorrect) You wouldn't be able to access local devices either.</li>
+                    <li><strong>B & C. Invalid IP / Subnet:</strong> (Incorrect) This would break local communication.</li>
+                    <li><strong>D. Invalid default gateway:</strong> (Correct) The gateway is the only door out of the local LAN.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q6 -->
@@ -87,9 +125,18 @@
                 <label class="choice-item"><input type="radio" name="q6" value="A"> A. IP encapsulation is modified based on network media.</label>
                 <label class="choice-item"><input type="radio" name="q6" value="B"> B. IP relies on Layer 2 protocols for error control.</label>
                 <label class="choice-item"><input type="radio" name="q6" value="C"> C. MAC addresses are used during IP encapsulation.</label>
-                <label class="choice-item"><input type="radio" name="q6" value="D"> D. IP relies on <span class="term" data-term="upper_layer">upper layer services</span> to handle missing or out-of-order packets.</label>
+                <label class="choice-item"><input type="radio" name="q6" value="D"> D. IP relies on upper layer services to handle missing or out-of-order packets.</label>
             </div>
-            <div class="explanation-box"><p>IP is an "unreliable" protocol. It relies on Layer 4 (like TCP) to check for missing packets and re-order them.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: IP relies on upper layer services to handle missing or out-of-order packets.</div>
+                <p><strong>Deep Dive:</strong> IP is a "best-effort", connectionless protocol. It sends packets into the void and hopes they arrive. It has no built-in tracking for lost packets. It relies entirely on Layer 4 protocols (like TCP) to acknowledge receipt and ask for retransmissions if something is missing.</p>
+                <ul>
+                    <li><strong>A. Modified based on media:</strong> (Incorrect) This describes Layer 2 frames, not Layer 3 IP packets.</li>
+                    <li><strong>B. Relies on L2 for error control:</strong> (Incorrect) It relies on Layer 4 (TCP) for reliable delivery.</li>
+                    <li><strong>C. MAC addresses used:</strong> (Incorrect) IP uses IP addresses. Layer 2 uses MAC addresses.</li>
+                    <li><strong>D. Relies on upper layer services:</strong> (Correct) TCP handles the reliability that IP lacks.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q7 -->
@@ -97,32 +144,55 @@
             <div class="question-text">7. Why is NAT not needed in IPv6?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q7" value="A"> A. IPv6 has integrated security.</label>
-                <label class="choice-item"><input type="radio" name="q7" value="B"> B. Any host can get a public <span class="term" data-term="ipv6">IPv6</span> address because the available number is extremely large.</label>
+                <label class="choice-item"><input type="radio" name="q7" value="B"> B. Any host can get a public IPv6 address because the available number is extremely large.</label>
                 <label class="choice-item"><input type="radio" name="q7" value="C"> C. The problems induced by NAT are solved by intermediate routers.</label>
             </div>
-            <div class="explanation-box"><p><span class="term" data-term="nat">NAT</span> was invented because we ran out of IPv4 addresses. IPv6 provides so many addresses that every device can have a public one.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Any host can get a public IPv6 address because the available number is extremely large.</div>
+                <p><strong>Deep Dive:</strong> Network Address Translation (NAT) was created as a band-aid because we ran out of the 4.3 billion IPv4 addresses. IPv6 has 340 undecillion addresses (enough for every atom on Earth to have an IP). Because addresses are essentially infinite, every device can have its own public IP, making NAT obsolete.</p>
+                <ul>
+                    <li><strong>A. IPv6 has integrated security:</strong> (Incorrect) While IPsec is built-in, NAT was created for address conservation, not security.</li>
+                    <li><strong>B. Extremely large number available:</strong> (Correct) Eradicates address exhaustion.</li>
+                    <li><strong>C. Solved by routers:</strong> (Incorrect) NAT isn't solved by routers, it's just no longer necessary.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q8 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">8. Which parameter does the router use to choose the path to the destination when multiple routes are available?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q8" value="A"> A. the lower <span class="term" data-term="metric">metric</span> value associated with the destination network</label>
+                <label class="choice-item"><input type="radio" name="q8" value="A"> A. the lower metric value associated with the destination network</label>
                 <label class="choice-item"><input type="radio" name="q8" value="B"> B. the lower gateway IP address</label>
                 <label class="choice-item"><input type="radio" name="q8" value="C"> C. the higher metric value</label>
             </div>
-            <div class="explanation-box"><p>A metric represents the "cost" of taking a path. A router always chooses the lowest cost (lowest metric).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: the lower metric value associated with the destination network</div>
+                <p><strong>Deep Dive:</strong> In routing, a "Metric" represents the cost or distance of a path (e.g., hop count in RIP, or bandwidth cost in OSPF). Just like driving, a router always wants the shortest, cheapest, fastest path. Therefore, it always chooses the route with the lowest metric.</p>
+                <ul>
+                    <li><strong>A. lower metric value:</strong> (Correct) Lower cost means a better path.</li>
+                    <li><strong>B. lower gateway IP:</strong> (Incorrect) IP numbers have no bearing on path quality.</li>
+                    <li><strong>C. higher metric value:</strong> (Incorrect) Higher metrics indicate slower/worse paths.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q9 -->
         <div class="card question-card" data-correct="B">
-            <div class="question-text">9. What are two services provided by the OSI network layer?</div>
+            <div class="question-text">9. What are two services provided by the OSI network layer? (Combined)</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q9" value="A"> A. error detection AND collision detection</label>
                 <label class="choice-item"><input type="radio" name="q9" value="B"> B. routing packets AND encapsulating PDUs from the transport layer</label>
                 <label class="choice-item"><input type="radio" name="q9" value="C"> C. placement of frames on media AND error detection</label>
             </div>
-            <div class="explanation-box"><p>The <span class="term" data-term="osi_network">Network Layer (Layer 3)</span> encapsulates data into packets and routes them. Error/collision detection is Layer 2.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: routing packets AND encapsulating PDUs from the transport layer</div>
+                <p><strong>Deep Dive:</strong> The Network Layer (Layer 3) takes segments from the Transport layer, encapsulates them into IP Packets, and uses logical addressing (IP addresses) to route those packets across multiple networks to their final destination.</p>
+                <ul>
+                    <li><strong>A & C. Error detection / media placement:</strong> (Incorrect) These are the primary jobs of the Data Link Layer (Layer 2).</li>
+                    <li><strong>B. routing packets AND encapsulating PDUs:</strong> (Correct) The exact functions of Layer 3 IP.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q10 -->
@@ -133,29 +203,53 @@
                 <label class="choice-item"><input type="radio" name="q10" value="B"> B. A switch must have a gateway to be accessible locally.</label>
                 <label class="choice-item"><input type="radio" name="q10" value="C"> C. It is used to forward packets originating from the switch to remote networks.</label>
             </div>
-            <div class="explanation-box"><p>A switch only needs a gateway so *it* can reply to a remote administrator trying to <span class="term" data-term="ssh">SSH</span> into it from a different network.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It is used to forward packets originating from the switch to remote networks.</div>
+                <p><strong>Deep Dive:</strong> A Layer 2 switch doesn't need an IP address or a gateway to forward local traffic. However, if a network admin is sitting at home and wants to remotely SSH into the switch, the switch needs a default gateway so it knows how to send the return SSH packets back out to the internet.</p>
+                <ul>
+                    <li><strong>A. Hosts use it:</strong> (Incorrect) Hosts use the router's IP as their gateway, not the switch's IP.</li>
+                    <li><strong>B. Accessible locally:</strong> (Incorrect) Local management only requires an IP on the same subnet, no gateway needed.</li>
+                    <li><strong>C. Forward packets originating from switch:</strong> (Correct) Required for remote management traffic.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q11 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">11. What is a basic characteristic of the IP protocol?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q11" value="A"> A. <span class="term" data-term="connectionless">connectionless</span></label>
+                <label class="choice-item"><input type="radio" name="q11" value="A"> A. connectionless</label>
                 <label class="choice-item"><input type="radio" name="q11" value="B"> B. media dependent</label>
                 <label class="choice-item"><input type="radio" name="q11" value="C"> C. reliable end-to-end delivery</label>
             </div>
-            <div class="explanation-box"><p>IP is connectionless, meaning it sends data without verifying if the receiver is ready or listening.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: connectionless</div>
+                <p><strong>Deep Dive:</strong> IP (Internet Protocol) is connectionless. It acts like sending a postcard through the mail. You drop it in the mailbox without checking to see if the recipient is home, and you get no confirmation receipt if it gets lost. (TCP handles the reliable connection portion).</p>
+                <ul>
+                    <li><strong>A. connectionless:</strong> (Correct) IP sends packets immediately without establishing a session first.</li>
+                    <li><strong>B. media dependent:</strong> (Incorrect) IP is media independent (it runs over copper, fiber optic, and Wi-Fi equally well).</li>
+                    <li><strong>C. reliable delivery:</strong> (Incorrect) IP is unreliable. TCP is reliable.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q12 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">12. Which field in the IPv4 header is used to prevent a packet from traversing a network endlessly?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q12" value="A"> A. <span class="term" data-term="ttl">Time-to-Live</span></label>
+                <label class="choice-item"><input type="radio" name="q12" value="A"> A. Time-to-Live</label>
                 <label class="choice-item"><input type="radio" name="q12" value="B"> B. Sequence Number</label>
                 <label class="choice-item"><input type="radio" name="q12" value="C"> C. Differentiated Services</label>
             </div>
-            <div class="explanation-box"><p>Every router decreases the TTL by 1. If it hits zero, the packet is killed to prevent infinite routing loops.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Time-to-Live</div>
+                <p><strong>Deep Dive:</strong> If routers get confused, they could bounce a packet back and forth forever, crashing the internet. The <strong>Time-to-Live (TTL)</strong> field starts at a number (like 128). Every time a router touches the packet, it subtracts 1. If the TTL hits 0, the router throws the packet in the trash, ending the loop.</p>
+                <ul>
+                    <li><strong>A. Time-to-Live:</strong> (Correct) The countdown timer preventing infinite routing loops.</li>
+                    <li><strong>B. Sequence Number:</strong> (Incorrect) A TCP field used to reorder packets.</li>
+                    <li><strong>C. Differentiated Services:</strong> (Incorrect) DSCP is used to prioritize traffic (QoS).</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q13 -->
@@ -166,18 +260,33 @@
                 <label class="choice-item"><input type="radio" name="q13" value="B"> B. smaller-sized source and destination IP addresses</label>
                 <label class="choice-item"><input type="radio" name="q13" value="C"> C. efficient packet handling</label>
             </div>
-            <div class="explanation-box"><p>IPv6 removed several fields (like checksums) to make the header streamlined, resulting in highly efficient packet handling.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: efficient packet handling</div>
+                <p><strong>Deep Dive:</strong> The IPv4 header had a lot of unnecessary fluff, like the Header Checksum, which forced routers to pause and do math on every single packet. IPv6 stripped all that fluff out. Because the header is perfectly streamlined, routers can forward IPv6 packets incredibly fast.</p>
+                <ul>
+                    <li><strong>A & B. Smaller header / addresses:</strong> (Incorrect) IPv6 addresses are massive (128-bit vs 32-bit), so the header is actually much larger in byte size (40 bytes vs 20 bytes).</li>
+                    <li><strong>C. efficient packet handling:</strong> (Correct) The streamlined design means less processing overhead for routers.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q14 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">14. What IPv4 header field identifies the upper layer protocol carried in the packet?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q14" value="A"> A. <span class="term" data-term="protocol_field">Protocol</span></label>
+                <label class="choice-item"><input type="radio" name="q14" value="A"> A. Protocol</label>
                 <label class="choice-item"><input type="radio" name="q14" value="B"> B. Identification</label>
                 <label class="choice-item"><input type="radio" name="q14" value="C"> C. Version</label>
             </div>
-            <div class="explanation-box"><p>The Protocol field identifies if the payload inside is TCP, UDP, ICMP, etc.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Protocol</div>
+                <p><strong>Deep Dive:</strong> When a router opens an IP packet, it needs to know what is hidden inside the payload. The 8-bit <strong>Protocol</strong> field acts as a label. (e.g., Code 6 means "There is a TCP segment inside", Code 17 means "UDP", and Code 1 means "ICMP").</p>
+                <ul>
+                    <li><strong>A. Protocol:</strong> (Correct) Identifies the next-level payload type.</li>
+                    <li><strong>B. Identification:</strong> (Incorrect) Used to reassemble fragmented packets.</li>
+                    <li><strong>C. Version:</strong> (Incorrect) Just identifies if it is IPv4 or IPv6.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q15 -->
@@ -188,7 +297,15 @@
                 <label class="choice-item"><input type="radio" name="q15" value="B"> B. Flood the packet out of all interfaces.</label>
                 <label class="choice-item"><input type="radio" name="q15" value="C"> C. Send it to the Gateway of Last Resort (if configured).</label>
             </div>
-            <div class="explanation-box"><p>If a specific network isn't listed, the router forwards it to the Default Route (Gateway of Last Resort). E.g., your home router sending traffic to the ISP.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Send it to the Gateway of Last Resort (if configured).</div>
+                <p><strong>Deep Dive:</strong> A router checks its routing table from most specific to least specific. If the destination IP is nowhere in the table, the router uses its Default Route (0.0.0.0/0), also known as the <strong>Gateway of Last Resort</strong>, to forward the packet toward the internet. If no default route exists, THEN it drops the packet.</p>
+                <ul>
+                    <li><strong>A. Drop immediately:</strong> (Incorrect) It checks for a default route first.</li>
+                    <li><strong>B. Flood the packet:</strong> (Incorrect) Routers NEVER flood unknown unicast packets; only switches do that.</li>
+                    <li><strong>C. Gateway of Last Resort:</strong> (Correct) The catch-all default route.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q16 -->
@@ -199,7 +316,15 @@
                 <label class="choice-item"><input type="radio" name="q16" value="B"> B. The device has end-to-end connectivity.</label>
                 <label class="choice-item"><input type="radio" name="q16" value="C"> C. The Ethernet cable is working correctly.</label>
             </div>
-            <div class="explanation-box"><p>Pinging <span class="term" data-term="loopback">127.0.0.1</span> tests the internal software and network card. It does NOT test the physical cable or internet connection.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The TCP/IP stack on the device is working correctly.</div>
+                <p><strong>Deep Dive:</strong> Pinging 127.0.0.1 sends a packet straight down into your PC's Network Interface Card (NIC) and bounces it right back up. It verifies that your computer's internal networking software (TCP/IP) is installed and functioning properly.</p>
+                <ul>
+                    <li><strong>A. TCP/IP stack working:</strong> (Correct) Tests internal host software.</li>
+                    <li><strong>B. End-to-end connectivity:</strong> (Incorrect) You must ping a remote server to test this.</li>
+                    <li><strong>C. Ethernet cable working:</strong> (Incorrect) A loopback test succeeds even if the cable is unplugged.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q17 -->
@@ -210,7 +335,15 @@
                 <label class="choice-item"><input type="radio" name="q17" value="B"> B. remote routes</label>
                 <label class="choice-item"><input type="radio" name="q17" value="C"> C. local routes</label>
             </div>
-            <div class="explanation-box"><p>Remote routes require jumping through another router to be reached, hence they have a "next hop" IP address. Local routes do not.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: remote routes</div>
+                <p><strong>Deep Dive:</strong> If a network is "directly connected" (like plugging a switch straight into the router), the router knows exactly how to reach it. But if a network is "remote" (several miles away), the router doesn't know where it is. It only knows the IP address of the neighboring router it must pass the packet to. This neighboring router is called the <strong>Next Hop</strong>.</p>
+                <ul>
+                    <li><strong>A. directly-connected:</strong> (Incorrect) Reached via local interfaces, not next hops.</li>
+                    <li><strong>B. remote routes:</strong> (Correct) Requires forwarding to a next-hop IP address.</li>
+                    <li><strong>C. local routes:</strong> (Incorrect) Represents the exact IP on the router's own interface.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q18 -->
@@ -221,7 +354,15 @@
                 <label class="choice-item"><input type="radio" name="q18" value="B"> B. They search in their own local routing table for a route and pass it to the default gateway.</label>
                 <label class="choice-item"><input type="radio" name="q18" value="C"> C. They send a query packet to the gateway asking for the best route.</label>
             </div>
-            <div class="explanation-box"><p>Your PC actually maintains its own tiny <span class="term" data-term="routing_table">local routing table</span> containing a route to the loopback, local network, and local default route!</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: They search in their own local routing table for a route and pass it to the default gateway.</div>
+                <p><strong>Deep Dive:</strong> Did you know Windows PCs have routing tables too? Before your computer sends a packet, it checks its internal Host Routing Table to see if the destination IP is on the same local subnet. If it is local, it sends it directly to the PC. If the destination is remote, the table tells the PC to forward it to the Default Gateway.</p>
+                <ul>
+                    <li><strong>A. Always to default gateway:</strong> (Incorrect) Local traffic skips the gateway entirely.</li>
+                    <li><strong>B. Search own local routing table:</strong> (Correct) PC operating systems make routing decisions.</li>
+                    <li><strong>C. Send query to gateway:</strong> (Incorrect) This is not how standard IP functions.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q19 -->
@@ -229,10 +370,18 @@
             <div class="question-text">19. When transporting data from real-time applications (streaming audio/video), which IPv6 field informs routers to maintain the same path?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q19" value="A"> A. Next Header</label>
-                <label class="choice-item"><input type="radio" name="q19" value="B"> B. <span class="term" data-term="flow_label">Flow Label</span></label>
+                <label class="choice-item"><input type="radio" name="q19" value="B"> B. Flow Label</label>
                 <label class="choice-item"><input type="radio" name="q19" value="C"> C. Traffic Class</label>
             </div>
-            <div class="explanation-box"><p>The 20-bit Flow Label tags real-time streams so routers prioritize keeping them on the exact same path to prevent lag/re-ordering.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Flow Label</div>
+                <p><strong>Deep Dive:</strong> If video packets take different paths through the internet, some will arrive fast and others will arrive late, causing a glitchy, out-of-order video stream. The IPv6 <strong>Flow Label</strong> field tags all the packets in a video stream with the same ID, instructing routers to keep them all on the exact same physical path to prevent stuttering.</p>
+                <ul>
+                    <li><strong>A. Next Header:</strong> (Incorrect) Identifies the payload protocol (like TCP/UDP).</li>
+                    <li><strong>B. Flow Label:</strong> (Correct) A 20-bit field preventing packet re-ordering for real-time streams.</li>
+                    <li><strong>C. Traffic Class:</strong> (Incorrect) Used for general QoS packet prioritization.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q20 -->
@@ -243,18 +392,33 @@
                 <label class="choice-item"><input type="radio" name="q20" value="B"> B. It discovers the MAC address of any host on the local network.</label>
                 <label class="choice-item"><input type="radio" name="q20" value="C"> C. It discovers the MAC address of any host on a different network.</label>
             </div>
-            <div class="explanation-box"><p>When a PC wants to send data, it knows the IP, but needs the MAC. <span class="term" data-term="arp">ARP</span> asks "Who has this IP?" on the local network.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It discovers the MAC address of any host on the local network.</div>
+                <p><strong>Deep Dive:</strong> To send data, a PC needs two things: the IP address and the MAC address. If you type an IP address, your PC shouts an ARP Broadcast saying, "Hey, whoever owns this IP address, reply and tell me your MAC address!"</p>
+                <ul>
+                    <li><strong>A. Discovers IP on different network:</strong> (Incorrect) DNS handles IP discovery.</li>
+                    <li><strong>B. Discovers MAC on local network:</strong> (Correct) Maps known IPv4 addresses to unknown MAC addresses locally.</li>
+                    <li><strong>C. Discovers MAC on different network:</strong> (Incorrect) MAC addresses never cross routers; ARP only works locally.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q21 -->
         <div class="card question-card" data-correct="A">
-            <div class="question-text">21. Under which two circumstances will a switch flood a frame out of every port except the incoming port?</div>
+            <div class="question-text">21. Under which two circumstances will a switch flood a frame out of every port except the incoming port? (Combined)</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q21" value="A"> A. The frame has the broadcast address AS WELL AS when the destination address is unknown.</label>
                 <label class="choice-item"><input type="radio" name="q21" value="B"> B. The source address is multicast AND the destination is known.</label>
                 <label class="choice-item"><input type="radio" name="q21" value="C"> C. The source address is broadcast AND the destination is broadcast.</label>
             </div>
-            <div class="explanation-box"><p>If a switch doesn't know where a MAC address is, or if the destination is FF:FF:FF:FF:FF:FF (broadcast), it panics and floods it everywhere.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The frame has the broadcast address AS WELL AS when the destination address is unknown.</div>
+                <p><strong>Deep Dive:</strong> A switch forwards frames specifically to the destination MAC address. However, if the destination MAC is <code>FF:FF:FF:FF:FF:FF</code> (Broadcast), the switch knows it MUST copy it to everyone. Additionally, if the destination MAC is not in the switch's MAC Table yet (Unknown Unicast), it panics and floods the frame everywhere to ensure it reaches the target.</p>
+                <ul>
+                    <li><strong>A. Broadcast AND Unknown destination:</strong> (Correct) The two triggers for switch flooding.</li>
+                    <li><strong>B & C. Source is broadcast/multicast:</strong> (Incorrect) A source MAC address is NEVER a broadcast or multicast address. It is always a single unicast sender.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q22 -->
@@ -265,7 +429,15 @@
                 <label class="choice-item"><input type="radio" name="q22" value="B"> B. They are received and processed by every device on the local network.</label>
                 <label class="choice-item"><input type="radio" name="q22" value="C"> C. They are dropped by all switches.</label>
             </div>
-            <div class="explanation-box"><p>ARP requests are sent as a broadcast. This means ALL devices on the local link must receive and process the request.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: They are received and processed by every device on the local network.</div>
+                <p><strong>Deep Dive:</strong> Because ARP requests do not know the target's MAC address, they are sent as a Layer 2 Broadcast. This forces every single Network Interface Card (NIC) on the subnet to receive the frame, open it, and process the payload to see if they are the intended IP address.</p>
+                <ul>
+                    <li><strong>A. Forwarded by routers:</strong> (Incorrect) Routers drop Layer 2 broadcasts; they do not forward them.</li>
+                    <li><strong>B. Processed by every device:</strong> (Correct) The inherent behavior of a broadcast frame.</li>
+                    <li><strong>C. Dropped by switches:</strong> (Incorrect) Switches flood broadcasts, they don't drop them.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q23 -->
@@ -276,18 +448,29 @@
                 <label class="choice-item"><input type="radio" name="q23" value="B"> B. 255.255.255.255</label>
                 <label class="choice-item"><input type="radio" name="q23" value="C"> C. FFFF.FFFF.FFFF</label>
             </div>
-            <div class="explanation-box"><p>This is the Layer 2 Broadcast MAC address. It ensures every single device on the switch receives the ARP request.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: FFFF.FFFF.FFFF</div>
+                <p><strong>Deep Dive:</strong> An ARP request is a Layer 2 function used to find a MAC address. Because it must reach everyone on the local switch, the Destination MAC address placed on the Ethernet header is the universal Layer 2 Broadcast Address, which is all Fs in hexadecimal.</p>
+                <ul>
+                    <li><strong>A. 0.0.0.0:</strong> (Incorrect) Unspecified IPv4 address.</li>
+                    <li><strong>B. 255.255.255.255:</strong> (Incorrect) This is the Layer 3 broadcast IP address, but the question specifies the *frame* (Layer 2).</li>
+                    <li><strong>C. FFFF.FFFF.FFFF:</strong> (Correct) The Layer 2 Broadcast MAC Address.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q24 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">24. A network technician issues the <code>arp -d *</code> command on a PC. What is the result?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q24" value="A"> A. The <span class="term" data-term="arp_cache">ARP cache</span> is cleared.</label>
+                <label class="choice-item"><input type="radio" name="q24" value="A"> A. The ARP cache is cleared.</label>
                 <label class="choice-item"><input type="radio" name="q24" value="B"> B. The current content of the ARP cache is displayed.</label>
                 <label class="choice-item"><input type="radio" name="q24" value="C"> C. The ARP cache is synchronized.</label>
             </div>
-            <div class="explanation-box"><p>The <code>-d</code> stands for delete. This clears the cache to force the PC to re-learn updated MAC addresses.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The ARP cache is cleared.</div>
+                <p><strong>Deep Dive:</strong> On a Windows PC, the <code>arp</code> command manages the ARP table. Typing <code>arp -a</code> displays the current cache. Typing <code>arp -d *</code> tells the system to <strong>delete</strong> (*) all entries. This flushes the cache, forcing the PC to send fresh ARP requests and relearn network MAC addresses.</p>
+            </div>
         </div>
 
         <!-- Q25 -->
@@ -298,7 +481,10 @@
                 <label class="choice-item"><input type="radio" name="q25" value="B"> B. It will forward the frame to all ports except the incoming port.</label>
                 <label class="choice-item"><input type="radio" name="q25" value="C"> C. It will forward the frame to all ports including the incoming port.</label>
             </div>
-            <div class="explanation-box"><p>Because the switch doesn't know where PC3 is, it floods the frame out of every port except the one it received it from to ensure PC3 gets it.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It will forward the frame to all ports except the incoming port.</div>
+                <p><strong>Deep Dive:</strong> This scenario is called <strong>Unknown Unicast Flooding</strong>. The switch doesn't know what port PC3 is plugged into yet. Instead of dropping the frame, it plays it safe and blasts copies of the frame out of every active port. It excludes the port PC1 is on because it violates the Split-Horizon rule (never send data back out the port it arrived on).</p>
+            </div>
         </div>
 
         <!-- Q26 -->
@@ -309,7 +495,15 @@
                 <label class="choice-item"><input type="radio" name="q26" value="B"> B. neighbor solicitation & neighbor advertisement</label>
                 <label class="choice-item"><input type="radio" name="q26" value="C"> C. anycast & broadcast</label>
             </div>
-            <div class="explanation-box"><p>IPv6 does NOT use ARP broadcasts! Instead, it uses ICMPv6 Neighbor Discovery via Solicitation and Advertisement messages.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: neighbor solicitation & neighbor advertisement</div>
+                <p><strong>Deep Dive:</strong> IPv6 completely eliminated ARP broadcasts. Instead, IPv6 uses the ICMPv6 Neighbor Discovery Protocol (NDP). To find a MAC address, an IPv6 host sends a <strong>Neighbor Solicitation (NS)</strong> message, and the target replies with a <strong>Neighbor Advertisement (NA)</strong> message.</p>
+                <ul>
+                    <li><strong>A. Echo reply/request:</strong> (Incorrect) These are standard Ping messages.</li>
+                    <li><strong>B. Solicitation & Advertisement:</strong> (Correct) The direct IPv6 replacement for ARP Request/Reply.</li>
+                    <li><strong>C. anycast & broadcast:</strong> (Incorrect) IPv6 doesn't even use broadcasts.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q27 -->
@@ -320,7 +514,14 @@
                 <label class="choice-item"><input type="radio" name="q27" value="B"> B. to flood the network with ARP reply broadcasts</label>
                 <label class="choice-item"><input type="radio" name="q27" value="C"> C. to fill switch MAC tables with bogus addresses</label>
             </div>
-            <div class="explanation-box"><p>In <span class="term" data-term="arp_spoofing">ARP Spoofing</span>, a malicious host lies to other PCs so they map the Router's IP address to the Hacker's MAC address.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: to associate IP addresses to the wrong MAC address</div>
+                <p><strong>Deep Dive:</strong> ARP has no security; it blindly trusts any reply it receives. In an ARP Spoofing (or ARP Poisoning) attack, a hacker sends a fake reply to a victim PC saying, "I am the Router!" The victim PC updates its ARP cache, linking the Router's IP to the Hacker's MAC address. Now, all internet traffic routes through the hacker (Man-in-the-Middle).</p>
+                <ul>
+                    <li><strong>A. associate IP to wrong MAC:</strong> (Correct) The exact mechanism of ARP poisoning.</li>
+                    <li><strong>C. fill switch MAC tables:</strong> (Incorrect) This describes MAC Flooding, not ARP Spoofing.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q28 -->
@@ -331,18 +532,34 @@
                 <label class="choice-item"><input type="radio" name="q28" value="B"> B. the MAC address of the switch</label>
                 <label class="choice-item"><input type="radio" name="q28" value="C"> C. the MAC address of the File Server</label>
             </div>
-            <div class="explanation-box"><p>Because the Server is on a remote network, PC1 must send the frame to its Default Gateway. Therefore, PC1 ARPs for the router's MAC address.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: the MAC address of the default gateway router</div>
+                <p><strong>Deep Dive:</strong> ARP broadcasts cannot cross routers. If PC1 wants to talk to a remote server, it realizes the IP is on a different subnet. Therefore, PC1 must send the frame to its router. To do this, PC1 sends an ARP request asking for the MAC address of its Default Gateway, NOT the server.</p>
+                <ul>
+                    <li><strong>A. Default gateway MAC:</strong> (Correct) Used as the Layer 2 destination to escape the local LAN.</li>
+                    <li><strong>B. Switch MAC:</strong> (Incorrect) Switches are transparent; PCs don't address traffic to them.</li>
+                    <li><strong>C. File Server MAC:</strong> (Incorrect) The server's MAC is unknown and unreachable via local ARP.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q29 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">29. Where are IPv4 address to Layer 2 Ethernet address mappings maintained on a host computer?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q29" value="A"> A. <span class="term" data-term="arp_cache">ARP cache</span></label>
+                <label class="choice-item"><input type="radio" name="q29" value="A"> A. ARP cache</label>
                 <label class="choice-item"><input type="radio" name="q29" value="B"> B. neighbor table</label>
                 <label class="choice-item"><input type="radio" name="q29" value="C"> C. routing table</label>
             </div>
-            <div class="explanation-box"><p>The ARP cache stores the mapping of IPs to MAC addresses directly on your PC.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: ARP cache</div>
+                <p><strong>Deep Dive:</strong> Every computer keeps a temporary list of IP addresses and their matching MAC addresses to avoid sending ARP broadcasts every time it needs to communicate. This mapping table is called the <strong>ARP cache</strong>.</p>
+                <ul>
+                    <li><strong>A. ARP cache:</strong> (Correct) The IPv4 to MAC mapping table.</li>
+                    <li><strong>B. neighbor table:</strong> (Incorrect) This is the term used for IPv6 mapping.</li>
+                    <li><strong>C. routing table:</strong> (Incorrect) Maps destination IPs to next-hop routes.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q30 -->
@@ -353,7 +570,15 @@
                 <label class="choice-item"><input type="radio" name="q30" value="B"> B. destination MAC address</label>
                 <label class="choice-item"><input type="radio" name="q30" value="C"> C. destination IP address</label>
             </div>
-            <div class="explanation-box"><p>A Layer 2 device (<span class="term" data-term="switch">switch</span>) strictly uses the DESTINATION MAC address to determine which port to send the data out of.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: destination MAC address</div>
+                <p><strong>Deep Dive:</strong> A Layer 2 switch makes forwarding decisions based exclusively on the Destination MAC address. It looks at the destination MAC on the frame, checks its internal MAC Address Table, and forwards the frame out the specific port associated with that MAC.</p>
+                <ul>
+                    <li><strong>A. source MAC address:</strong> (Incorrect) The source MAC is examined to *build* the table, not to forward the frame.</li>
+                    <li><strong>B. destination MAC address:</strong> (Correct) Used to determine the exit port.</li>
+                    <li><strong>C. destination IP address:</strong> (Incorrect) This is a Layer 3 function used by routers.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q31 -->
@@ -364,7 +589,15 @@
                 <label class="choice-item"><input type="radio" name="q31" value="B"> B. banner motd #</label>
                 <label class="choice-item"><input type="radio" name="q31" value="C"> C. hostname R1</label>
             </div>
-            <div class="explanation-box"><p>The Message of the Day (MOTD) banner displays a warning/greeting when users connect.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: banner motd #</div>
+                <p><strong>Deep Dive:</strong> For legal and security reasons, companies configure a "Message of the Day" (MOTD) banner that warns unauthorized users that access is restricted. This message displays instantly upon connecting to the terminal, before the login prompt appears.</p>
+                <ul>
+                    <li><strong>A. password class:</strong> (Incorrect) Configures the enable password.</li>
+                    <li><strong>B. banner motd #:</strong> (Correct) The command to set the warning banner.</li>
+                    <li><strong>C. hostname R1:</strong> (Incorrect) Changes the device name.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q32 -->
@@ -375,18 +608,33 @@
                 <label class="choice-item"><input type="radio" name="q32" value="B"> B. Exit privileged EXEC mode and press Enter.</label>
                 <label class="choice-item"><input type="radio" name="q32" value="C"> C. Power cycle the device.</label>
             </div>
-            <div class="explanation-box"><p>Typing 'exit' until you leave the router entirely and then pressing Enter will instantly show the login banner without a slow reboot.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Exit privileged EXEC mode and press Enter.</div>
+                <p><strong>Deep Dive:</strong> The MOTD banner displays immediately when a session connects. By typing <code>exit</code> until you completely log out of the router, you simulate a fresh connection. Hitting 'Enter' re-initiates the console session, instantly flashing the banner on your screen.</p>
+                <ul>
+                    <li><strong>A & C. Reboot / Power cycle:</strong> (Incorrect) This takes several minutes and brings down the entire network unnecessarily.</li>
+                    <li><strong>B. Exit and press Enter:</strong> (Correct) The fastest, non-disruptive way to view the login screen.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q33 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">33. Which remote access method relies on an active network connection and uses encryption?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q33" value="A"> A. <span class="term" data-term="ssh">SSH</span></label>
-                <label class="choice-item"><input type="radio" name="q33" value="B"> B. <span class="term" data-term="telnet">Telnet</span></label>
-                <label class="choice-item"><input type="radio" name="q33" value="C"> C. <span class="term" data-term="console_port">Console</span></label>
+                <label class="choice-item"><input type="radio" name="q33" value="A"> A. SSH</label>
+                <label class="choice-item"><input type="radio" name="q33" value="B"> B. Telnet</label>
+                <label class="choice-item"><input type="radio" name="q33" value="C"> C. Console</label>
             </div>
-            <div class="explanation-box"><p>SSH uses strong password authentication and encryption. Telnet is unencrypted. Console is local/physical, not remote network access.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: SSH</div>
+                <p><strong>Deep Dive:</strong> Secure Shell (SSH) is the industry standard for logging into routers and switches remotely. Because it uses strong cryptography (RSA keys), all passwords and commands sent over the network are completely encrypted and hidden from packet sniffers.</p>
+                <ul>
+                    <li><strong>A. SSH:</strong> (Correct) Remote, active network connection WITH encryption.</li>
+                    <li><strong>B. Telnet:</strong> (Incorrect) Remote connection but completely unencrypted (plaintext).</li>
+                    <li><strong>C. Console:</strong> (Incorrect) Requires a physical blue rollover cable, not an active IP network connection.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q34 -->
@@ -394,10 +642,13 @@
             <div class="question-text">34. What is the correct sequence of the three major phases of a Cisco router bootup process?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q34" value="A"> A. POST -> Load startup-config -> Load IOS</label>
-                <label class="choice-item"><input type="radio" name="q34" value="B"> B. <span class="term" data-term="post">POST</span> -> Load IOS -> Load <span class="term" data-term="startup_config">startup-config</span></label>
+                <label class="choice-item"><input type="radio" name="q34" value="B"> B. POST -> Load IOS -> Load startup-config</label>
                 <label class="choice-item"><input type="radio" name="q34" value="C"> C. Load IOS -> POST -> Load startup-config</label>
             </div>
-            <div class="explanation-box"><p>Hardware test (POST) -> Load OS (from Flash) -> Load saved settings (from NVRAM).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: POST -> Load IOS -> Load startup-config</div>
+                <p><strong>Deep Dive:</strong> A router boots in three logical steps: <br>1. <strong>POST</strong> (Power-On Self Test): Checks hardware like CPU and RAM.<br>2. <strong>Load IOS</strong>: Finds and loads the operating system from Flash memory.<br>3. <strong>Load startup-config</strong>: Applies the saved settings from NVRAM to the active running-config.</p>
+            </div>
         </div>
 
         <!-- Q35 -->
@@ -408,29 +659,51 @@
                 <label class="choice-item"><input type="radio" name="q35" value="B"> B. R1(config)#</label>
                 <label class="choice-item"><input type="radio" name="q35" value="C"> C. R1(config-line)#</label>
             </div>
-            <div class="explanation-box"><p>It is entered in Global Configuration Mode (R1(config)#).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: R1(config)#</div>
+                <p><strong>Deep Dive:</strong> The <code>service password-encryption</code> command automatically scrambles all plaintext passwords in your configuration file. Because this is a system-wide setting affecting the entire device, it must be entered in <strong>Global Configuration Mode</strong>.</p>
+                <ul>
+                    <li><strong>A. R1#:</strong> (Incorrect) Privileged EXEC mode is for viewing (show commands), not configuring.</li>
+                    <li><strong>B. R1(config)#:</strong> (Correct) Global Configuration mode.</li>
+                    <li><strong>C. R1(config-line)#:</strong> (Incorrect) Line config mode is for specific ports (like vty or console).</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q36 -->
         <div class="card question-card" data-correct="A">
-            <div class="question-text">36. Which two functions are properties of NVRAM?</div>
+            <div class="question-text">36. Which two functions are properties of NVRAM? (Combined)</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q36" value="A"> A. It retains contents when power is removed AND stores the startup config.</label>
                 <label class="choice-item"><input type="radio" name="q36" value="B"> B. It stores the routing table AND the running config.</label>
                 <label class="choice-item"><input type="radio" name="q36" value="C"> C. It stores the ARP table AND retains contents when power is removed.</label>
             </div>
-            <div class="explanation-box"><p><span class="term" data-term="nvram">NVRAM</span> is non-volatile. The startup configuration file is preserved here even if the router loses power.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It retains contents when power is removed AND stores the startup config.</div>
+                <p><strong>Deep Dive:</strong> <strong>NVRAM</strong> stands for Non-Volatile RAM. "Non-Volatile" means the memory does not wipe when the power cord is pulled. Its sole purpose on a Cisco router is to permanently store the <code>startup-config</code> file.</p>
+                <ul>
+                    <li><strong>A. Retains contents / stores startup config:</strong> (Correct) The exact definition of NVRAM.</li>
+                    <li><strong>B & C. Routing table / ARP table / running config:</strong> (Incorrect) These are highly active processes stored in standard Volatile RAM, which wipes clean when rebooted.</li>
+                </ul>
+            </div>
         </div>
-
         <!-- Q37 -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">37. A router boots and enters setup mode. What is the reason for this?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q37" value="A"> A. Cisco IOS is missing from <span class="term" data-term="flash">flash</span> memory.</label>
+                <label class="choice-item"><input type="radio" name="q37" value="A"> A. Cisco IOS is missing from flash memory.</label>
                 <label class="choice-item"><input type="radio" name="q37" value="B"> B. The POST process detected a hardware failure.</label>
-                <label class="choice-item"><input type="radio" name="q37" value="C"> C. The configuration file is missing from <span class="term" data-term="nvram">NVRAM</span>.</label>
+                <label class="choice-item"><input type="radio" name="q37" value="C"> C. The configuration file is missing from NVRAM.</label>
             </div>
-            <div class="explanation-box"><p>If a router cannot find a saved `startup-config` in NVRAM, it assumes it is a brand-new router and enters interactive "setup mode".</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The configuration file is missing from NVRAM.</div>
+                <p><strong>Deep Dive:</strong> When a Cisco router boots up, it looks inside <span class="term" data-term="nvram">NVRAM</span> for the <code>startup-config</code> file. If the NVRAM is empty, the router assumes it is brand new out of the box and automatically enters the interactive "Setup Mode" dialog to help you configure it.</p>
+                <ul>
+                    <li><strong>A. IOS missing:</strong> (Incorrect) If the OS is missing, it boots into ROMMON mode.</li>
+                    <li><strong>B. POST hardware failure:</strong> (Incorrect) The router would likely halt or crash.</li>
+                    <li><strong>C. Config missing from NVRAM:</strong> (Correct) Triggers the initial Setup Mode.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q38 -->
@@ -441,7 +714,15 @@
                 <label class="choice-item"><input type="radio" name="q38" value="B"> B. The switch can communicate with other hosts on the 172.16.100.0 network.</label>
                 <label class="choice-item"><input type="radio" name="q38" value="C"> C. The switch will have a management interface with the address 172.16.100.1.</label>
             </div>
-            <div class="explanation-box"><p>A switch needs a default gateway purely so it knows how to reply to an admin trying to <span class="term" data-term="ssh">SSH</span> into it from a remote network.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The switch can be remotely managed from a host on another network.</div>
+                <p><strong>Deep Dive:</strong> A Layer 2 switch does not route traffic, so it doesn't strictly *need* a <span class="term" data-term="default gateway">default gateway</span>. However, if a network admin tries to <span class="term" data-term="ssh">SSH</span> into the switch from their house across the internet, the switch needs a default gateway so it knows where to send the return SSH packets.</p>
+                <ul>
+                    <li><strong>A. Remotely managed from another network:</strong> (Correct) The only reason a Layer 2 switch needs a gateway.</li>
+                    <li><strong>B. Communicate with hosts on 172.16.100.0:</strong> (Incorrect) It doesn't need a gateway for local communication.</li>
+                    <li><strong>C. Management interface address:</strong> (Incorrect) The command sets the gateway, not the switch's own IP address.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q39 -->
@@ -452,7 +733,15 @@
                 <label class="choice-item"><input type="radio" name="q39" value="B"> B. Communication between the switch and remote users is encrypted.</label>
                 <label class="choice-item"><input type="radio" name="q39" value="C"> C. The switch requires remote connections via proprietary software.</label>
             </div>
-            <div class="explanation-box"><p>Applying this to the <span class="term" data-term="vty">VTY lines</span> forces the switch to accept only secure, encrypted SSH connections, blocking unencrypted Telnet.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Communication between the switch and remote users is encrypted.</div>
+                <p><strong>Deep Dive:</strong> By default, Cisco <span class="term" data-term="vty">VTY lines</span> accept all remote connections, including highly insecure <span class="term" data-term="telnet">Telnet</span> (which transmits passwords in plaintext). Applying <code>transport input ssh</code> explicitly blocks Telnet and forces all remote administrators to use <span class="term" data-term="ssh">SSH</span>, guaranteeing that all communication is encrypted.</p>
+                <ul>
+                    <li><strong>A. SSH client enabled:</strong> (Incorrect) This command configures the SSH *Server* on the switch, not the client.</li>
+                    <li><strong>B. Communication is encrypted:</strong> (Correct) SSH forces strong encryption.</li>
+                    <li><strong>C. Proprietary software:</strong> (Incorrect) SSH is an open industry standard.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q40 -->
@@ -461,20 +750,31 @@
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q40" value="A"> A. The DNS Server IP</label>
                 <label class="choice-item"><input type="radio" name="q40" value="B"> B. The Web Server IP</label>
-                <label class="choice-item"><input type="radio" name="q40" value="C"> C. The <span class="term" data-term="default_gateway">Default Gateway</span> IP</label>
+                <label class="choice-item"><input type="radio" name="q40" value="C"> C. The Default Gateway IP</label>
             </div>
-            <div class="explanation-box"><p>Any time a PC needs to leave the local network, it forwards the packet to the MAC address of its Default Gateway (Router).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The Default Gateway IP</div>
+                <p><strong>Deep Dive:</strong> When a PC needs to send a packet to an IP address that is not on its local subnet (like a website on the Internet), it must hand the packet to a <span class="term" data-term="router">router</span>. To do this, the PC forwards the Layer 2 Ethernet frame to the MAC address of its <strong><span class="term" data-term="default gateway">Default Gateway</span></strong>.</p>
+                <ul>
+                    <li><strong>A. DNS Server IP:</strong> (Incorrect) DNS is only queried to translate the URL into an IP address.</li>
+                    <li><strong>B. Web Server IP:</strong> (Incorrect) This is the final Layer 3 destination, but not the local target used to *leave* the network.</li>
+                    <li><strong>C. Default Gateway IP:</strong> (Correct) The exit door of the local network.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q41 -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">41. Which prompt represents Privileged EXEC mode where you can save the configuration?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q41" value="A"> A. R1></label>
+                <label class="choice-item"><input type="radio" name="q41" value="A"> A. R1&gt;</label>
                 <label class="choice-item"><input type="radio" name="q41" value="B"> B. R1(config)#</label>
                 <label class="choice-item"><input type="radio" name="q41" value="C"> C. R1#</label>
             </div>
-            <div class="explanation-box"><p>The '#' prompt indicates Privileged EXEC mode, where you use `copy running-config startup-config`.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: R1#</div>
+                <p><strong>Deep Dive:</strong> Cisco IOS uses different command-line prompts. The <code>&gt;</code> symbol is User EXEC mode (very limited viewing). The <code>#</code> symbol is <strong>Privileged EXEC mode</strong>, which gives you full access to view configurations and execute the <code>copy running-config startup-config</code> command to save your work.</p>
+            </div>
         </div>
 
         <!-- Q42 -->
@@ -485,7 +785,15 @@
                 <label class="choice-item"><input type="radio" name="q42" value="B"> B. line console 0, enable secret cisco, login</label>
                 <label class="choice-item"><input type="radio" name="q42" value="C"> C. line console 0, password cisco, login</label>
             </div>
-            <div class="explanation-box"><p>To secure the physical <span class="term" data-term="console_port">console port</span>, you enter line config mode, set the password, and command it to prompt for `login`.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: line console 0, password cisco, login</div>
+                <p><strong>Deep Dive:</strong> To secure the physical blue console port on a router, you must first enter the line configuration mode for it (<code>line console 0</code>). Then, set the password (<code>password cisco</code>), and finally, tell the router to actually prompt users for it (<code>login</code>).</p>
+                <ul>
+                    <li><strong>A. line vty:</strong> (Incorrect) This configures remote network access (SSH/Telnet), not the physical console.</li>
+                    <li><strong>B. enable secret:</strong> (Incorrect) This command is applied globally, not inside the console line.</li>
+                    <li><strong>C. Correct sequence:</strong> (Correct) Accesses the console line, applies the password, and enforces it.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q43 -->
@@ -496,18 +804,29 @@
                 <label class="choice-item"><input type="radio" name="q43" value="B"> B. It is the IP address of the Router interface that connects the company to the Internet.</label>
                 <label class="choice-item"><input type="radio" name="q43" value="C"> C. It is the IP address of the Switch that connects the PC to other devices.</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the FIRST Layer 3 device (router interface) that connects directly to your local network.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It is the IP address of the Router interface that connects the PC LAN to the Router.</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="default gateway">default gateway</span> is the local doorway out of your network. It must be an IP address on the exact same subnet as your PC, meaning it is the physical router interface directly facing the internal <span class="term" data-term="lan">LAN</span>.</p>
+                <ul>
+                    <li><strong>A. Router interface connecting LAN:</strong> (Correct) The local entry point into the router.</li>
+                    <li><strong>B. Interface connecting Internet:</strong> (Incorrect) This is the router's WAN interface (Public IP). PCs don't use this as their gateway.</li>
+                    <li><strong>C. Switch IP:</strong> (Incorrect) Switches are Layer 2 and do not act as gateways for PCs.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Q44 -->
         <div class="card question-card" data-correct="C">
-            <div class="question-text">44. Which two functions are primary functions of a router?</div>
+            <div class="question-text">44. Which two functions are primary functions of a router? (Combined)</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q44" value="A"> A. microsegmentation AND flow control</label>
                 <label class="choice-item"><input type="radio" name="q44" value="B"> B. domain name resolution AND path selection</label>
                 <label class="choice-item"><input type="radio" name="q44" value="C"> C. packet forwarding AND path selection</label>
             </div>
-            <div class="explanation-box"><p>A router accesses its routing table to determine the best path (path selection) and then pushes the packet out (packet forwarding).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: packet forwarding AND path selection</div>
+                <p><strong>Deep Dive:</strong> A <span class="term" data-term="router">router</span> only has two main jobs. 1) <strong>Path Selection</strong>: Looking at the routing table to decide the best route to the destination. 2) <strong>Packet Forwarding</strong>: Moving the packet from the incoming interface to the correct outgoing interface.</p>
+            </div>
         </div>
 
         <!-- Q45 -->
@@ -515,10 +834,13 @@
             <div class="question-text">45. What is the effect of using the <code>copy running-config startup-config</code> command on a router?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q45" value="A"> A. The contents of ROM will change.</label>
-                <label class="choice-item"><input type="radio" name="q45" value="B"> B. The contents of <span class="term" data-term="nvram">NVRAM</span> will change.</label>
-                <label class="choice-item"><input type="radio" name="q45" value="C"> C. The contents of <span class="term" data-term="flash">flash</span> will change.</label>
+                <label class="choice-item"><input type="radio" name="q45" value="B"> B. The contents of NVRAM will change.</label>
+                <label class="choice-item"><input type="radio" name="q45" value="C"> C. The contents of flash will change.</label>
             </div>
-            <div class="explanation-box"><p>This command saves the current RAM configuration into the permanent NVRAM so it survives a reboot.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The contents of NVRAM will change.</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="running-config">running configuration</span> is stored in volatile RAM (which erases on reboot). The <code>startup-config</code> is stored in <strong><span class="term" data-term="nvram">NVRAM</span></strong> (Non-Volatile RAM, which survives reboots). When you copy the running config to the startup config, you are overwriting the contents of NVRAM to permanently save your work.</p>
+            </div>
         </div>
 
         <!-- Q46 -->
@@ -529,62 +851,80 @@
                 <label class="choice-item"><input type="radio" name="q46" value="B"> B. The switch will not forward packets initiated by the host.</label>
                 <label class="choice-item"><input type="radio" name="q46" value="C"> C. The host cannot communicate with hosts in other networks.</label>
             </div>
-            <div class="explanation-box"><p>Local communication works fine without a gateway. But to leave the LAN, the PC needs the correct router IP.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The host cannot communicate with hosts in other networks.</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="default gateway">default gateway</span> is ONLY used when a PC realizes the destination IP is on a remote subnet. If the gateway is missing or wrong, the PC drops the packet because it has no exit door. However, local communication (like talking to a nearby printer) bypasses the gateway entirely and will continue to work perfectly.</p>
+            </div>
         </div>
 
         <!-- Q47 -->
         <div class="card question-card" data-correct="B">
-            <div class="question-text">47. What are two potential network problems that can result from ARP operation?</div>
+            <div class="question-text">47. What are two potential network problems that can result from ARP operation? (Combined)</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q47" value="A"> A. Manually configuring static ARP facilitates poisoning AND multiple ARP replies overflow the MAC table.</label>
                 <label class="choice-item"><input type="radio" name="q47" value="B"> B. Multiple ARP broadcasts cause delays AND attackers can manipulate mappings to intercept traffic.</label>
                 <label class="choice-item"><input type="radio" name="q47" value="C"> C. Large numbers of ARP requests overflow the host table AND attackers use static ARP for spoofing.</label>
             </div>
-            <div class="explanation-box"><p>ARP relies on <span class="term" data-term="broadcast">broadcasts</span> (which cause delays) and has no security (allowing <span class="term" data-term="arp_spoofing">ARP Spoofing</span>).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Multiple ARP broadcasts cause delays AND attackers can manipulate mappings to intercept traffic.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="arp">ARP</span> has two massive flaws. 1) Performance: It relies on Layer 2 Broadcasts, which interrupt every single PC on the network and cause delays. 2) Security: It has zero authentication, allowing hackers to execute <span class="term" data-term="arp spoofing">ARP Spoofing</span> (ARP Poisoning) to easily execute Man-in-the-Middle attacks.</p>
+            </div>
         </div>
 
         <!-- Q48 -->
         <div class="card question-card" data-correct="A">
-            <div class="question-text">48. Packet Tracer Verification: Using `show ip interface brief`, which interfaces are active and operational?</div>
+            <div class="question-text">48. Packet Tracer Verification: Using <code>show ip interface brief</code>, which condition proves an interface is active and operational?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q48" value="A"> A. R1: G0/0 and S0/0/0. | R2: G0/1 and S0/0/0.</label>
-                <label class="choice-item"><input type="radio" name="q48" value="B"> B. R1: G0/1 and S0/0/1. | R2: G0/0 and S0/0/1.</label>
-                <label class="choice-item"><input type="radio" name="q48" value="C"> C. R1: G0/0 and S0/0/1. | R2: G0/1 and S0/0/1.</label>
+                <label class="choice-item"><input type="radio" name="q48" value="A"> A. It shows "up" in both the Status and Protocol columns.</label>
+                <label class="choice-item"><input type="radio" name="q48" value="B"> B. It shows "administratively down" in the Status column.</label>
+                <label class="choice-item"><input type="radio" name="q48" value="C"> C. It shows "up" in the Status column but "down" in the Protocol column.</label>
             </div>
-            <div class="explanation-box"><p>Active interfaces are represented by the value "up" in both the "Status" and "Protocol" columns.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: It shows "up" in both the Status and Protocol columns.</div>
+                <p><strong>Deep Dive:</strong> An interface must be "Up" (Layer 1 Physical connectivity) and "Up" (Layer 2 Data-link protocol operational) to successfully route traffic.</p>
+            </div>
         </div>
 
         <!-- Q49 -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">49. Which term describes a field in the IPv4 packet header used to identify the next level protocol?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q49" value="A"> A. <span class="term" data-term="ttl">TTL</span></label>
-                <label class="choice-item"><input type="radio" name="q49" value="B"> B. <span class="term" data-term="protocol_field">protocol</span></label>
+                <label class="choice-item"><input type="radio" name="q49" value="A"> A. TTL</label>
+                <label class="choice-item"><input type="radio" name="q49" value="B"> B. Protocol</label>
                 <label class="choice-item"><input type="radio" name="q49" value="C"> C. destination IPv4 address</label>
             </div>
-            <div class="explanation-box"><p>The protocol field identifies if the payload is TCP, UDP, ICMP, etc.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Protocol</div>
+                <p><strong>Deep Dive:</strong> The 8-bit <strong>Protocol</strong> field inside the IPv4 header acts as a label telling the receiving computer what payload is inside (e.g., Code 6 for TCP, Code 17 for UDP, Code 1 for ICMP).</p>
+            </div>
         </div>
 
         <!-- Q50 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">50. Which term describes a field in the IPv4 packet header that contains an 8-bit binary value used to determine the priority of each packet?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q50" value="A"> A. <span class="term" data-term="dscp">differentiated services</span></label>
-                <label class="choice-item"><input type="radio" name="q50" value="B"> B. protocol</label>
+                <label class="choice-item"><input type="radio" name="q50" value="A"> A. Differentiated Services (DS)</label>
+                <label class="choice-item"><input type="radio" name="q50" value="B"> B. Protocol</label>
                 <label class="choice-item"><input type="radio" name="q50" value="C"> C. destination IPv4 address</label>
             </div>
-            <div class="explanation-box"><p>DS (or DSCP) is used for Quality of Service (QoS) to prioritize voice/video traffic over normal data.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Differentiated Services (DS)</div>
+                <p><strong>Deep Dive:</strong> The <strong>Differentiated Services</strong> field (formerly Type of Service) contains the <span class="term" data-term="dscp">DSCP</span> value. This is used by <span class="term" data-term="qos">QoS</span> engines to prioritize sensitive traffic like Voice over IP (VoIP) ahead of standard file downloads.</p>
+            </div>
         </div>
 
         <!-- Q51 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">51. Which term describes a field in the IPv4 packet header that contains a 32-bit binary value associated with an interface on the sending device?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q51" value="A"> A. <span class="term" data-term="source_ip">source IPv4 address</span></label>
-                <label class="choice-item"><input type="radio" name="q51" value="B"> B. destination IPv4 address</label>
-                <label class="choice-item"><input type="radio" name="q51" value="C"> C. protocol</label>
+                <label class="choice-item"><input type="radio" name="q51" value="A"> A. Source IPv4 Address</label>
+                <label class="choice-item"><input type="radio" name="q51" value="B"> B. Destination IPv4 Address</label>
+                <label class="choice-item"><input type="radio" name="q51" value="C"> C. Protocol</label>
             </div>
-            <div class="explanation-box"><p>The sender's IP address.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Source IPv4 Address</div>
+                <p><strong>Deep Dive:</strong> Every <span class="term" data-term="ipv4">IPv4</span> header has a 32-bit (4 byte) <strong>Source IP Address</strong> field, which identifies the original device that generated the packet.</p>
+            </div>
         </div>
 
         <!-- Q52 -->
@@ -592,10 +932,13 @@
             <div class="question-text">52. Which term describes a field in the IPv4 packet header used to detect corruption in the IPv4 header?</div>
             <div class="choices-list">
                 <label class="choice-item"><input type="radio" name="q52" value="A"> A. TTL</label>
-                <label class="choice-item"><input type="radio" name="q52" value="B"> B. <span class="term" data-term="checksum">header checksum</span></label>
-                <label class="choice-item"><input type="radio" name="q52" value="C"> C. protocol</label>
+                <label class="choice-item"><input type="radio" name="q52" value="B"> B. Header Checksum</label>
+                <label class="choice-item"><input type="radio" name="q52" value="C"> C. Protocol</label>
             </div>
-            <div class="explanation-box"><p>Used to determine if any errors were introduced during transmission. (Removed in IPv6!)</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Header Checksum</div>
+                <p><strong>Deep Dive:</strong> The <strong>Header Checksum</strong> is a mathematical calculation used to verify that the IPv4 header was not corrupted by electrical noise during transmission. (Note: IPv6 completely eliminated this field to speed up routing!).</p>
+            </div>
         </div>
 
         <!-- Q53 -->
@@ -612,76 +955,97 @@ RTR1(config-if)# ip address 10.27.14.148 255.255.255.0</pre></div>
                 <label class="choice-item"><input type="radio" name="q53" value="B"> B. 10.27.14.1</label>
                 <label class="choice-item"><input type="radio" name="q53" value="C"> C. 10.27.15.17</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Payroll LAN = gi0/0 = 10.27.14.148).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 10.27.14.148</div>
+                <p><strong>Deep Dive:</strong> The <span class="term" data-term="default gateway">default gateway</span> must always be the IP address of the router interface directly connected to that specific LAN. Since the PC is on the Payroll LAN, it must use the IP of interface gi0/0 (10.27.14.148).</p>
+            </div>
         </div>
 
         <!-- Q54 -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">54. Which term describes a field in the IPv4 packet header that contains a unicast, multicast, or broadcast address?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q54" value="A"> A. header checksum</label>
-                <label class="choice-item"><input type="radio" name="q54" value="B"> B. <span class="term" data-term="destination_ip">destination IPv4 address</span></label>
-                <label class="choice-item"><input type="radio" name="q54" value="C"> C. protocol</label>
+                <label class="choice-item"><input type="radio" name="q54" value="A"> A. Header Checksum</label>
+                <label class="choice-item"><input type="radio" name="q54" value="B"> B. Destination IPv4 Address</label>
+                <label class="choice-item"><input type="radio" name="q54" value="C"> C. Protocol</label>
             </div>
-            <div class="explanation-box"><p>The destination IP can be a single PC (unicast), a group (multicast), or everyone (broadcast).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Destination IPv4 Address</div>
+                <p><strong>Deep Dive:</strong> The <strong>Destination IP Address</strong> defines where the packet is going. It can be aimed at a single PC (Unicast), a group of PCs (Multicast), or every PC on the subnet (Broadcast).</p>
+            </div>
         </div>
 
         <!-- Q55 -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">55. Which term describes a field in the IPv4 packet header used to limit the lifetime of a packet?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q55" value="A"> A. header checksum</label>
-                <label class="choice-item"><input type="radio" name="q55" value="B"> B. protocol</label>
-                <label class="choice-item"><input type="radio" name="q55" value="C"> C. <span class="term" data-term="ttl">TTL</span></label>
+                <label class="choice-item"><input type="radio" name="q55" value="A"> A. Header Checksum</label>
+                <label class="choice-item"><input type="radio" name="q55" value="B"> B. Protocol</label>
+                <label class="choice-item"><input type="radio" name="q55" value="C"> C. TTL</label>
             </div>
-            <div class="explanation-box"><p>Prevents endless routing loops by dropping the packet when TTL hits 0.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: TTL</div>
+                <p><strong>Deep Dive:</strong> The <strong>Time-to-Live (TTL)</strong> field decreases by 1 every time a router processes the packet. If the TTL hits 0, the packet dies, preventing it from looping around the internet forever.</p>
+            </div>
         </div>
 
         <!-- Q56 -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">56. Which term describes a field in the IPv4 packet header that contains a 4-bit binary value set to 0100?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q56" value="A"> A. version</label>
-                <label class="choice-item"><input type="radio" name="q56" value="B"> B. source IPv4 address</label>
+                <label class="choice-item"><input type="radio" name="q56" value="A"> A. Version</label>
+                <label class="choice-item"><input type="radio" name="q56" value="B"> B. Source IPv4 address</label>
                 <label class="choice-item"><input type="radio" name="q56" value="C"> C. TTL</label>
             </div>
-            <div class="explanation-box"><p>0100 in binary equals the number 4 (IPv4). For IPv6, the version field is set to 0110 (6).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Version</div>
+                <p><strong>Deep Dive:</strong> The very first 4 bits of the IP header indicate the IP Version. The binary value <code>0100</code> equals the decimal number 4 (indicating <span class="term" data-term="ipv4">IPv4</span>). If it were an IPv6 packet, the binary would be <code>0110</code> (6).</p>
+            </div>
         </div>
 
-        <!-- Q59 -->
+        <!-- Q57 (Labelled 59 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">57. What property of ARP causes cached IP-to-MAC mappings to remain in memory longer?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q59" value="A"> A. A static IP-to-MAC address entry can be entered manually.</label>
-                <label class="choice-item"><input type="radio" name="q59" value="B"> B. The type field 0x806 appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q59" value="C"> C. Entries in an ARP table are time-stamped and are purged after the timeout expires.</label>
+                <label class="choice-item"><input type="radio" name="q57" value="A"> A. A static IP-to-MAC address entry can be entered manually.</label>
+                <label class="choice-item"><input type="radio" name="q57" value="B"> B. The type field 0x806 appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q57" value="C"> C. Entries in an ARP table are time-stamped and are purged after the timeout expires.</label>
             </div>
-            <div class="explanation-box"><p>Cached entries naturally stick around until their timeout limit is reached.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Entries in an ARP table are time-stamped and are purged after the timeout expires.</div>
+                <p><strong>Deep Dive:</strong> <span class="term" data-term="arp">ARP</span> entries are dynamic. When a PC learns a MAC address, it stamps it with a timer (usually a few minutes). As long as the timer hasn't expired, the PC remembers the MAC address and avoids sending another ARP Broadcast.</p>
+            </div>
         </div>
 
-        <!-- Q60 -->
+        <!-- Q58 (Labelled 60 in prompt) -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">58. What property of ARP allows MAC addresses of frequently used servers to be fixed in the ARP table?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q60" value="A"> A. A static IP-to-MAC address entry can be entered manually into an ARP table.</label>
-                <label class="choice-item"><input type="radio" name="q60" value="B"> B. Entries in an ARP table are time-stamped and purged.</label>
-                <label class="choice-item"><input type="radio" name="q60" value="C"> C. The type field 0x806 appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q58" value="A"> A. A static IP-to-MAC address entry can be entered manually into an ARP table.</label>
+                <label class="choice-item"><input type="radio" name="q58" value="B"> B. Entries in an ARP table are time-stamped and purged.</label>
+                <label class="choice-item"><input type="radio" name="q58" value="C"> C. The type field 0x806 appears in the header.</label>
             </div>
-            <div class="explanation-box"><p>Static entries are permanent and immune to <span class="term" data-term="arp_spoofing">ARP Spoofing</span>!</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: A static IP-to-MAC address entry can be entered manually into an ARP table.</div>
+                <p><strong>Deep Dive:</strong> If you have a critical Server, you can manually type its MAC address into the router or PC's ARP table. <strong>Static</strong> entries do not have a timeout timer, and they are immune to <span class="term" data-term="arp spoofing">ARP Spoofing</span> because the router will never overwrite a manual entry with a dynamic fake one.</p>
+            </div>
         </div>
 
-        <!-- Q62 -->
+        <!-- Q59 (Labelled 62 in prompt) -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">59. What property of ARP allows hosts on a LAN to send traffic to remote networks?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q62" value="A"> A. Local hosts learn the MAC address of the <span class="term" data-term="default_gateway">default gateway</span>.</label>
-                <label class="choice-item"><input type="radio" name="q62" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q62" value="C"> C. The source MAC address appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q59" value="A"> A. Local hosts learn the MAC address of the default gateway.</label>
+                <label class="choice-item"><input type="radio" name="q59" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q59" value="C"> C. The source MAC address appears in the header.</label>
             </div>
-            <div class="explanation-box"><p>To reach the internet, the PC uses ARP to find the router's MAC address.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: Local hosts learn the MAC address of the default gateway.</div>
+                <p><strong>Deep Dive:</strong> ARP broadcasts cannot cross routers. To reach the Internet, a PC sends an ARP request asking for the MAC address of its <strong><span class="term" data-term="default gateway">Default Gateway</span></strong>. It then encapsulates the remote IP packet inside a Layer 2 frame addressed to the router's MAC.</p>
+            </div>
         </div>
 
-        <!-- Q63 -->
+        <!-- Q60 (Labelled 63 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">60. A network administrator is connecting a new host to the <strong>Registrar LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>Floor(config)# interface gi0/1
@@ -691,58 +1055,73 @@ Floor(config)# interface gi0/0
 Floor(config-if)# description Connects to the Manager LAN
 Floor(config-if)# ip address 192.168.234.114 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q63" value="A"> A. 192.168.234.114</label>
-                <label class="choice-item"><input type="radio" name="q63" value="B"> B. 192.168.235.1</label>
-                <label class="choice-item"><input type="radio" name="q63" value="C"> C. 192.168.235.234</label>
+                <label class="choice-item"><input type="radio" name="q60" value="A"> A. 192.168.234.114</label>
+                <label class="choice-item"><input type="radio" name="q60" value="B"> B. 192.168.235.1</label>
+                <label class="choice-item"><input type="radio" name="q60" value="C"> C. 192.168.235.234</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Registrar LAN = gi0/1 = 192.168.235.234).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 192.168.235.234</div>
+                <p><strong>Deep Dive:</strong> Look at the interface descriptions. The Registrar LAN is physically connected to interface gi0/1. Therefore, the IP address assigned to gi0/1 (192.168.235.234) must be used as the default gateway for all PCs on that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q64 -->
+        <!-- Q61 (Labelled 64 in prompt) -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">61. What property of ARP forces all Ethernet NICs to process an ARP request?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q64" value="A"> A. The type field 0x806 appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q64" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q64" value="C"> C. The source MAC address appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q61" value="A"> A. The type field 0x806 appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q61" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q61" value="C"> C. The source MAC address appears in the header.</label>
             </div>
-            <div class="explanation-box"><p>FF-FF-FF-FF-FF-FF is the Layer 2 <span class="term" data-term="broadcast">Broadcast</span> address. It forces every NIC to accept the frame.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</div>
+                <p><strong>Deep Dive:</strong> Network Interface Cards (NICs) generally ignore frames that aren't addressed to their own specific MAC address. However, <code>FF-FF-FF-FF-FF-FF</code> is the universal Layer 2 Broadcast address. By design, every NIC is hardcoded to accept and process frames sent to this address.</p>
+            </div>
         </div>
 
-        <!-- Q65 -->
+        <!-- Q62 (Labelled 65 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">62. What property of ARP causes a reply only to the source sending an ARP request?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q65" value="A"> A. ARP replies are broadcast on the network.</label>
-                <label class="choice-item"><input type="radio" name="q65" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q65" value="C"> C. The source MAC address appears in the header of the Ethernet frame.</label>
+                <label class="choice-item"><input type="radio" name="q62" value="A"> A. ARP replies are broadcast on the network.</label>
+                <label class="choice-item"><input type="radio" name="q62" value="B"> B. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q62" value="C"> C. The source MAC address appears in the header of the Ethernet frame.</label>
             </div>
-            <div class="explanation-box"><p>When the target replies, it uses the original sender's Source MAC as its new Destination MAC to send a <span class="term" data-term="unicast">Unicast</span> reply directly back.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The source MAC address appears in the header of the Ethernet frame.</div>
+                <p><strong>Deep Dive:</strong> When a PC sends an ARP Request broadcast, it includes its own Source MAC address. When the target device builds its ARP Reply, it copies that original Source MAC and uses it as the new Destination MAC. This allows the reply to be sent as a direct Unicast, rather than another noisy broadcast.</p>
+            </div>
         </div>
 
-        <!-- Q66 -->
+        <!-- Q63 (Labelled 66 in prompt) -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">63. What property of ARP causes the request to be flooded out all ports of a switch except for the port receiving the ARP request?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q66" value="A"> A. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q66" value="B"> B. The type field 0x806 appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q66" value="C"> C. ARP replies are broadcast.</label>
+                <label class="choice-item"><input type="radio" name="q63" value="A"> A. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q63" value="B"> B. The type field 0x806 appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q63" value="C"> C. ARP replies are broadcast.</label>
             </div>
-            <div class="explanation-box"><p>Because the destination is a broadcast, the switch must flood it everywhere to ensure the correct device hears it.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</div>
+                <p><strong>Deep Dive:</strong> Switches are programmed to flood Layer 2 Broadcasts (FF-FF-FF-FF-FF-FF) out of all active ports. They intentionally exclude the port it arrived on to comply with the Split-Horizon rule, preventing physical loops.</p>
+            </div>
         </div>
 
-        <!-- Q67 -->
+        <!-- Q64 (Labelled 67 in prompt) -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">64. What property of ARP causes the NICs receiving an ARP request to pass the data portion of the Ethernet frame to the ARP process?</div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q67" value="A"> A. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
-                <label class="choice-item"><input type="radio" name="q67" value="B"> B. The type field 0x806 appears in the header of the Ethernet frame.</label>
-                <label class="choice-item"><input type="radio" name="q67" value="C"> C. Entries in an ARP table are time-stamped.</label>
+                <label class="choice-item"><input type="radio" name="q64" value="A"> A. The destination MAC address FF-FF-FF-FF-FF-FF appears in the header.</label>
+                <label class="choice-item"><input type="radio" name="q64" value="B"> B. The type field 0x806 appears in the header of the Ethernet frame.</label>
+                <label class="choice-item"><input type="radio" name="q64" value="C"> C. Entries in an ARP table are time-stamped.</label>
             </div>
-            <div class="explanation-box"><p>The "Type" field tells the computer what protocol is inside the frame. 0x0806 is the hex code specifically for ARP.</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: The type field 0x806 appears in the header of the Ethernet frame.</div>
+                <p><strong>Deep Dive:</strong> The "Type" field in a Layer 2 Ethernet header tells the computer what protocol is hiding inside the payload. <code>0x0800</code> means IPv4. <code>0x86DD</code> means IPv6. <code>0x0806</code> is the specific hex code that tells the computer: "This payload contains an <span class="term" data-term="arp">ARP</span> request."</p>
+            </div>
         </div>
 
-        <!-- Q69 -->
+        <!-- Q65 (Labelled 69 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">65. A network administrator is connecting a new host to the <strong>Service LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>Main(config)# interface gi0/1
@@ -752,14 +1131,17 @@ Main(config)# interface gi0/0
 Main(config-if)# description Connects to the Engineering LAN
 Main(config-if)# ip address 172.29.156.36 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q69" value="A"> A. 172.29.156.36</label>
-                <label class="choice-item"><input type="radio" name="q69" value="B"> B. 172.29.157.1</label>
-                <label class="choice-item"><input type="radio" name="q69" value="C"> C. 172.29.157.156</label>
+                <label class="choice-item"><input type="radio" name="q65" value="A"> A. 172.29.156.36</label>
+                <label class="choice-item"><input type="radio" name="q65" value="B"> B. 172.29.157.1</label>
+                <label class="choice-item"><input type="radio" name="q65" value="C"> C. 172.29.157.156</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Service LAN = gi0/1 = 172.29.157.156).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 172.29.157.156</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Service LAN is mapped to router interface gi0/1. The IP address assigned to gi0/1 is 172.29.157.156, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q70 -->
+        <!-- Q66 (Labelled 70 in prompt) -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">66. A network administrator is connecting a new host to the <strong>Medical LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>BldgA(config)# interface gi0/1
@@ -769,14 +1151,17 @@ BldgA(config)# interface gi0/0
 BldgA(config-if)# description Connects to the Client LAN
 BldgA(config-if)# ip address 192.168.190.70 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q70" value="A"> A. 192.168.190.70</label>
-                <label class="choice-item"><input type="radio" name="q70" value="B"> B. 192.168.191.189</label>
-                <label class="choice-item"><input type="radio" name="q70" value="C"> C. 192.168.191.1</label>
+                <label class="choice-item"><input type="radio" name="q66" value="A"> A. 192.168.190.70</label>
+                <label class="choice-item"><input type="radio" name="q66" value="B"> B. 192.168.191.189</label>
+                <label class="choice-item"><input type="radio" name="q66" value="C"> C. 192.168.191.1</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Medical LAN = gi0/1 = 192.168.191.189).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 192.168.191.189</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Medical LAN is mapped to router interface gi0/1. The IP address assigned to gi0/1 is 192.168.191.189, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q71 -->
+        <!-- Q67 (Labelled 71 in prompt) -->
         <div class="card question-card" data-correct="A">
             <div class="question-text">67. A network administrator is connecting a new host to the <strong>Registrar LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>Floor(config)# interface gi0/1
@@ -786,14 +1171,17 @@ Floor(config)# interface gi0/0
 Floor(config-if)# description Connects to the Manager LAN
 Floor(config-if)# ip address 192.168.224.103 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q71" value="A"> A. 192.168.225.223</label>
-                <label class="choice-item"><input type="radio" name="q71" value="B"> B. 192.168.224.103</label>
-                <label class="choice-item"><input type="radio" name="q71" value="C"> C. 192.168.225.1</label>
+                <label class="choice-item"><input type="radio" name="q67" value="A"> A. 192.168.225.223</label>
+                <label class="choice-item"><input type="radio" name="q67" value="B"> B. 192.168.224.103</label>
+                <label class="choice-item"><input type="radio" name="q67" value="C"> C. 192.168.225.1</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Registrar LAN = gi0/1 = 192.168.225.223).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 192.168.225.223</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Registrar LAN is mapped to router interface gi0/1. The IP address assigned to gi0/1 is 192.168.225.223, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q72 -->
+        <!-- Q68 (Labelled 72 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">68. A network administrator is connecting a new host to the <strong>Manager LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>Floor(config)# interface gi0/1
@@ -803,14 +1191,17 @@ Floor(config)# interface gi0/0
 Floor(config-if)# description Connects to the Manager LAN
 Floor(config-if)# ip address 10.118.62.196 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q72" value="A"> A. 10.118.63.65</label>
-                <label class="choice-item"><input type="radio" name="q72" value="B"> B. 10.118.62.1</label>
-                <label class="choice-item"><input type="radio" name="q72" value="C"> C. 10.118.62.196</label>
+                <label class="choice-item"><input type="radio" name="q68" value="A"> A. 10.118.63.65</label>
+                <label class="choice-item"><input type="radio" name="q68" value="B"> B. 10.118.62.1</label>
+                <label class="choice-item"><input type="radio" name="q68" value="C"> C. 10.118.62.196</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Manager LAN = gi0/0 = 10.118.62.196).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 10.118.62.196</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Manager LAN is mapped to router interface gi0/0. The IP address assigned to gi0/0 is 10.118.62.196, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q73 -->
+        <!-- Q69 (Labelled 73 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">69. A network administrator is connecting a new host to the <strong>Store LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>HQ(config)# interface gi0/1
@@ -820,14 +1211,17 @@ HQ(config)# interface gi0/0
 HQ(config-if)# description Connects to the Store LAN
 HQ(config-if)# ip address 172.19.98.230 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q73" value="A"> A. 172.19.99.99</label>
-                <label class="choice-item"><input type="radio" name="q73" value="B"> B. 172.19.98.1</label>
-                <label class="choice-item"><input type="radio" name="q73" value="C"> C. 172.19.98.230</label>
+                <label class="choice-item"><input type="radio" name="q69" value="A"> A. 172.19.99.99</label>
+                <label class="choice-item"><input type="radio" name="q69" value="B"> B. 172.19.98.1</label>
+                <label class="choice-item"><input type="radio" name="q69" value="C"> C. 172.19.98.230</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Store LAN = gi0/0 = 172.19.98.230).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 172.19.98.230</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Store LAN is mapped to router interface gi0/0. The IP address assigned to gi0/0 is 172.19.98.230, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q74 -->
+        <!-- Q70 (Labelled 74 in prompt) -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">70. A network administrator is connecting a new host to the <strong>Store LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>HQ(config)# interface gi0/1
@@ -837,14 +1231,17 @@ HQ(config)# interface gi0/0
 HQ(config-if)# description Connects to the Store LAN
 HQ(config-if)# ip address 172.20.132.13 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q74" value="A"> A. 172.20.133.132</label>
-                <label class="choice-item"><input type="radio" name="q74" value="B"> B. 172.20.132.13</label>
-                <label class="choice-item"><input type="radio" name="q74" value="C"> C. 172.20.132.1</label>
+                <label class="choice-item"><input type="radio" name="q70" value="A"> A. 172.20.133.132</label>
+                <label class="choice-item"><input type="radio" name="q70" value="B"> B. 172.20.132.13</label>
+                <label class="choice-item"><input type="radio" name="q70" value="C"> C. 172.20.132.1</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Store LAN = gi0/0 = 172.20.132.13).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 172.20.132.13</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Store LAN is mapped to router interface gi0/0. The IP address assigned to gi0/0 is 172.20.132.13, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q75 -->
+        <!-- Q71 (Labelled 75 in prompt) -->
         <div class="card question-card" data-correct="B">
             <div class="question-text">71. A network administrator is connecting a new host to the <strong>Service LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>Main(config)# interface gi0/1
@@ -854,14 +1251,17 @@ Main(config)# interface gi0/0
 Main(config-if)# description Connects to the Engineering LAN
 Main(config-if)# ip address 192.168.166.46 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q75" value="A"> A. 192.168.166.46</label>
-                <label class="choice-item"><input type="radio" name="q75" value="B"> B. 192.168.167.166</label>
-                <label class="choice-item"><input type="radio" name="q75" value="C"> C. 192.168.167.1</label>
+                <label class="choice-item"><input type="radio" name="q71" value="A"> A. 192.168.166.46</label>
+                <label class="choice-item"><input type="radio" name="q71" value="B"> B. 192.168.167.166</label>
+                <label class="choice-item"><input type="radio" name="q71" value="C"> C. 192.168.167.1</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Service LAN = gi0/1 = 192.168.167.166).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 192.168.167.166</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Service LAN is mapped to router interface gi0/1. The IP address assigned to gi0/1 is 192.168.167.166, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- Q76 -->
+        <!-- Q72 (Labelled 76 in prompt) -->
         <div class="card question-card" data-correct="C">
             <div class="question-text">72. A network administrator is connecting a new host to the <strong>Medical LAN</strong>. What IP address would be configured as the default gateway on the new host?
 <pre>BldgA(config)# interface gi0/1
@@ -871,20 +1271,19 @@ BldgA(config)# interface gi0/0
 BldgA(config-if)# description Connects to the Client LAN
 BldgA(config-if)# ip address 192.168.200.80 255.255.255.0</pre></div>
             <div class="choices-list">
-                <label class="choice-item"><input type="radio" name="q76" value="A"> A. 192.168.200.80</label>
-                <label class="choice-item"><input type="radio" name="q76" value="B"> B. 192.168.201.1</label>
-                <label class="choice-item"><input type="radio" name="q76" value="C"> C. 192.168.201.200</label>
+                <label class="choice-item"><input type="radio" name="q72" value="A"> A. 192.168.200.80</label>
+                <label class="choice-item"><input type="radio" name="q72" value="B"> B. 192.168.201.1</label>
+                <label class="choice-item"><input type="radio" name="q72" value="C"> C. 192.168.201.200</label>
             </div>
-            <div class="explanation-box"><p>The default gateway is the router interface directly connected to its LAN (Medical LAN = gi0/1 = 192.168.201.200).</p></div>
+            <div class="explanation-box">
+                <div class="correct-answer">Correct Answer: 192.168.201.200</div>
+                <p><strong>Deep Dive:</strong> Based on the interface descriptions, the Medical LAN is mapped to router interface gi0/1. The IP address assigned to gi0/1 is 192.168.201.200, which serves as the <span class="term" data-term="default gateway">default gateway</span> for that subnet.</p>
+            </div>
         </div>
 
-        <!-- SUBMIT BUTTON & RESULTS -->
-        <button id="submit-exam">Check Results</button>
-        
-        <div id="exam-results">
-            <!-- JavaScript will inject the score here -->
-        </div>
-
+        <!-- Hidden submit button needed for the JS logic fallback -->
+        <button id="submit-exam" style="display: none;">Check Results</button>
+        <div id="exam-results"></div>
     </div>
 </body>
 </html>
