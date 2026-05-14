@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCNA Master Command Cheat Sheet</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; }
+        nav { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #334155; margin-bottom: 20px; }
+        nav a { color: #38bdf8; text-decoration: none; }
+        .term { color: #38bdf8; border-bottom: 1px dashed #38bdf8; cursor: help; }
+        .cheat-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px; }
+        .cheat-card { background: #1e293b; padding: 20px; border-radius: 8px; border-top: 4px solid #38bdf8; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .cheat-card h2 { color: #f8fafc; margin-top: 0; border-bottom: 1px solid #334155; padding-bottom: 10px; font-size: 1.3rem; }
+        .cmd-group { margin-bottom: 20px; }
+        .cmd-group h4 { color: #38bdf8; margin: 0 0 5px 0; font-size: 1.05rem; }
+        .cmd-box { background: #000; color: #4ade80; padding: 12px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.95rem; overflow-x: auto; border-left: 3px solid #10b981; margin-bottom: 5px;}
+        .cmd-desc { color: #94a3b8; font-size: 0.9rem; margin-top: 5px; margin-bottom: 15px; font-style: italic; line-height: 1.5;}
+        .trap-box { background: rgba(244, 63, 94, 0.1); border: 2px dashed #f43f5e; padding: 15px; border-radius: 6px; margin-top: 20px;}
+        .trap-box h3 { color: #f43f5e; margin-top: 0; font-size: 1.1rem; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div><strong>CCNA Command Reference</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1 style="color: #38bdf8; font-size: 2.5rem; margin-bottom: 5px;">📜 Master CLI Cheat Sheet</h1>
+        <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 30px;">A complete reference guide for all <span class="term" data-term="router">router</span> and <span class="term" data-term="switch">switch</span> commands organized by technology. Tap any <span class="term" data-term="vlan">blue dashed word</span> for definitions!</p>
+
+        <div class="cheat-container">
+
+            <!-- 1. BASIC & DEVICE MANAGEMENT -->
+            <div class="cheat-card" style="border-top-color: #38bdf8;">
+                <h2 style="color: #38bdf8;">1. Basic Device & Interface Setup</h2>
+                
+                <div class="cmd-group">
+                    <h4>Set Hostname & Passwords</h4>
+                    <div class="cmd-box">hostname R1<br>enable secret class<br>service password-encryption</div>
+                    <div class="cmd-desc">Changes device name, secures Privileged EXEC mode, and scrambles all <span class="term" data-term="plaintext">plaintext</span> passwords.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Secure Console & Banners</h4>
+                    <div class="cmd-box">banner motd # Authorized Personnel Only #<br>line console 0<br> password cisco<br> login<br> logging synchronous</div>
+                    <div class="cmd-desc">Sets a warning banner and locks down the physical <span class="term" data-term="console port">console port</span>.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Basic Interface Commands</h4>
+                    <div class="cmd-box">interface g0/1<br> description Connects to Sales LAN<br> no shutdown</div>
+                    <div class="cmd-desc">Adds a helpful label and manually turns on a physical interface.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Save Configuration</h4>
+                    <div class="cmd-box">copy running-config startup-config</div>
+                    <div class="cmd-desc">Saves the active RAM config into <span class="term" data-term="nvram">NVRAM</span> so it survives a reboot.</div>
+                </div>
+            </div>
+
+            <!-- 2. VERIFICATION COMMANDS -->
+            <div class="cheat-card" style="border-top-color: #eab308;">
+                <h2 style="color: #eab308;">2. Verification 'Show' Commands</h2>
+                
+                <div class="cmd-group">
+                    <div class="cmd-box">show ip interface brief</div>
+                    <div class="cmd-desc">Displays a quick list of all ports, their IP addresses, and if they are Up or Down.</div>
+                    
+                    <div class="cmd-box">show vlan brief</div>
+                    <div class="cmd-desc">Lists all VLANs created on the switch and which ports belong to them.</div>
+                    
+                    <div class="cmd-box">show interfaces trunk</div>
+                    <div class="cmd-desc">Verifies which ports are actively trunking and what the Native VLAN is.</div>
+                    
+                    <div class="cmd-box">show etherchannel summary</div>
+                    <div class="cmd-desc">Checks if your bundled ports successfully formed an EtherChannel (Look for 'SU' status).</div>
+                    
+                    <div class="cmd-box">show ip route</div>
+                    <div class="cmd-desc">Displays the routing table to verify connected networks.</div>
+                    
+                    <div class="cmd-box">show ip dhcp binding</div>
+                    <div class="cmd-desc">Shows a list of all IP addresses the server successfully handed out to PCs.</div>
+
+                    <div class="cmd-box">show standby</div>
+                    <div class="cmd-desc">Displays detailed HSRP info (Active/Standby IPs, Virtual MAC address, timers).</div>
+
+                    <div class="cmd-box">show port-security interface f0/1</div>
+                    <div class="cmd-desc">Checks port security status, violation mode, and max MACs for a specific port.</div>
+                </div>
+            </div>
+
+            <!-- 3. ADDRESSING & DHCP -->
+            <div class="cheat-card" style="border-top-color: #10b981;">
+                <h2 style="color: #10b981;">3. IP Addressing & DHCP Server</h2>
+                
+                <div class="cmd-group">
+                    <h4>Assign IPv4 & IPv6 Addresses</h4>
+                    <div class="cmd-box">interface g0/0<br> ip address 192.168.1.1 255.255.255.0<br> ipv6 address 2001:db8:acad:1::1/64<br> ipv6 address fe80::1 link-local</div>
+                    <div class="cmd-desc">Assigns standard <span class="term" data-term="ipv4">IPv4</span>, global <span class="term" data-term="ipv6">IPv6</span>, and a specific IPv6 <span class="term" data-term="link-local">link-local</span> address.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Layer 2 Switch IP & Gateway</h4>
+                    <div class="cmd-box">interface vlan 1<br> ip address 192.168.1.2 255.255.255.0<br> no shutdown<br>exit<br>ip default-gateway 192.168.1.1</div>
+                    <div class="cmd-desc">Gives a <span class="term" data-term="switch">switch</span> an IP and <span class="term" data-term="default gateway">default gateway</span> for remote management.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Configure a DHCP Server (IPv4)</h4>
+                    <div class="cmd-box">ip dhcp excluded-address 192.168.1.1 192.168.1.10<br>ip dhcp pool LAN-POOL<br> network 192.168.1.0 255.255.255.0<br> default-router 192.168.1.1</div>
+                    <div class="cmd-desc">Reserves the first 10 IPs, then creates a <span class="term" data-term="dhcp">DHCP</span> pool assigning IPs and gateways to PCs.</div>
+                </div>
+                
+                <div class="cmd-group">
+                    <h4>DHCP Helper (Relay)</h4>
+                    <div class="cmd-box">interface g0/1<br> ip helper-address 10.1.1.5</div>
+                    <div class="cmd-desc">Forwards local DHCP broadcasts across a <span class="term" data-term="router">router</span> to a centralized remote server.</div>
+                </div>
+            </div>
+
+            <!-- 4. VLANs, TRUNKING, ROUTING -->
+            <div class="cheat-card" style="border-top-color: #f59e0b;">
+                <h2 style="color: #f59e0b;">4. VLANs, Routing & L3</h2>
+                
+                <div class="cmd-group">
+                    <h4>Access Ports & Voice VLANs</h4>
+                    <div class="cmd-box">vlan 10<br> name Admin<br>vlan 50<br> name Voice<br>interface range f0/1 - 5<br> switchport mode access<br> switchport access vlan 10<br> switchport voice vlan 50<br> mls qos trust cos</div>
+                    <div class="cmd-desc">Creates VLANs. Assigns PCs to VLAN 10, IP Phones to VLAN 50, and tells the switch to trust the phone's <span class="term" data-term="qos">QoS</span> priority.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Router-on-a-Stick (Inter-VLAN)</h4>
+                    <div class="cmd-box">interface g0/0.10<br> encapsulation dot1Q 10<br> ip address 192.168.10.1 255.255.255.0</div>
+                    <div class="cmd-desc">Creates a virtual subinterface, maps it to VLAN 10 using <span class="term" data-term="802.1q">802.1Q</span> tags, and assigns the gateway IP.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Enable Layer 3 Switch Routing</h4>
+                    <div class="cmd-box">ip routing<br>ipv6 unicast-routing</div>
+                    <div class="cmd-desc">Turns on the routing engine inside a Multilayer Switch so it can route between VLANs.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Convert L2 Port to L3 Port</h4>
+                    <div class="cmd-box">interface g0/2<br> no switchport<br> ip address 10.1.1.1 255.255.255.252</div>
+                    <div class="cmd-desc">Removes switching capabilities from a port so you can assign a direct IP address like a normal router.</div>
+                </div>
+            </div>
+
+            <!-- 5. ADVANCED SWITCH SECURITY -->
+            <div class="cheat-card" style="border-top-color: #ec4899;">
+                <h2 style="color: #ec4899;">5. Advanced Switch Security</h2>
+                
+                <div class="cmd-group">
+                    <h4>Secure Trunks (Mitigate VLAN Hopping)</h4>
+                    <div class="cmd-box">interface range g0/1 - 2<br> switchport mode trunk<br> switchport nonegotiate<br> switchport trunk native vlan 100</div>
+                    <div class="cmd-desc">Hardcodes the <span class="term" data-term="trunk">trunk</span>, turns off <span class="term" data-term="dtp">DTP</span> negotiation to prevent spoofing, and sets a dedicated <span class="term" data-term="native vlan">Native VLAN</span>.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Secure Unused Ports (BlackHole VLAN)</h4>
+                    <div class="cmd-box">vlan 999<br> name BlackHole<br>exit<br>interface range f0/3 - 9, f0/11 - 23<br> switchport mode access<br> switchport access vlan 999<br> shutdown</div>
+                    <div class="cmd-desc">Best practice: Create a dead-end VLAN, move all unused physical ports into it, and manually shut them down.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Port Security (Mitigate MAC Flooding)</h4>
+                    <div class="cmd-box">interface range f0/1 - 2<br> switchport mode access<br> switchport port-security<br> switchport port-security maximum 4<br> switchport port-security mac-address sticky<br> switchport port-security violation restrict</div>
+                    <div class="cmd-desc">Restricts active ports to a set number of MACs, learns them dynamically (<span class="term" data-term="sticky mac">sticky</span>), and drops/logs bad traffic (Restrict mode keeps the port UP).</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>DHCP Snooping</h4>
+                    <div class="cmd-box">ip dhcp snooping<br>ip dhcp snooping vlan 10,20,99<br>interface range g0/1 - 2<br> ip dhcp snooping trust<br>interface range f0/1 - 2<br> ip dhcp snooping limit rate 5</div>
+                    <div class="cmd-desc">Enables snooping globally and per-VLAN, trusts the uplinks to the actual server, and limits user ports to 5 packets/sec to stop <span class="term" data-term="dhcp starvation">DHCP Starvation</span>.</div>
+                </div>
+                
+                <div class="cmd-group">
+                    <h4>Spanning Tree Edge Security</h4>
+                    <div class="cmd-box">spanning-tree mode rapid-pvst<br>spanning-tree portfast default<br>interface range f0/1 - 2<br> spanning-tree bpduguard enable</div>
+                    <div class="cmd-desc">Speeds up convergence with Rapid PVST+. Enables <span class="term" data-term="portfast">PortFast</span> on all access ports, and protects them with <span class="term" data-term="bpdu guard">BPDU Guard</span> to instantly kill the port if a rogue switch is plugged in.</div>
+                </div>
+            </div>
+
+            <!-- 6. FHRP & ADVANCED IPV6 -->
+            <div class="cheat-card" style="border-top-color: #6366f1;">
+                <h2 style="color: #6366f1;">6. HSRP & Advanced IPv6</h2>
+                
+                <div class="cmd-group">
+                    <h4>HSRP Configuration</h4>
+                    <div class="cmd-box">interface g0/1<br> standby version 2<br> standby 1 ip 192.168.1.254<br> standby 1 priority 150<br> standby 1 preempt</div>
+                    <div class="cmd-desc">Configures the <span class="term" data-term="active router">Active Router</span> in an <span class="term" data-term="hsrp">HSRP</span> group.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Stateless DHCPv6 (SLAAC + DNS)</h4>
+                    <div class="cmd-box">ipv6 dhcp pool STATELESS-POOL<br> dns-server 2001:db8::10<br>!<br>interface g0/0<br> ipv6 nd other-config-flag<br> ipv6 dhcp server STATELESS-POOL</div>
+                    <div class="cmd-desc">Sets the <span class="term" data-term="o-flag">O-Flag</span> in the RA to tell clients to use <span class="term" data-term="slaac">SLAAC</span> for their IP but ask a <span class="term" data-term="dhcpv6">DHCPv6</span> server for DNS.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>Stateful DHCPv6</h4>
+                    <div class="cmd-box">ipv6 dhcp pool STATEFUL-POOL<br> address prefix 2001:db8:1::/64<br> dns-server 2001:db8::10<br>!<br>interface g0/0<br> ipv6 nd managed-config-flag<br> ipv6 dhcp server STATEFUL-POOL</div>
+                    <div class="cmd-desc">Sets the <span class="term" data-term="m-flag">M-Flag</span> in the RA to force clients to get their IP and DNS directly from the <span class="term" data-term="dhcpv6">DHCPv6</span> server.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>The Hidden Exam Traps</h4>
+                    <div class="trap-box" style="flex: 1; min-width: 300px;">
+                        <h3>Trap: Router as DHCP Client</h3>
+                        <div class="cmd-box" style="margin-bottom: 10px;">interface g0/0/1<br> ip address dhcp</div>
+                        <p style="color: #fecaca; font-size: 0.9rem; margin-top:5px; margin-bottom: 0;">Forces a router to request an IP from a DHCP server.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. WIRELESS LAN (WLC & APs) -->
+            <div class="cheat-card" style="border-top-color: #a855f7;">
+                <h2 style="color: #a855f7;">7. Wireless LAN (WLC & APs)</h2>
+                
+                <div class="cmd-group">
+                    <h4>Lightweight AP Setup Process</h4>
+                    <div class="cmd-box">1. Power on AP (Needs physical cord in PT)<br>2. AP grabs IP via DHCP on the switch<br>3. AP searches for WLC automatically<br>4. AP downloads config (Zero touch)</div>
+                    <div class="cmd-desc">Remember: LAPs have "no brains"! You do NOT click the AP to configure it. You configure everything via an Admin PC web browser.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>WLC GUI: RADIUS Security Server</h4>
+                    <div class="cmd-box">SECURITY Tab &rarr; RADIUS &rarr; Authentication<br>Click New<br>Server IP: [IP Address of AAA Server]<br>Shared Secret: [Password]</div>
+                    <div class="cmd-desc">Tells the WLC where the Enterprise database is located so it can verify usernames and passwords.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>WLC GUI: Create & Enable WLAN</h4>
+                    <div class="cmd-box">WLANs Tab &rarr; Create New &rarr; Name & SSID<br>General Tab &rarr; Status: [x] Enabled<br>Security Tab &rarr; L2: WPA+WPA2 / 802.1X<br>Security Tab &rarr; AAA: Select Server IP</div>
+                    <div class="cmd-desc">Creates the wireless network. The <span class="term" data-term="ssid">SSID</span> is the name broadcasted to devices.</div>
+                </div>
+
+                <div class="cmd-group">
+                    <h4>The Hidden Exam Traps</h4>
+                    <div class="trap-box" style="flex: 1; min-width: 300px;">
+                        <h3>Trap: Missing HTTPS</h3>
+                        <p style="color: #fecaca; font-size: 0.9rem; margin-top:5px; margin-bottom: 15px;">You must explicitly type <strong>https://</strong>[WLC-IP] in the PC web browser. If you just type the IP, it will fail.</p>
+                        
+                        <h3>Trap: WLAN Won't Broadcast</h3>
+                        <p style="color: #fecaca; font-size: 0.9rem; margin-top:5px; margin-bottom: 0;">By default, new WLANs are disabled. You MUST check the <strong>Status: [x] Enabled</strong> box on the General Tab.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
