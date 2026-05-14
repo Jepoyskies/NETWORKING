@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Scratch: WLC & AP Masterclass</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="exam-l2-wlan.js" defer></script>
+    <script src="wlc-scratch-lab.js" defer></script>
+    <style>
+        .blueprint-card { background: #1e293b; border: 2px solid #334155; border-radius: 8px; padding: 25px; margin-bottom: 25px; }
+        .blueprint-title { color: #38bdf8; font-size: 1.5rem; margin-top: 0; border-bottom: 2px solid #334155; padding-bottom: 10px; display: flex; align-items: center; gap: 15px;}
+        .step-badge { background: #38bdf8; color: #0f172a; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 1.2rem;}
+        
+        .hardware-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .hardware-item { background: #0f172a; border-left: 4px solid #4ade80; padding: 15px; border-radius: 6px; }
+        .hardware-item h4 { margin: 0 0 5px 0; color: #f8fafc; }
+        .hardware-item p { margin: 0; color: #94a3b8; font-size: 0.9rem; }
+        
+        .trap-box { background: rgba(239, 68, 68, 0.1); border: 2px dashed #ef4444; padding: 15px; border-radius: 6px; margin: 15px 0; }
+        .trap-box h4 { margin: 0 0 5px 0; color: #fca5a5; }
+        .trap-box p { margin: 0; color: #fecaca; font-size: 0.95rem; }
+
+        pre { background: #000; color: #4ade80; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.95rem; border-left: 3px solid #38bdf8;}
+        
+        /* GUI Simulator Styles */
+        .gui-sim { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 20px; color: #334155; margin-top: 15px;}
+        .gui-header { border-bottom: 2px solid #0ea5e9; padding-bottom: 10px; margin-bottom: 15px; color: #0ea5e9; font-weight: bold; font-size: 1.2rem;}
+        .gui-field { display: flex; margin-bottom: 10px; align-items: center;}
+        .gui-field label { width: 150px; font-weight: bold; font-size: 0.9rem;}
+        .gui-field input, .gui-field select { flex-grow: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;}
+        .gui-field input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 2px rgba(14,165,233,0.2);}
+        .check-btn { background: #0ea5e9; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 10px;}
+        .check-btn:hover { background: #0284c7; }
+        #gui-feedback { margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 4px; display: none;}
+    </style>
+</head>
+<body>
+    <nav>
+        <div><strong>ITCC 32.1 Practical Simulator</strong></div>
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1 style="color: #38bdf8; font-size: 2.5rem; margin-bottom: 5px;">🏗️ The "From Scratch" Blueprint</h1>
+        <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 30px;">How to build, cable, and configure an Enterprise WLC network on a blank Packet Tracer canvas.</p>
+
+        <!-- STEP 1: HARDWARE -->
+        <div class="blueprint-card">
+            <h2 class="blueprint-title"><div class="step-badge">1</div> The Hardware (What to Drag)</h2>
+            <p>Go to the bottom-left corner of Packet Tracer and drag these exact models onto the white canvas:</p>
+            
+            <div class="hardware-grid">
+                <div class="hardware-item">
+                    <h4>📡 Wireless Controller</h4>
+                    <p>Wireless Devices -> <strong>3504</strong></p>
+                </div>
+                <div class="hardware-item">
+                    <h4>🛸 Access Point</h4>
+                    <p>Wireless Devices -> <strong>LAP-PT</strong> or <strong>3702i</strong></p>
+                </div>
+                <div class="hardware-item">
+                    <h4>🎛️ Network Switch</h4>
+                    <p>Switches -> <strong>2960</strong></p>
+                </div>
+                <div class="hardware-item">
+                    <h4>🖥️ RADIUS Server</h4>
+                    <p>End Devices -> <strong>Server-PT</strong></p>
+                </div>
+                <div class="hardware-item">
+                    <h4>💻 Admin PC</h4>
+                    <p>End Devices -> <strong>PC-PT</strong></p>
+                </div>
+                <div class="hardware-item">
+                    <h4>📱 Wireless Client</h4>
+                    <p>End Devices -> <strong>Laptop-PT</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: CABLING & TRAPS -->
+        <div class="blueprint-card">
+            <h2 class="blueprint-title"><div class="step-badge">2</div> Cabling & Power</h2>
+            <p>Connect everything using <strong>Straight-Through Copper cables</strong> (the solid black line). Connect the Server, Admin PC, WLC, and AP all directly into the 2960 Switch.</p>
+            
+            <div class="trap-box">
+                <h4>🚨 DEADLY PACKET TRACER TRAP #1: Powering the AP</h4>
+                <p>Unlike real life where switches use PoE, in Packet Tracer, the <strong>LAP-PT</strong> is completely dead by default! You must click the AP, go to the <strong>Physical tab</strong>, find the black power adapter cord in the corner, and drag it into the AP's power port. If you skip this, the AP will never turn on and you fail the lab.</p>
+            </div>
+            
+            <div class="trap-box">
+                <h4>🚨 DEADLY PACKET TRACER TRAP #2: The Laptop NIC</h4>
+                <p>The Laptop-PT comes with an Ethernet port by default. Click the laptop, turn the physical power button OFF, drag the Ethernet port into the trash, and drag the <strong>WPC300N</strong> (Wireless Card) into the empty slot. Turn it back ON.</p>
+            </div>
+        </div>
+
+        <!-- STEP 3: BASE CONFIGURATION -->
+        <div class="blueprint-card">
+            <h2 class="blueprint-title"><div class="step-badge">3</div> The Underlying Network</h2>
+            <p>Before the WLC can work, the devices need IP addresses so they can talk to each other. Here is the standard config you must type into the devices to set up the foundation.</p>
+            
+            <p><strong>1. Configure the RADIUS Server:</strong> Click the Server -> Desktop -> IP Configuration. Set IP to <code>192.168.1.253</code>, Subnet <code>255.255.255.0</code>. Then go to Services -> AAA. Turn it ON. Add Client Name <code>WLC-1</code>, IP <code>192.168.1.254</code>, Secret <code>RadiusPW</code>, Type <code>Radius</code>.</p>
+            
+            <p><strong>2. Configure the Switch (DHCP for the AP):</strong> The AP needs an IP address to find the WLC. Type this into the 2960 Switch CLI:</p>
+<pre>enable
+configure terminal
+ip dhcp pool AP-POOL
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ exit
+interface vlan 1
+ ip address 192.168.1.2 255.255.255.0
+ no shutdown</pre>
+
+            <p><strong>3. Configure the Admin PC:</strong> Click the Admin PC -> Desktop -> IP Configuration. Set it statically to <code>192.168.1.10</code> so you can log into the WLC.</p>
+        </div>
+
+        <!-- STEP 4: INTERACTIVE WLC GUI -->
+        <div class="blueprint-card">
+            <h2 class="blueprint-title"><div class="step-badge">4</div> Practice the WLC Configuration GUI</h2>
+            <p>Now, open the Admin PC Web Browser and type <code>https://192.168.1.254</code> to configure the WLC. <strong>Practice typing the exact required settings in the mock GUI below.</strong></p>
+            
+            <p style="color: #facc15;"><strong>Mission:</strong> Create a <span class="term" data-term="wlan">WLAN</span> named "GuestNet". Use <span class="term" data-term="wpa2">WPA2</span>-PSK with password "Cisco123". Ensure it broadcasts!</p>
+
+            <div class="gui-sim">
+                <div class="gui-header">Cisco 3504 WLC > WLANs > Edit</div>
+                
+                <div class="gui-field">
+                    <label>Profile Name:</label>
+                    <input type="text" id="sim-prof" placeholder="e.g. Guest Profile">
+                </div>
+                <div class="gui-field">
+                    <label>SSID:</label>
+                    <input type="text" id="sim-ssid" placeholder="Network Name">
+                </div>
+                <div class="gui-field" style="margin-bottom: 20px;">
+                    <label>Status:</label>
+                    <label style="font-weight: normal; width: auto;"><input type="checkbox" id="sim-status" style="width: auto; margin-right: 10px;">Enabled</label>
+                </div>
+                
+                <div class="gui-header" style="font-size: 1rem; border-color: #cbd5e1; color:#64748b;">Security > Layer 2 Tab</div>
+                
+                <div class="gui-field">
+                    <label>Layer 2 Security:</label>
+                    <select id="sim-l2">
+                        <option value="none">None</option>
+                        <option value="wpa">WPA+WPA2</option>
+                        <option value="8021x">802.1X</option>
+                    </select>
+                </div>
+                <div class="gui-field">
+                    <label>Auth Key Mgmt:</label>
+                    <select id="sim-akm">
+                        <option value="8021x">802.1X</option>
+                        <option value="psk">PSK</option>
+                    </select>
+                </div>
+                <div class="gui-field">
+                    <label>PSK Passphrase:</label>
+                    <input type="text" id="sim-psk" placeholder="Enter password">
+                </div>
+
+                <button class="check-btn" onclick="checkWlcSim()">Apply & Check Work</button>
+                <div id="gui-feedback"></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
